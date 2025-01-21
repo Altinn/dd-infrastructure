@@ -42,7 +42,7 @@ permissions:
 jobs:
   plan:
     name: Plan
-    environment: test
+    environment: prod
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Repository
@@ -62,7 +62,7 @@ jobs:
 
   deploy:
     name: Deploy
-    environment: test
+    environment: prod
     if: github.ref == 'refs/heads/main'
     needs: plan
     runs-on: ubuntu-latest
