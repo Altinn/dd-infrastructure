@@ -10,7 +10,6 @@ resource "azurerm_windows_web_app" "testapp" {
     "AltinnSettings:Username"                       = "@Microsoft.KeyVault(VaultName=oed-kv;SecretName=Secrets--TestTokenGenerator--Username)"
     ApplicationInsightsAgent_EXTENSION_VERSION      = "~2"
     "AuthSettings:CloudEventQueryParamName"         = "code"
-    "AuthSettings:CloudEventSecret"                 = "54305288-8a8c-4607-9199-66a05cd7b08e"
     "AuthSettings:Password"                         = "@Microsoft.KeyVault(VaultName=oed-kv;SecretName=Secrets--oed-testapp-password)"
     "AuthSettings:Username"                         = "@Microsoft.KeyVault(VaultName=oed-kv;SecretName=Secrets--oed-testapp-username)"
     DiagnosticServices_EXTENSION_VERSION            = "~3"
@@ -34,6 +33,9 @@ resource "azurerm_windows_web_app" "testapp" {
   name                    = "oed-testapp-app"
   resource_group_name     = "altinn-digdir-oed-tt02-rg"
   service_plan_id         = "/subscriptions/7b6f8f15-3a3e-43a2-b6ac-8eb6c06ad103/resourceGroups/altinn-digdir-oed-tt02-rg/providers/Microsoft.Web/serverFarms/ASP-altinndigdiroedtt02rg-9c68"
+  dotnet_verion = {
+    current_stack = "v9.0"
+  }
   tags = {
     "costcenter"                                     = "altinn3"
     "solution"                                       = "apps"
