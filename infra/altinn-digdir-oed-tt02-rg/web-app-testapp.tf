@@ -1,4 +1,7 @@
 resource "azurerm_windows_web_app" "testapp" {
+  application_stack = {
+    dotnet_version = "v9.0"
+  }
   app_settings = {
     APPINSIGHTS_INSTRUMENTATIONKEY                  = "93935d97-9852-4e58-8732-c66ebdca4bb4"
     APPINSIGHTS_PROFILERFEATURE_VERSION             = "1.0.0"
@@ -29,25 +32,18 @@ resource "azurerm_windows_web_app" "testapp" {
     XDT_MicrosoftApplicationInsights_PreemptSdk     = "disabled"
   }
   client_affinity_enabled = true
-  location                = "westeurope"
+  location                = var.alt_location
   name                    = "oed-testapp-app"
-  resource_group_name     = "altinn-digdir-oed-tt02-rg"
-  service_plan_id         = "/subscriptions/7b6f8f15-3a3e-43a2-b6ac-8eb6c06ad103/resourceGroups/altinn-digdir-oed-tt02-rg/providers/Microsoft.Web/serverFarms/ASP-altinndigdiroedtt02rg-9c68"
-  dotnet_verion = {
-    current_stack = "v9.0"
-  }
+  resource_group_name     = azurerm_resource_group.rg.name
+  service_plan_id         = azurerm_service_plan.authz.id
   tags = {
     "costcenter"                                     = "altinn3"
     "solution"                                       = "apps"
     "hidden-link: /app-insights-conn-string"         = "InstrumentationKey=93935d97-9852-4e58-8732-c66ebdca4bb4;IngestionEndpoint=https://westeurope-2.in.applicationinsights.azure.com/;LiveEndpoint=https://westeurope.livediagnostics.monitor.azure.com/;ApplicationId=33018710-e6c7-4745-a06a-d1815e06a06a"
     "hidden-link: /app-insights-instrumentation-key" = "93935d97-9852-4e58-8732-c66ebdca4bb4"
     "hidden-link: /app-insights-resource-id"         = "/subscriptions/7b6f8f15-3a3e-43a2-b6ac-8eb6c06ad103/resourceGroups/altinn-digdir-oed-tt02-rg/providers/microsoft.insights/components/oed-testapp-ai"
-  }    
+  }
   https_only          = true
-  location            = var.alt_location
-  name                = "oed-testapp-app"
-  resource_group_name = azurerm_resource_group.rg.name
-  service_plan_id     = azurerm_service_plan.authz.id
   identity {
     type = "SystemAssigned, UserAssigned"
     identity_ids = [
@@ -68,16 +64,9 @@ resource "azurerm_windows_web_app" "testapp" {
     always_on                         = false
     ftps_state                        = "FtpsOnly"
     http2_enabled                     = true
-    ip_restriction_default_action     = ""
-    scm_ip_restriction_default_action = ""
-    virtual_application {
-      physical_path = "site\\wwwroot"
-      virtual_path  = "/"
-    }
   }
   sticky_settings {
     app_setting_names = [
-        "MICROSOFT_PROVIDER_AUTHENTICATION_SECRET",
         "APPINSIGHTS_INSTRUMENTATIONKEY",
         "APPLICATIONINSIGHTS_CONNECTION_STRING ",
         "APPINSIGHTS_PROFILERFEATURE_VERSION",
