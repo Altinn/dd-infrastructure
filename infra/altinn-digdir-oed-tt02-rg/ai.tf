@@ -39,3 +39,11 @@ resource "azurerm_application_insights" "authz_ai" {
   }
   workspace_id = azurerm_log_analytics_workspace.law.id
 }
+
+resource "azurerm_application_insights" "testapp_ai" {
+  application_type    = "web"
+  location            = var.alt_location
+  name                = "oed-testapp-ai"
+  resource_group_name = azurerm_resource_group.rg.name
+  sampling_percentage = 0
+}
