@@ -83,3 +83,4 @@ resource "azurerm_windows_web_app" "testapp" {
         "XDT_MicrosoftApplicationInsights_NodeJS"
         ]
   }
+}

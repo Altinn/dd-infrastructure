@@ -1,6 +1,6 @@
 resource "azurerm_windows_web_app" "authz" {
   application_stack = {
-    dotnet_version = "v9.0"
+    dotnet_version = "v8.0"
   }
   app_settings = {
     APPINSIGHTS_INSTRUMENTATIONKEY                                 = azurerm_application_insights.authz_ai.instrumentation_key
