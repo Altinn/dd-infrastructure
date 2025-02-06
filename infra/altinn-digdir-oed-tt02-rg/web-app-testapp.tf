@@ -1,6 +1,7 @@
 resource "azurerm_windows_web_app" "testapp" {
   application_stack = {
-    dotnet_version = "v9.0"
+    current_stack = "dotnetcore"
+    dotnet_version = "v8.0"
   }
   app_settings = {
     APPINSIGHTS_INSTRUMENTATIONKEY                  = "93935d97-9852-4e58-8732-c66ebdca4bb4"

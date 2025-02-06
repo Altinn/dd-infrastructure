@@ -1,5 +1,6 @@
 resource "azurerm_windows_web_app" "authz" {
   application_stack = {
+    current_stack = "dotnetcore"
     dotnet_version = "v8.0"
   }
   app_settings = {
