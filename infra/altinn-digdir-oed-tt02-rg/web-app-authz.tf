@@ -1,4 +1,7 @@
 resource "azurerm_windows_web_app" "authz" {
+  application_stack = {
+    dotnet_version = "v9.0"
+  }
   app_settings = {
     APPINSIGHTS_INSTRUMENTATIONKEY                                 = azurerm_application_insights.authz_ai.instrumentation_key
     APPINSIGHTS_PROFILERFEATURE_VERSION                            = "1.0.0"
@@ -71,6 +74,5 @@ resource "azurerm_windows_web_app" "authz" {
       "XDT_MicrosoftApplicationInsightsJava",
       "XDT_MicrosoftApplicationInsights_NodeJS",
     ]
-
   }
 }

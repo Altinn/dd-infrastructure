@@ -13,4 +13,7 @@ resource "azurerm_service_plan" "feedpoller" {
   }
   #  worker_count           = 1
   #  zone_balancing_enabled = false
+  application_stack = {
+    dotnet_version = "v6.0"
+  }
 }
