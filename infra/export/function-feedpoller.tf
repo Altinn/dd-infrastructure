@@ -21,9 +21,9 @@ resource "azurerm_windows_function_app" "feedpoller" {
   storage_account_name       = azurerm_storage_account.sa.name
   tags = {
     costcenter                                       = "altinn3"
-    "hidden-link: /app-insights-conn-string"         = azurerm_application_insights.feedpoller_ai.connection_string
-    "hidden-link: /app-insights-instrumentation-key" = azurerm_application_insights.feedpoller_ai.instrumentation_key
-    "hidden-link: /app-insights-resource-id"         = azurerm_application_insights.feedpoller_ai.id
+    "hidden-link: /app-insights-conn-string"         = azurerm_application_insights.feedpoller.connection_string
+    "hidden-link: /app-insights-instrumentation-key" = azurerm_application_insights.feedpoller.instrumentation_key
+    "hidden-link: /app-insights-resource-id"         = "/subscriptions/7b6f8f15-3a3e-43a2-b6ac-8eb6c06ad103/resourceGroups/altinn-digdir-oed-tt02-rg/providers/microsoft.insights/components/oed-test-feedpoller-ai"
     solution                                         = "apps"
   }
   virtual_network_subnet_id = azurerm_subnet.default.id
@@ -31,8 +31,8 @@ resource "azurerm_windows_function_app" "feedpoller" {
     type = "SystemAssigned"
   }
   site_config {
-    application_insights_connection_string = azurerm_application_insights.feedpoller_ai.connection_string
-    application_insights_key               = azurerm_application_insights.feedpoller_ai.instrumentation_key
+    application_insights_connection_string = azurerm_application_insights.feedpoller.connection_string
+    application_insights_key               = azurerm_application_insights.feedpoller.instrumentation_key
     ftps_state                             = "FtpsOnly"
     remote_debugging_enabled               = false
     vnet_route_all_enabled                 = true

@@ -19,13 +19,10 @@ resource "azurerm_windows_web_app" "authz" {
     XDT_MicrosoftApplicationInsights_Mode                          = "recommended"
     XDT_MicrosoftApplicationInsights_NodeJS                        = "1"
     XDT_MicrosoftApplicationInsights_PreemptSdk                    = "disabled"
-    "WEBSITE_DAAS_STORAGE_CONNECTIONSTRING"                        = "DefaultEndpointsProtocol=https;AccountName=oedteson39ei;EndpointSuffix=core.windows.net"
   }
   tags = {
-    "costcenter"                                     = "altinn3"
-    "solution"                                       = "apps"
-    "hidden-link: /app-insights-conn-string"         = "InstrumentationKey=c828bbdd-ec6f-4bae-bfcd-3c805406e602;IngestionEndpoint=https://westeurope-5.in.applicationinsights.azure.com/;LiveEndpoint=https://westeurope.livediagnostics.monitor.azure.com/;ApplicationId=b50fb231-6a4d-414d-be5b-1a043d1ddf59"
-    "hidden-link: /app-insights-instrumentation-key" = "c828bbdd-ec6f-4bae-bfcd-3c805406e602"
+    "hidden-link: /app-insights-conn-string"         = "InstrumentationKey=${azurerm_application_insights.authz_ai.instrumentation_key};IngestionEndpoint=https://westeurope-5.in.applicationinsights.azure.com/;LiveEndpoint=https://westeurope.livediagnostics.monitor.azure.com/;ApplicationId=${azurerm_application_insights.authz_ai.app_id}"
+    "hidden-link: /app-insights-instrumentation-key" = azurerm_application_insights.authz_ai.instrumentation_key
     "hidden-link: /app-insights-resource-id"         = "/subscriptions/7b6f8f15-3a3e-43a2-b6ac-8eb6c06ad103/resourceGroups/altinn-digdir-oed-tt02-rg/providers/microsoft.insights/components/oed-test-authz-ai"
   }
   https_only          = true
@@ -34,24 +31,21 @@ resource "azurerm_windows_web_app" "authz" {
   resource_group_name = azurerm_resource_group.rg.name
   service_plan_id     = azurerm_service_plan.authz.id
   identity {
-    type = "SystemAssigned, UserAssigned"
-    identity_ids = [
-      "/subscriptions/7b6f8f15-3a3e-43a2-b6ac-8eb6c06ad103/resourceGroups/altinn-digdir-oed-tt02-rg/providers/Microsoft.ManagedIdentity/userAssignedIdentities/oed-kv-principal",
-    ]
+    type = "SystemAssigned"
   }
   logs {
     detailed_error_messages = true
-    failed_request_tracing  = true
+    failed_request_tracing  = false
     http_logs {
       file_system {
-        retention_in_days = 90
+        retention_in_days = 5
         retention_in_mb   = 35
       }
     }
   }
   site_config {
     health_check_eviction_time_in_min = 10
-    health_check_path                 = "/"
+    health_check_path                 = "/health"
     http2_enabled                     = true
   }
   sticky_settings {
@@ -71,5 +65,6 @@ resource "azurerm_windows_web_app" "authz" {
       "XDT_MicrosoftApplicationInsightsJava",
       "XDT_MicrosoftApplicationInsights_NodeJS",
     ]
+
   }
 }

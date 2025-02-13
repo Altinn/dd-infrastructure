@@ -24,4 +24,3 @@ provider "azurerm" {
     "Microsoft.KubernetesConfiguration"
   ]
 }
-provider "random" {}
