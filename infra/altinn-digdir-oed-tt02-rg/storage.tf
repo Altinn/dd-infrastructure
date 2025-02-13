@@ -1,6 +1,6 @@
 resource "azurerm_storage_account" "sa" {
-  name                     = "oed${env.environment}feedpollerstrg"
-  location                 = env.alt_location
+  name                     = "oed${var.environment}feedpollerstrg"
+  location                 = var.alt_location
   resource_group_name      = azurerm_resource_group.rg.name
   account_replication_type = "ZRS"
   account_tier             = "Standard"
@@ -36,7 +36,7 @@ resource "azurerm_postgresql_flexible_server" "psql" {
   public_network_access_enabled = true
   resource_group_name           = azurerm_resource_group.rg.name
   sku_name                      = "B_Standard_B1ms"
-  version                       = "14.12"
+  version                       = "14"
 
   authentication {
     active_directory_auth_enabled = true

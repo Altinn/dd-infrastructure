@@ -1,6 +1,6 @@
 environment            = "test"
 alt_environment        = "tt02"
-rg_name                = "altinn-digdir-oed-${var.alt_environment}-rg"
+rg_name                = "altinn-digdir-oed-tt02-rg"
 rg_location            = "norwayeast"
 alt_location           = "westeurope"
 tenant_id              = "cd0026d8-283b-4a55-9bfa-d0ef4a8ba21c"
