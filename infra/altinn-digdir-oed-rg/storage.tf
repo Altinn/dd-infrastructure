@@ -7,6 +7,11 @@ resource "azurerm_storage_account" "sa" {
   blob_properties {
     versioning_enabled = true
   }
+  network_rules {
+    default_action             = "Deny"
+    ip_rules                   = ["100.0.0.1"]
+    virtual_network_subnet_ids = [azurerm_subnet.default.id]
+  }
 }
 
 resource "random_password" "psql_oedpgadmin" {
