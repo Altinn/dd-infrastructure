@@ -51,6 +51,7 @@ jobs:
       - name: Terraform Plan
         uses: altinn/altinn-platform/actions/terraform/plan@main
         with:
+          tf_log_level: DEBUG
           working_directory: ${{ env.TF_PROJECT }}
           oidc_type: environment
           oidc_value: ${{ env.ENVIRONMENT }}
