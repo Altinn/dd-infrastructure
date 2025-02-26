@@ -38,6 +38,7 @@ resource "azurerm_windows_web_app" "testapp" {
     XDT_MicrosoftApplicationInsights_NodeJS                        = "1"
     XDT_MicrosoftApplicationInsights_PreemptSdk                    = "disabled"
   }
+  client_affinity_enabled = true
   tags = {
     "hidden-link: /app-insights-conn-string"         = azurerm_application_insights.testapp_ai.connection_string
     "hidden-link: /app-insights-instrumentation-key" = azurerm_application_insights.testapp_ai.instrumentation_key
@@ -65,6 +66,8 @@ resource "azurerm_windows_web_app" "testapp" {
     health_check_eviction_time_in_min = 10
     health_check_path                 = "/health"
     http2_enabled                     = true
+    always_on = false
+    ftps_state = "FtpsOnly"
     application_stack {
       current_stack                   = "dotnet"
       dotnet_version                  = "v9.0"

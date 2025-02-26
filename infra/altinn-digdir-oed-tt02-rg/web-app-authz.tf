@@ -35,7 +35,7 @@ resource "azurerm_windows_web_app" "authz" {
   }
   logs {
     detailed_error_messages = true
-    failed_request_tracing  = false
+    failed_request_tracing  = true
     http_logs {
       file_system {
         retention_in_days = 5
