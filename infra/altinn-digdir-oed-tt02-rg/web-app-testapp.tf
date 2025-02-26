@@ -1,3 +1,8 @@
+import {
+  to = azurerm_windows_web_app.testapp
+  id = "/subscriptions/7b6f8f15-3a3e-43a2-b6ac-8eb6c06ad103/resourceGroups/altinn-digdir-oed-tt02-rg/providers/Microsoft.Web/sites/oed-testapp-app"
+}
+
 resource "azurerm_windows_web_app" "testapp" {
   app_settings = {
     APPINSIGHTS_INSTRUMENTATIONKEY                  = "93935d97-9852-4e58-8732-c66ebdca4bb4"
