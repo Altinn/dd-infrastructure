@@ -66,11 +66,11 @@ resource "azurerm_windows_web_app" "testapp" {
     health_check_eviction_time_in_min = 10
     health_check_path                 = "/health"
     http2_enabled                     = true
-    always_on = false
-    ftps_state = "FtpsOnly"
+    always_on                         = false
+    ftps_state                        = "FtpsOnly"
     application_stack {
-      current_stack                   = "dotnet"
-      dotnet_version                  = "v9.0"
+      current_stack  = "dotnet"
+      dotnet_version = "v9.0"
     }
     virtual_application {
       physical_path = "site\\wwwroot"

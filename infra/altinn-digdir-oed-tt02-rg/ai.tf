@@ -4,8 +4,8 @@ resource "azurerm_log_analytics_workspace" "law" {
   resource_group_name = azurerm_resource_group.rg.name
   retention_in_days   = 30
   tags = {
-    "costcenter"                                     = "altinn3"
-    "solution"                                       = "apps"
+    "costcenter" = "altinn3"
+    "solution"   = "apps"
   }
 }
 
@@ -21,8 +21,8 @@ resource "azurerm_application_insights" "feedpoller" {
   application_type    = "web"
   workspace_id        = azurerm_log_analytics_workspace.law.id
   tags = {
-    "costcenter"                                     = "altinn3"
-    "solution"                                       = "apps"
+    "costcenter" = "altinn3"
+    "solution"   = "apps"
   }
 }
 
@@ -34,8 +34,8 @@ resource "azurerm_application_insights" "authz_ai" {
   workspace_id        = azurerm_log_analytics_workspace.law.id
   sampling_percentage = 100
   tags = {
-    "costcenter"                                     = "altinn3"
-    "solution"                                       = "apps"
+    "costcenter" = "altinn3"
+    "solution"   = "apps"
   }
 }
 
@@ -51,7 +51,7 @@ resource "azurerm_application_insights" "testapp_ai" {
   application_type    = "web"
   workspace_id        = azurerm_log_analytics_workspace.law.id
   tags = {
-    "costcenter"                                     = "altinn3"
-    "solution"                                       = "apps"
+    "costcenter" = "altinn3"
+    "solution"   = "apps"
   }
 }

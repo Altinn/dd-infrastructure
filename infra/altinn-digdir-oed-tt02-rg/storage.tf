@@ -51,9 +51,9 @@ resource "azurerm_postgresql_flexible_server" "psql" {
   }
 
   tags = {
-    "costcenter"                                     = "altinn3"
-    "solution"                                       = "apps"
-    }
+    "costcenter" = "altinn3"
+    "solution"   = "apps"
+  }
 }
 
 resource "azurerm_postgresql_flexible_server_database" "oedauthz" {
