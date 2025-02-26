@@ -1,3 +1,8 @@
+import {
+  to = azurerm_windows_web_app.testapp
+  id = "/subscriptions/7b6f8f15-3a3e-43a2-b6ac-8eb6c06ad103/resourceGroups/altinn-digdir-oed-tt02-rg/providers/Microsoft.Web/sites/oed-testapp-app"
+}
+
 resource "azurerm_windows_web_app" "testapp" {
   app_settings = {
     APPINSIGHTS_INSTRUMENTATIONKEY                                 = azurerm_application_insights.testapp_ai.instrumentation_key
@@ -60,9 +65,15 @@ resource "azurerm_windows_web_app" "testapp" {
     health_check_eviction_time_in_min = 10
     health_check_path                 = "/health"
     http2_enabled                     = true
-    #application_stack {
-    #  dotnet_version                  = "v9.0"
-    #}
+    application_stack {
+      current_stack                   = "dotnet"
+      dotnet_version                  = "v9.0"
+    }
+    virtual_application {
+      physical_path = "site\\wwwroot"
+      preload       = false
+      virtual_path  = "/"
+    }
   }
   sticky_settings {
     app_setting_names = [
