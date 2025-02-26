@@ -4,6 +4,11 @@ resource "azurerm_key_vault" "kv" {
   resource_group_name = azurerm_resource_group.rg.name
   sku_name            = "standard"
   tenant_id           = var.tenant_id
+  purge_protection_enabled = true
+  tags = {
+    "costcenter"                                     = "altinn3"
+    "solution"                                       = "apps"
+  }
 }
 
 resource "azurerm_key_vault_access_policy" "digdir_kv_sp" {

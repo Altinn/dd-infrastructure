@@ -10,13 +10,13 @@ resource "azurerm_public_ip" "pip" {
   resource_group_name  = azurerm_resource_group.rg.name
   allocation_method    = "Static"
   ddos_protection_mode = "VirtualNetworkInherited"
-  domain_name_label    = "oed-${var.alt_location}-feedpoller"
+  domain_name_label    = "oed-${var.environment}-feedpoller"
   ip_version           = "IPv4"
   zones                = ["1", "2", "3"]
 }
 
 resource "azurerm_virtual_network" "vnet" {
-  name                = "oed-${var.alt_environment}-feedpoller-vnet"
+  name                = "oed-${var.environment}-feedpoller-vnet"
   address_space       = ["10.37.167.0/24"]
   location            = var.alt_location
   resource_group_name = azurerm_resource_group.rg.name
@@ -37,7 +37,7 @@ resource "azurerm_subnet" "default" {
 }
 
 resource "azurerm_nat_gateway" "nat" {
-  name                = "oed-${var.alt_location}-feedpoller-nat"
+  name                = "oed-${var.environment}-feedpoller-nat"
   location            = var.alt_location
   resource_group_name = azurerm_resource_group.rg.name
 }

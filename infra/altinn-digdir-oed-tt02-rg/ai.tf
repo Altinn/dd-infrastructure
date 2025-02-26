@@ -1,29 +1,46 @@
 resource "azurerm_log_analytics_workspace" "law" {
-  name                = "altinn-digdir-oed-law"
-  location            = azurerm_resource_group.rg.location
+  name                = "Workspace-altinnapps-digdir-oed-tt02-rg-WEU"
+  location            = var.alt_location
   resource_group_name = azurerm_resource_group.rg.name
   retention_in_days   = 30
+  tags = {
+    "costcenter"                                     = "altinn3"
+    "solution"                                       = "apps"
+  }
+}
+
+import {
+  to = azurerm_application_insights.feedpoller_ai
+  id = "/subscriptions/7b6f8f15-3a3e-43a2-b6ac-8eb6c06ad103/resourceGroups/altinn-digdir-oed-tt02-rg/providers/microsoft.insights/components/oed-test-feedpoller-ai"
 }
 
 resource "azurerm_application_insights" "feedpoller_ai" {
-  name                = "oed-feedpoller-ai"
-  location            = azurerm_resource_group.rg.location
+  name                = "oed-${var.environment}-feedpoller-ai"
+  location            = var.alt_location
   resource_group_name = azurerm_resource_group.rg.name
   application_type    = "web"
   workspace_id        = azurerm_log_analytics_workspace.law.id
+  tags = {
+    "costcenter"                                     = "altinn3"
+    "solution"                                       = "apps"
+  }
 }
 
 resource "azurerm_application_insights" "authz_ai" {
-  name                = "oed-authz-ai"
-  location            = azurerm_resource_group.rg.location
+  name                = "oed-${var.environment}-authz-ai"
+  location            = var.alt_location
   resource_group_name = azurerm_resource_group.rg.name
   application_type    = "web"
   workspace_id        = azurerm_log_analytics_workspace.law.id
+  tags = {
+    "costcenter"                                     = "altinn3"
+    "solution"                                       = "apps"
+  }
 }
 
 import {
   to = azurerm_application_insights.testapp_ai
-  id = "/subscriptions/7b6f8f15-3a3e-43a2-b6ac-8eb6c06ad103/resourceGroups/altinn-digdir-oed-tt02-rg/providers/microsoft.insights/components/oed-testapp-ai"
+  id = "/subscriptions/7b6f8f15-3a3e-43a2-b6ac-8eb6c06ad103/resourceGroups/altinn-digdir-oed-tt02-rg/providers/Microsoft.Insights/components/oed-testapp-ai"
 }
 
 resource "azurerm_application_insights" "testapp_ai" {
@@ -32,4 +49,8 @@ resource "azurerm_application_insights" "testapp_ai" {
   resource_group_name = azurerm_resource_group.rg.name
   application_type    = "web"
   workspace_id        = azurerm_log_analytics_workspace.law.id
+  tags = {
+    "costcenter"                                     = "altinn3"
+    "solution"                                       = "apps"
+  }
 }

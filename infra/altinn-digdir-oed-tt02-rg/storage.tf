@@ -2,7 +2,7 @@ resource "azurerm_storage_account" "sa" {
   name                     = "oed${var.environment}feedpollerstrg"
   location                 = var.alt_location
   resource_group_name      = azurerm_resource_group.rg.name
-  account_replication_type = "ZRS"
+  account_replication_type = "LRS"
   account_tier             = "Standard"
   blob_properties {
     versioning_enabled = true
@@ -24,7 +24,7 @@ resource "azurerm_postgresql_flexible_server" "psql" {
   lifecycle {
     ignore_changes = [
       zone,
-      high_availability[0].standby_availability_zone
+      high_availability
     ]
   }
   administrator_login           = "oedpgadmin"
