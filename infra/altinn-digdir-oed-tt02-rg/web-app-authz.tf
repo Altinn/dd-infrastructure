@@ -21,9 +21,9 @@ resource "azurerm_windows_web_app" "authz" {
     XDT_MicrosoftApplicationInsights_PreemptSdk                    = "disabled"
   }
   tags = {
-    "hidden-link: /app-insights-conn-string"         = "InstrumentationKey=${azurerm_application_insights.authz_ai.instrumentation_key};IngestionEndpoint=https://westeurope-5.in.applicationinsights.azure.com/;LiveEndpoint=https://westeurope.livediagnostics.monitor.azure.com/;ApplicationId=${azurerm_application_insights.authz_ai.app_id}"
+    "hidden-link: /app-insights-conn-string"         = azurerm_application_insights.authz_ai.connection_string
     "hidden-link: /app-insights-instrumentation-key" = azurerm_application_insights.authz_ai.instrumentation_key
-    "hidden-link: /app-insights-resource-id"         = "/subscriptions/7b6f8f15-3a3e-43a2-b6ac-8eb6c06ad103/resourceGroups/altinn-digdir-oed-tt02-rg/providers/microsoft.insights/components/oed-test-authz-ai"
+    "hidden-link: /app-insights-resource-id"         = azurerm_application_insights.authz_ai.id
   }
   https_only          = true
   location            = var.alt_location

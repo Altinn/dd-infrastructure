@@ -11,7 +11,7 @@ resource "azurerm_log_analytics_workspace" "law" {
 
 import {
   to = azurerm_application_insights.feedpoller_ai
-  id = "/subscriptions/7b6f8f15-3a3e-43a2-b6ac-8eb6c06ad103/resourceGroups/altinn-digdir-oed-tt02-rg/providers/microsoft.insights/components/oed-test-feedpoller-ai"
+  id = "/subscriptions/7b6f8f15-3a3e-43a2-b6ac-8eb6c06ad103/resourceGroups/altinn-digdir-oed-tt02-rg/providers/Microsoft.Insights/components/oed-test-feedpoller-ai"
 }
 
 resource "azurerm_application_insights" "feedpoller_ai" {

@@ -39,7 +39,7 @@ resource "azurerm_windows_web_app" "testapp" {
     XDT_MicrosoftApplicationInsights_PreemptSdk                    = "disabled"
   }
   tags = {
-    "hidden-link: /app-insights-conn-string"         = "InstrumentationKey=${azurerm_application_insights.testapp_ai.instrumentation_key};IngestionEndpoint=https://westeurope-2.in.applicationinsights.azure.com/;LiveEndpoint=https://westeurope.livediagnostics.monitor.azure.com/;ApplicationId=$(azurerm_application_insights.testapp_ai.app_id)"
+    "hidden-link: /app-insights-conn-string"         = azurerm_application_insights.testapp_ai.connection_string
     "hidden-link: /app-insights-instrumentation-key" = azurerm_application_insights.testapp_ai.instrumentation_key
     "hidden-link: /app-insights-resource-id"         = azurerm_application_insights.testapp_ai.id
   }
