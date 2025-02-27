@@ -4,8 +4,9 @@ resource "azurerm_storage_account" "sa" {
   resource_group_name      = azurerm_resource_group.rg.name
   account_replication_type = "LRS"
   account_tier             = "Standard"
+  account_kind = "Storage"
   blob_properties {
-    versioning_enabled = true
+    versioning_enabled = false
   }
   tags = {
     costcenter = "altinn3"

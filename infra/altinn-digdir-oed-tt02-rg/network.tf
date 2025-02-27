@@ -17,7 +17,6 @@ resource "azurerm_public_ip" "pip" {
   ddos_protection_mode = "VirtualNetworkInherited"
   domain_name_label    = "oed-${var.environment}-feedpoller"
   ip_version           = "IPv4"
-  zones                = ["1", "2", "3"]
 }
 
 resource "azurerm_virtual_network" "vnet" {
@@ -25,6 +24,10 @@ resource "azurerm_virtual_network" "vnet" {
   address_space       = ["10.37.167.0/24"]
   location            = var.alt_location
   resource_group_name = azurerm_resource_group.rg.name
+  tags = {
+    "costcenter" = "altinn3"
+    "solution"   = "apps"
+  }
 }
 
 resource "azurerm_subnet" "default" {
@@ -45,6 +48,12 @@ resource "azurerm_nat_gateway" "nat" {
   name                = "oed-${var.environment}-feedpoller-nat"
   location            = var.alt_location
   resource_group_name = azurerm_resource_group.rg.name
+}
+
+# er dette rett??
+import{
+  to = azurerm_nat_gateway_public_ip_association.nat_pip
+  id = "/subscriptions/7b6f8f15-3a3e-43a2-b6ac-8eb6c06ad103/resourceGroups/altinn-digdir-oed-tt02-rg/providers/Microsoft.Network/publicIPAddresses/oed-test-feedpoller-ip"
 }
 
 resource "azurerm_nat_gateway_public_ip_association" "nat_pip" {

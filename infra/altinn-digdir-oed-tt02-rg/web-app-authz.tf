@@ -21,9 +21,11 @@ resource "azurerm_windows_web_app" "authz" {
     XDT_MicrosoftApplicationInsights_PreemptSdk                    = "disabled"
   }
   tags = {
+    "costsenter"                                     = "altinn3"
     "hidden-link: /app-insights-conn-string"         = azurerm_application_insights.authz_ai.connection_string
     "hidden-link: /app-insights-instrumentation-key" = azurerm_application_insights.authz_ai.instrumentation_key
     "hidden-link: /app-insights-resource-id"         = azurerm_application_insights.authz_ai.id
+    "solution"                                       = "apps"
   }
   https_only          = true
   location            = var.alt_location
@@ -38,7 +40,7 @@ resource "azurerm_windows_web_app" "authz" {
     failed_request_tracing  = true
     http_logs {
       file_system {
-        retention_in_days = 5
+        retention_in_days = 90
         retention_in_mb   = 35
       }
     }
