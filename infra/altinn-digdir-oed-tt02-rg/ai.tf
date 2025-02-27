@@ -18,8 +18,8 @@ resource "azurerm_application_insights" "feedpoller" {
   name                = "oed-${var.environment}-feedpoller-ai"
   location            = var.alt_location
   resource_group_name = azurerm_resource_group.rg.name
-  application_type    = "web"
-  workspace_id        = azurerm_log_analytics_workspace.law.id
+  application_type      = "web"
+  workspace_id          = azurerm_log_analytics_workspace.law.id
   tags = {
     "costcenter" = "altinn3"
     "solution"   = "apps"
