@@ -27,7 +27,7 @@ resource "azurerm_postgresql_flexible_server" "psql" {
       high_availability
     ]
   }
-  administrator_login           = "oedpgadmin"
+  administrator_login           = "oed${var.environment}pgadmin"
   administrator_password        = random_password.psql_oedpgadmin.result
   auto_grow_enabled             = false
   backup_retention_days         = 7

@@ -1096,7 +1096,7 @@ resource "azurerm_portal_dashboard" "dashboards" {
     }
   })
   location            = var.alt_location
-  name                = "${azurerm_application_insights.authz_ai.name}-dashboard"
+  name                = "b50fb231-6a4d-414d-be5b-1a043d1ddf59-dashboard"
   resource_group_name = azurerm_resource_group.rg.name
   tags = {
     costcenter   = "altinn3"

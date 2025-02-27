@@ -1,3 +1,8 @@
+import {
+  to = azurerm_public_ip.pip
+  id = "/subscriptions/7b6f8f15-3a3e-43a2-b6ac-8eb6c06ad103/resourceGroups/altinn-digdir-oed-tt02-rg/providers/Microsoft.Network/publicIPAddresses/oed-test-feedpoller-ip"
+}
+
 resource "azurerm_public_ip" "pip" {
   lifecycle {
     ignore_changes = [

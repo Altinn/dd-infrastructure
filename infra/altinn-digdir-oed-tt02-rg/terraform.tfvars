@@ -9,4 +9,5 @@ cluster_fqdn           = "digdir.apps.tt02.altinn.no"
 platform_fqdn          = "platform.tt02.altinn.no"
 maskinporten_fqdn      = "test.maskinporten.no"
 domstol_fqdn           = "oppgjoer-etter-doedsfall.apps.ocp.test.domstol.no"
-digdir_kv_sp_object_id = "3ec3e00d-57e0-4270-ad98-880193446845"
+digdir_kv_sp_object_id = "c28691c7-9899-4e43-8292-86b99b0ed3d8"
+                          
