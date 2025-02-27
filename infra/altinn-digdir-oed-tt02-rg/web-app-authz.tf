@@ -1,5 +1,9 @@
 resource "azurerm_windows_web_app" "authz" {
+  lifecycle { 
+    ignore_changes = [ app_settings["WEBSITE_DAAS_STORAGE_CONNECTIONSTRING"] ]     
+  }
   app_settings = {
+    WEBSITE_DAAS_STORAGE_CONNECTIONSTRING                          = "DefaultEndpointsProtocol=https;AccountName=oedteson39ei;EndpointSuffix=core.windows.net"
     APPINSIGHTS_INSTRUMENTATIONKEY                                 = azurerm_application_insights.authz_ai.instrumentation_key
     APPINSIGHTS_PROFILERFEATURE_VERSION                            = "1.0.0"
     APPINSIGHTS_SNAPSHOTFEATURE_VERSION                            = "1.0.0"
@@ -21,7 +25,7 @@ resource "azurerm_windows_web_app" "authz" {
     XDT_MicrosoftApplicationInsights_PreemptSdk                    = "disabled"
   }
   tags = {
-    "costsenter"                                     = "altinn3"
+    "costcenter"                                     = "altinn3"
     "hidden-link: /app-insights-conn-string"         = azurerm_application_insights.authz_ai.connection_string
     "hidden-link: /app-insights-instrumentation-key" = azurerm_application_insights.authz_ai.instrumentation_key
     "hidden-link: /app-insights-resource-id"         = azurerm_application_insights.authz_ai.id

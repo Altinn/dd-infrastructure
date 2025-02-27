@@ -4,28 +4,31 @@ import {
 }
 
 resource "azurerm_windows_web_app" "testapp" {
+  lifecycle { 
+    ignore_changes = [ app_settings["AuthSettings:CloudEventSecret"] ]     
+  }
   app_settings = {
     APPINSIGHTS_INSTRUMENTATIONKEY                                 = azurerm_application_insights.testapp_ai.instrumentation_key
     APPINSIGHTS_PROFILERFEATURE_VERSION                            = "1.0.0"
     APPINSIGHTS_SNAPSHOTFEATURE_VERSION                            = "1.0.0"
     APPLICATIONINSIGHTS_CONNECTION_STRING                          = azurerm_application_insights.testapp_ai.connection_string
-    "AltinnSettings:Password"                                      = "@Microsoft.KeyVault(VaultName=oed-kv;SecretName=Secrets--TestTokenGenerator--Password)"
+    "AltinnSettings:Password"                                      = "@Microsoft.KeyVault(VaultName=${azurerm_key_vault.kv.name};SecretName=Secrets--TestTokenGenerator--Password)"
     "AltinnSettings:PlatformUrl"                                   = "https://platform.tt02.altinn.no"
     "AltinnSettings:TokenGeneratorUrl"                             = "https://altinn-testtools-token-generator.azurewebsites.net"
-    "AltinnSettings:Username"                                      = "@Microsoft.KeyVault(VaultName=oed-kv;SecretName=Secrets--TestTokenGenerator--Username)"
+    "AltinnSettings:Username"                                      = "@Microsoft.KeyVault(VaultName=${azurerm_key_vault.kv.name};SecretName=Secrets--TestTokenGenerator--Username)"
     ApplicationInsightsAgent_EXTENSION_VERSION                     = "~2"
     "AuthSettings:CloudEventQueryParamName"                        = "code"
-    "AuthSettings:Password"                                        = "@Microsoft.KeyVault(VaultName=oed-kv;SecretName=Secrets--oed-testapp-password)"
-    "AuthSettings:Username"                                        = "@Microsoft.KeyVault(VaultName=oed-kv;SecretName=Secrets--oed-testapp-username)"
+    "AuthSettings:Password"                                        = "@Microsoft.KeyVault(VaultName=${azurerm_key_vault.kv.name};SecretName=Secrets--oed-testapp-password)"
+    "AuthSettings:Username"                                        = "@Microsoft.KeyVault(VaultName=${azurerm_key_vault.kv.name};SecretName=Secrets--oed-testapp-username)"
     DiagnosticServices_EXTENSION_VERSION                           = "~3"
     InstrumentationEngine_EXTENSION_VERSION                        = "disabled"
     "GeneralSettings:MaskinportenAuxillaryOauth2WellKnownEndpoint" = "https://${var.maskinporten_fqdn}/.well-known/oauth-authorization-server/"
     "GeneralSettings:MaskinportenOauth2WellKnownEndpoint"          = "https://${var.platform_fqdn}/authentication/api/v1/openid/.well-known/openid-configuration/"
     "GeneralSettings:OedEventAuthQueryParameter"                   = "auth"
     InstrumentationEngine_EXTENSION_VERSION                        = "disabled"
-    "MaskinportenSettings:ClientId"                                = "@Microsoft.KeyVault(VaultName=oed-kv;SecretName=OedConfig--MaskinportenSettings--ClientId)"
-    "MaskinportenSettings:EncodedJwk"                              = "@Microsoft.KeyVault(VaultName=oed-kv;SecretName=OedConfig--MaskinportenSettings--EncodedJwk)"
-    "MaskinportenSettings:Environment"                             = "@Microsoft.KeyVault(VaultName=oed-kv;SecretName=OedConfig--MaskinportenSettings--Environment)"
+    "MaskinportenSettings:ClientId"                                = "@Microsoft.KeyVault(VaultName=${azurerm_key_vault.kv.name};SecretName=OedConfig--MaskinportenSettings--ClientId)"
+    "MaskinportenSettings:EncodedJwk"                              = "@Microsoft.KeyVault(VaultName=${azurerm_key_vault.kv.name};SecretName=OedConfig--MaskinportenSettings--EncodedJwk)"
+    "MaskinportenSettings:Environment"                             = "@Microsoft.KeyVault(VaultName=${azurerm_key_vault.kv.name};SecretName=OedConfig--MaskinportenSettings--Environment)"
     "MaskinportenSettings:TokenExchangeEnvironment"                = "tt02"
     "OedEventsSettings:BaseAddress"                                = "https://digdir.apps.tt02.altinn.no"
     "Secrets:OedEventAuthKey"                                      = "@Microsoft.KeyVault(VaultName=${azurerm_key_vault.kv.name};SecretName=Secrets--OedEventAuthKey)"

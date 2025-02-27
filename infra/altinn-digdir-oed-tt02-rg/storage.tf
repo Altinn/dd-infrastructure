@@ -25,7 +25,8 @@ resource "azurerm_postgresql_flexible_server" "psql" {
   lifecycle {
     ignore_changes = [
       zone,
-      high_availability
+      high_availability,
+      administrator_password
     ]
   }
   administrator_login           = "oed${var.environment}pgadmin"
@@ -44,17 +45,15 @@ resource "azurerm_postgresql_flexible_server" "psql" {
     password_auth_enabled         = true
     tenant_id                     = "cd0026d8-283b-4a55-9bfa-d0ef4a8ba21c"
   }
-
-  maintenance_window {
-    day_of_week  = "2"
-    start_hour   = "1"
-    start_minute = "4"
-  }
-
   tags = {
     "costcenter" = "altinn3"
     "solution"   = "apps"
   }
+}
+
+import{
+  to=azurerm_postgresql_flexible_server_database.oedauthz
+  id="/subscriptions/7b6f8f15-3a3e-43a2-b6ac-8eb6c06ad103/resourceGroups/altinn-digdir-oed-tt02-rg/providers/Microsoft.DBforPostgreSQL/flexibleServers/oed-test-authz-pg/databases/oedauthz"
 }
 
 resource "azurerm_postgresql_flexible_server_database" "oedauthz" {
@@ -63,6 +62,7 @@ resource "azurerm_postgresql_flexible_server_database" "oedauthz" {
   collation = "en_US.utf8"
   charset   = "utf8"
 }
+
 
 resource "azurerm_key_vault_secret" "psql_connect" {
   for_each     = toset(["Secrets--PostgreSqlAdminConnectionString", "Secrets--PostgreSqlUserConnectionString"])
