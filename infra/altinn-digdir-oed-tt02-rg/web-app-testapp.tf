@@ -45,7 +45,7 @@ resource "azurerm_windows_web_app" "testapp" {
     "hidden-link: /app-insights-instrumentation-key" = "93935d97-9852-4e58-8732-c66ebdca4bb4"
     "hidden-link: /app-insights-resource-id"         = "/subscriptions/7b6f8f15-3a3e-43a2-b6ac-8eb6c06ad103/resourceGroups/altinn-digdir-oed-tt02-rg/providers/microsoft.insights/components/oed-testapp-ai"
   }
-  https_only          = true
+  https_only = true
   identity {
     type = "SystemAssigned, UserAssigned"
     identity_ids = [
@@ -63,26 +63,26 @@ resource "azurerm_windows_web_app" "testapp" {
     }
   }
   site_config {
-    always_on                         = false
-    ftps_state                        = "FtpsOnly"
-    http2_enabled                     = true
+    always_on     = false
+    ftps_state    = "FtpsOnly"
+    http2_enabled = true
   }
   sticky_settings {
     app_setting_names = [
-        "APPINSIGHTS_INSTRUMENTATIONKEY",
-        "APPLICATIONINSIGHTS_CONNECTION_STRING ",
-        "APPINSIGHTS_PROFILERFEATURE_VERSION",
-        "APPINSIGHTS_SNAPSHOTFEATURE_VERSION",
-        "ApplicationInsightsAgent_EXTENSION_VERSION",
-        "XDT_MicrosoftApplicationInsights_BaseExtensions",
-        "DiagnosticServices_EXTENSION_VERSION",
-        "InstrumentationEngine_EXTENSION_VERSION",
-        "SnapshotDebugger_EXTENSION_VERSION",
-        "XDT_MicrosoftApplicationInsights_Mode",
-        "XDT_MicrosoftApplicationInsights_PreemptSdk",
-        "APPLICATIONINSIGHTS_CONFIGURATION_CONTENT",
-        "XDT_MicrosoftApplicationInsightsJava",
-        "XDT_MicrosoftApplicationInsights_NodeJS"
-        ]
+      "APPINSIGHTS_INSTRUMENTATIONKEY",
+      "APPLICATIONINSIGHTS_CONNECTION_STRING ",
+      "APPINSIGHTS_PROFILERFEATURE_VERSION",
+      "APPINSIGHTS_SNAPSHOTFEATURE_VERSION",
+      "ApplicationInsightsAgent_EXTENSION_VERSION",
+      "XDT_MicrosoftApplicationInsights_BaseExtensions",
+      "DiagnosticServices_EXTENSION_VERSION",
+      "InstrumentationEngine_EXTENSION_VERSION",
+      "SnapshotDebugger_EXTENSION_VERSION",
+      "XDT_MicrosoftApplicationInsights_Mode",
+      "XDT_MicrosoftApplicationInsights_PreemptSdk",
+      "APPLICATIONINSIGHTS_CONFIGURATION_CONTENT",
+      "XDT_MicrosoftApplicationInsightsJava",
+      "XDT_MicrosoftApplicationInsights_NodeJS"
+    ]
   }
 }
