@@ -163,6 +163,6 @@ resource "azurerm_windows_web_app" "authz-app" {
       "APPLICATIONINSIGHTS_CONFIGURATION_CONTENT",
       "XDT_MicrosoftApplicationInsightsJava",
       "XDT_MicrosoftApplicationInsights_NodeJS"
-      ]
+    ]
   }
 }
