@@ -11,7 +11,7 @@ resource "azurerm_windows_function_app" "feedpoller" {
     "OedSettings:DaProxyHostEndpointMatch" = "domstol.no$|brreg.no$|pipedream.net$|${var.cluster_fqdn}$"
     "OedSettings:OedEventsBaseUrl"         = "https://${var.cluster_fqdn}/digdir/oed-events/da-events/api/v1/"
   }
-  https_only = true  
+  https_only                 = true
   builtin_logging_enabled    = false
   client_certificate_mode    = "Required"
   location                   = var.alt_location
@@ -37,8 +37,9 @@ resource "azurerm_windows_function_app" "feedpoller" {
     ftps_state                             = "FtpsOnly"
     remote_debugging_enabled               = false
     vnet_route_all_enabled                 = true
+    use_32_bit_worker                      = false
     application_stack {
-      dotnet_version = v6.0
+      dotnet_version = "v6.0"
     }
     cors {
       allowed_origins     = ["https://portal.azure.com"]
