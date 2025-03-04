@@ -4,8 +4,8 @@ import {
 }
 
 resource "azurerm_windows_web_app" "testapp" {
-  lifecycle { 
-    ignore_changes = [ app_settings["AuthSettings:CloudEventSecret"] ]     
+  lifecycle {
+    ignore_changes = [app_settings["AuthSettings:CloudEventSecret"]]
   }
   app_settings = {
     APPINSIGHTS_INSTRUMENTATIONKEY                                 = azurerm_application_insights.testapp_ai.instrumentation_key
@@ -74,6 +74,7 @@ resource "azurerm_windows_web_app" "testapp" {
     application_stack {
       current_stack  = "dotnet"
       dotnet_version = "v9.0"
+      node_version   = "~16"
     }
     virtual_application {
       physical_path = "site\\wwwroot"

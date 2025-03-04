@@ -13,7 +13,7 @@ resource "azurerm_windows_function_app" "feedpoller" {
     "FUNCTIONS_EXTENSION_VERSION"          = "~4"
     "FUNCTIONS_WORKER_RUNTIME"             = "dotnet-isolated"
   }
-  https_only                 = true 
+  https_only                 = true
   builtin_logging_enabled    = false
   client_certificate_mode    = "Required"
   location                   = var.alt_location

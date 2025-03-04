@@ -4,7 +4,7 @@ resource "azurerm_storage_account" "sa" {
   resource_group_name      = azurerm_resource_group.rg.name
   account_replication_type = "LRS"
   account_tier             = "Standard"
-  account_kind = "Storage"
+  account_kind             = "Storage"
   blob_properties {
     versioning_enabled = false
   }
@@ -13,12 +13,6 @@ resource "azurerm_storage_account" "sa" {
     service    = "oed"
     solution   = "apps"
   }
-}
-
-resource "random_password" "psql_oedpgadmin" {
-  length           = 32
-  special          = true
-  override_special = "!@#$%&*"
 }
 
 resource "azurerm_postgresql_flexible_server" "psql" {
@@ -51,9 +45,9 @@ resource "azurerm_postgresql_flexible_server" "psql" {
   }
 }
 
-import{
-  to=azurerm_postgresql_flexible_server_database.oedauthz
-  id="/subscriptions/7b6f8f15-3a3e-43a2-b6ac-8eb6c06ad103/resourceGroups/altinn-digdir-oed-tt02-rg/providers/Microsoft.DBforPostgreSQL/flexibleServers/oed-test-authz-pg/databases/oedauthz"
+import {
+  to = azurerm_postgresql_flexible_server_database.oedauthz
+  id = "/subscriptions/7b6f8f15-3a3e-43a2-b6ac-8eb6c06ad103/resourceGroups/altinn-digdir-oed-tt02-rg/providers/Microsoft.DBforPostgreSQL/flexibleServers/oed-test-authz-pg/databases/oedauthz"
 }
 
 resource "azurerm_postgresql_flexible_server_database" "oedauthz" {
@@ -64,12 +58,12 @@ resource "azurerm_postgresql_flexible_server_database" "oedauthz" {
 }
 
 
-resource "azurerm_key_vault_secret" "psql_connect" {
-  for_each     = toset(["Secrets--PostgreSqlAdminConnectionString", "Secrets--PostgreSqlUserConnectionString"])
-  name         = each.key
-  value        = "Server=${azurerm_postgresql_flexible_server.psql.fqdn};Username=${azurerm_postgresql_flexible_server.psql.administrator_login};Database=oedauthz;Port=5432;Password=${random_password.psql_oedpgadmin.result};SSLMode=Prefer"
-  key_vault_id = azurerm_key_vault.kv.id
-}
+#resource "azurerm_key_vault_secret" "psql_connect" {
+#  for_each     = toset(["Secrets--PostgreSqlAdminConnectionString", "Secrets--PostgreSqlUserConnectionString"])
+#  name         = each.key
+#  value        = "Server=${azurerm_postgresql_flexible_server.psql.fqdn};Username=${azurerm_postgresql_flexible_server.psql.administrator_login};Database=oedauthz;Port=5432;Password=${random_password.psql_oedpgadmin.result};SSLMode=Prefer"
+#  key_vault_id = azurerm_key_vault.kv.id
+#}
 
 resource "azurerm_redis_cache" "cache" {
   name                = "oed-${var.environment}-cache"

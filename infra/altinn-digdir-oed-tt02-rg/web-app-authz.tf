@@ -1,6 +1,6 @@
 resource "azurerm_windows_web_app" "authz" {
-  lifecycle { 
-    ignore_changes = [ app_settings["WEBSITE_DAAS_STORAGE_CONNECTIONSTRING"] ]     
+  lifecycle {
+    ignore_changes = [app_settings["WEBSITE_DAAS_STORAGE_CONNECTIONSTRING"]]
   }
   app_settings = {
     WEBSITE_DAAS_STORAGE_CONNECTIONSTRING                          = "DefaultEndpointsProtocol=https;AccountName=oedteson39ei;EndpointSuffix=core.windows.net"
