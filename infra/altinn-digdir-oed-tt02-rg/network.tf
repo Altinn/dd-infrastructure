@@ -60,12 +60,3 @@ resource "azurerm_nat_gateway_public_ip_association" "nat_pip" {
   nat_gateway_id       = azurerm_nat_gateway.nat.id
   public_ip_address_id = azurerm_public_ip.pip.id
 }
-
-import {
-  to = azurerm_subnet_nat_gateway_association.nat_subnet
-  id = "${azurerm_subnet.default.id}${azurerm_nat_gateway.nat.id}"
-}
-resource "azurerm_subnet_nat_gateway_association" "nat_subnet" {
-  subnet_id      = azurerm_subnet.default.id
-  nat_gateway_id = azurerm_nat_gateway.nat.id
-}
