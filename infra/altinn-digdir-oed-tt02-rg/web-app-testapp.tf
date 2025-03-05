@@ -4,7 +4,7 @@ import {
 }
 
 resource "azurerm_windows_web_app" "testapp" {
-  lifecycle {
+    lifecycle {
     ignore_changes = [app_settings["AuthSettings:CloudEventSecret"]]
   }
   app_settings = {

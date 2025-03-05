@@ -10,7 +10,10 @@ resource "azurerm_windows_function_app" "feedpoller" {
     "MaskinportenSettings:Scope"           = "domstol:forvaltningssaker:doedsfall.read altinn:serviceowner/events altinn:dd:internal"
     "OedSettings:DaProxyHostEndpointMatch" = "domstol.no$|brreg.no$|pipedream.net$|${var.cluster_fqdn}$"
     "OedSettings:OedEventsBaseUrl"         = "https://${var.cluster_fqdn}/digdir/oed-events/da-events/api/v1/"
+    "FUNCTIONS_WORKER_RUNTIME"             = "dotnet-isolated"
+    "FUNCTIONS_EXTENSION_VERSION"          = "~4"
   }
+  https_only                 = true
   builtin_logging_enabled    = false
   client_certificate_mode    = "Required"
   location                   = azurerm_resource_group.rg.location
@@ -36,6 +39,7 @@ resource "azurerm_windows_function_app" "feedpoller" {
     ftps_state                             = "FtpsOnly"
     remote_debugging_enabled               = false
     vnet_route_all_enabled                 = true
+    use_32_bit_worker                      = false
     application_stack {
       dotnet_version = "v6.0"
     }
