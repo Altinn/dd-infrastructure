@@ -53,7 +53,7 @@ resource "azurerm_nat_gateway" "nat" {
 # er dette rett??
 import {
   to = azurerm_nat_gateway_public_ip_association.nat_pip
-  id = "/subscriptions/7b6f8f15-3a3e-43a2-b6ac-8eb6c06ad103/resourceGroups/altinn-digdir-oed-tt02-rg/providers/Microsoft.Network/virtualNetworks/oed-test-feedpoller-vnet/subnets/default/providers/Microsoft.Network/natGateways/oed-test-feedpoller-nat"
+  id = "/subscriptions/7b6f8f15-3a3e-43a2-b6ac-8eb6c06ad103/resourceGroups/altinn-digdir-oed-tt02-rg/providers/Microsoft.Network/natGateways/oed-test-feedpoller-nat/publicIPAddresses/oed-test-feedpoller-ip"
 }
 
 resource "azurerm_nat_gateway_public_ip_association" "nat_pip" {
