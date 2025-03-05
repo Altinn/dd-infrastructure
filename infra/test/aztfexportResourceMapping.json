@@ -1,7 +1,0 @@
-{
-	"/subscriptions/7b6f8f15-3a3e-43a2-b6ac-8eb6c06ad103/resourceGroups/altinn-digdir-oed-tt02-rg/providers/microsoft.insights/components/oed-testapp-ai": {
-		"resource_id": "/subscriptions/7b6f8f15-3a3e-43a2-b6ac-8eb6c06ad103/resourceGroups/altinn-digdir-oed-tt02-rg/providers/Microsoft.Insights/components/oed-testapp-ai",
-		"resource_type": "azurerm_application_insights",
-		"resource_name": "res-0"
-	}
-}
