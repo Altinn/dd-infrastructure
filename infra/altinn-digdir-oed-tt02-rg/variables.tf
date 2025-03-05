@@ -13,6 +13,9 @@ variable "rg_name" {
 variable "alt_location" {
   type = string
 }
+variable "tenant_id" {
+  type = string
+}
 variable "subscription_id" {
   type = string
 }

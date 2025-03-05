@@ -21,9 +21,9 @@ resource "azurerm_windows_web_app" "authz" {
     XDT_MicrosoftApplicationInsights_PreemptSdk                    = "disabled"
   }
   tags = {
-    "hidden-link: /app-insights-conn-string"         = "InstrumentationKey=de242e21-1b67-41d8-80e1-156915e13295;IngestionEndpoint=https://norwayeast-0.in.applicationinsights.azure.com/;LiveEndpoint=https://norwayeast.livediagnostics.monitor.azure.com/;ApplicationId=b382b5ee-80c0-4b9a-a41b-bc67752e0c61"
-    "hidden-link: /app-insights-instrumentation-key" = "de242e21-1b67-41d8-80e1-156915e13295"
-    "hidden-link: /app-insights-resource-id"         = "/subscriptions/0f05e9d4-592b-491a-b9da-49a8b242d0c5/resourceGroups/altinn-digdir-oed-rg/providers/microsoft.insights/components/oed-authz-ai"
+    "hidden-link: /app-insights-conn-string"         = azurerm_application_insights.authz_ai.connection_string
+    "hidden-link: /app-insights-instrumentation-key" = azurerm_application_insights.authz_ai.instrumentation_key
+    "hidden-link: /app-insights-resource-id"         = azurerm_application_insights.authz_ai.id
   }
   https_only          = true
   location            = azurerm_resource_group.rg.location
@@ -47,6 +47,10 @@ resource "azurerm_windows_web_app" "authz" {
     health_check_eviction_time_in_min = 10
     health_check_path                 = "/health"
     http2_enabled                     = true
+    application_stack {
+      current_stack                   = "dotnet"
+      dotnet_version                  = "v8.0"
+    }
   }
   sticky_settings {
     app_setting_names = [

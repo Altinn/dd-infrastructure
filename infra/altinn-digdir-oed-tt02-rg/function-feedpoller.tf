@@ -26,7 +26,7 @@ resource "azurerm_windows_function_app" "feedpoller" {
     costcenter                                       = "altinn3"
     "hidden-link: /app-insights-conn-string"         = azurerm_application_insights.feedpoller.connection_string
     "hidden-link: /app-insights-instrumentation-key" = azurerm_application_insights.feedpoller.instrumentation_key
-    "hidden-link: /app-insights-resource-id"         = "/subscriptions/7b6f8f15-3a3e-43a2-b6ac-8eb6c06ad103/resourceGroups/altinn-digdir-oed-tt02-rg/providers/microsoft.insights/components/oed-test-feedpoller-ai"
+    "hidden-link: /app-insights-resource-id"         = azurerm_application_insights.feedpoller.id
     solution                                         = "apps"
   }
   virtual_network_subnet_id = azurerm_subnet.default.id
