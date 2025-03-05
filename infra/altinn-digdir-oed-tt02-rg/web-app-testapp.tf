@@ -47,7 +47,7 @@ resource "azurerm_windows_web_app" "testapp" {
   service_plan_id     = azurerm_service_plan.authz.id
   identity {
     type         = "SystemAssigned, UserAssigned"
-    identity_ids = ["039ec079-7a09-46e8-a419-a7a44802d286"]
+    identity_ids = ["/subscriptions/7b6f8f15-3a3e-43a2-b6ac-8eb6c06ad103/resourceGroups/altinn-digdir-oed-tt02-rg/providers/Microsoft.ManagedIdentity/userAssignedIdentities/oed-kv-principal"]
   }
   logs {
     detailed_error_messages = true
