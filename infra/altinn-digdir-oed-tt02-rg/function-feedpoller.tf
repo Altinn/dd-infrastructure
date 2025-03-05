@@ -32,7 +32,7 @@ resource "azurerm_windows_function_app" "feedpoller" {
   virtual_network_subnet_id = azurerm_subnet.default.id
   identity {
     type = "SystemAssigned"
-  }  
+  }
   site_config {
     application_insights_connection_string = azurerm_application_insights.feedpoller.connection_string
     application_insights_key               = azurerm_application_insights.feedpoller.instrumentation_key
