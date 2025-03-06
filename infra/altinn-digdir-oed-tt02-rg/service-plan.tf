@@ -3,7 +3,7 @@ resource "azurerm_service_plan" "feedpoller" {
   location            = var.alt_location
   resource_group_name = azurerm_resource_group.rg.name
   os_type             = "Windows"
-  sku_name            = "B2"
+  sku_name            = "EP1"
   worker_count        = 1
   tags = {
     costcenter = "altinn3"
