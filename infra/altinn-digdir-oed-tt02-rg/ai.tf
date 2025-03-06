@@ -1,49 +1,59 @@
-resource "azurerm_application_insights" "feedpoller" {
-  application_type                      = "web"
-  daily_data_cap_in_gb                  = 100
-  daily_data_cap_notifications_disabled = false
-  disable_ip_masking                    = false
-  force_customer_storage_for_profiler   = false
-  internet_ingestion_enabled            = true
-  internet_query_enabled                = true
-  local_authentication_disabled         = false
-  location                              = var.alt_location
-  name                                  = "oed-${var.environment}-feedpoller-ai"
-  resource_group_name                   = azurerm_resource_group.rg.name
-  retention_in_days                     = 90
-  sampling_percentage                   = 0
+resource "azurerm_log_analytics_workspace" "law" {
+  name                = "Workspace-altinnapps-digdir-oed-tt02-rg-WEU"
+  location            = var.alt_location
+  resource_group_name = azurerm_resource_group.rg.name
+  retention_in_days   = 30
   tags = {
-    costcenter = "altinn3"
-    solution   = "apps"
+    "costcenter" = "altinn3"
+    "solution"   = "apps"
   }
-  workspace_id = azurerm_log_analytics_workspace.law.id
+}
+
+import {
+  to = azurerm_application_insights.feedpoller
+  id = "/subscriptions/7b6f8f15-3a3e-43a2-b6ac-8eb6c06ad103/resourceGroups/altinn-digdir-oed-tt02-rg/providers/Microsoft.Insights/components/oed-test-feedpoller-ai"
+}
+
+resource "azurerm_application_insights" "feedpoller" {
+  name                = "oed-${var.environment}-feedpoller-ai"
+  location            = var.alt_location
+  resource_group_name = azurerm_resource_group.rg.name
+  application_type    = "web"
+  workspace_id        = azurerm_log_analytics_workspace.law.id
+  sampling_percentage = 100
+  tags = {
+    "costcenter" = "altinn3"
+    "solution"   = "apps"
+  }
 }
 
 resource "azurerm_application_insights" "authz_ai" {
-  application_type                      = "web"
-  daily_data_cap_in_gb                  = 100
-  daily_data_cap_notifications_disabled = false
-  disable_ip_masking                    = false
-  force_customer_storage_for_profiler   = false
-  internet_ingestion_enabled            = true
-  internet_query_enabled                = true
-  local_authentication_disabled         = false
-  location                              = var.alt_location
-  name                                  = "oed-${var.environment}-authz-ai"
-  resource_group_name                   = azurerm_resource_group.rg.name
-  retention_in_days                     = 90
-  sampling_percentage                   = 0
+  name                = "oed-${var.environment}-authz-ai"
+  location            = var.alt_location
+  resource_group_name = azurerm_resource_group.rg.name
+  application_type    = "web"
+  workspace_id        = azurerm_log_analytics_workspace.law.id
+  sampling_percentage = 100
   tags = {
-    costcenter = "altinn3"
-    solution   = "apps"
+    "costcenter" = "altinn3"
+    "solution"   = "apps"
   }
-  workspace_id = azurerm_log_analytics_workspace.law.id
+}
+
+import {
+  to = azurerm_application_insights.testapp_ai
+  id = "/subscriptions/7b6f8f15-3a3e-43a2-b6ac-8eb6c06ad103/resourceGroups/altinn-digdir-oed-tt02-rg/providers/Microsoft.Insights/components/oed-testapp-ai"
 }
 
 resource "azurerm_application_insights" "testapp_ai" {
-  application_type    = "web"
-  location            = var.alt_location
   name                = "oed-testapp-ai"
+  location            = var.alt_location
   resource_group_name = azurerm_resource_group.rg.name
-  sampling_percentage = 0
+  application_type    = "web"
+  workspace_id        = azurerm_log_analytics_workspace.law.id
+  sampling_percentage = 100
+  tags = {
+    "costcenter" = "altinn3"
+    "solution"   = "apps"
+  }
 }
