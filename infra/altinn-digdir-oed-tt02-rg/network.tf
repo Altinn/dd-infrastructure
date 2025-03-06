@@ -50,12 +50,12 @@ resource "azurerm_nat_gateway" "nat" {
   resource_group_name = azurerm_resource_group.rg.name
 }
 
-import {
-  to = azurerm_nat_gateway_public_ip_association.nat_pip
-  id = "${azurerm_nat_gateway.nat.id}|${azurerm_public_ip.pip.id}"
-}
+#import {
+#  to = azurerm_nat_gateway_public_ip_association.nat_pip
+#  id = "${azurerm_nat_gateway.nat.id},${azurerm_public_ip.pip.id}"
+#}
 
-resource "azurerm_nat_gateway_public_ip_association" "nat_pip" {
-  nat_gateway_id       = azurerm_nat_gateway.nat.id
-  public_ip_address_id = azurerm_public_ip.pip.id
-}
+#resource "azurerm_nat_gateway_public_ip_association" "nat_pip" {
+#  nat_gateway_id       = azurerm_nat_gateway.nat.id
+#  public_ip_address_id = azurerm_public_ip.pip.id
+#}
