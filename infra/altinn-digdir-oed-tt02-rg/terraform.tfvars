@@ -10,4 +10,6 @@ platform_fqdn          = "platform.tt02.altinn.no"
 maskinporten_fqdn      = "test.maskinporten.no"
 domstol_fqdn           = "oppgjoer-etter-doedsfall.apps.ocp.test.domstol.no"
 digdir_kv_sp_object_id = "c28691c7-9899-4e43-8292-86b99b0ed3d8"
+digdir_altinn3_law_id  = "/subscriptions/7b6f8f15-3a3e-43a2-b6ac-8eb6c06ad103/resourceGroups/monitor-digdir-tt02-rg/providers/Microsoft.OperationalInsights/workspaces/application-digdir-tt02-law"
+support_email          = "kurt.monge@digdir.no"
                           

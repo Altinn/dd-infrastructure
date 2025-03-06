@@ -1,0 +1,12 @@
+{
+	"/subscriptions/7B6F8F15-3A3E-43A2-B6AC-8EB6C06AD103/resourceGroups/altinn-digdir-oed-tt02-rg/providers/microsoft.insights/actionGroups/DD-email-notification-ag": {
+		"resource_id": "/subscriptions/7B6F8F15-3A3E-43A2-B6AC-8EB6C06AD103/resourceGroups/altinn-digdir-oed-tt02-rg/providers/Microsoft.Insights/actionGroups/DD-email-notification-ag",
+		"resource_type": "azurerm_monitor_action_group",
+		"resource_name": "res-0"
+	},
+	"/subscriptions/7b6f8f15-3a3e-43a2-b6ac-8eb6c06ad103/resourceGroups/altinn-digdir-oed-tt02-rg/providers/microsoft.insights/scheduledqueryrules/Deceased is alive and instance already exists_v2": {
+		"resource_id": "/subscriptions/7b6f8f15-3a3e-43a2-b6ac-8eb6c06ad103/resourceGroups/altinn-digdir-oed-tt02-rg/providers/Microsoft.Insights/scheduledQueryRules/Deceased is alive and instance already exists_v2",
+		"resource_type": "azurerm_monitor_scheduled_query_rules_alert_v2",
+		"resource_name": "res-1"
+	}
+}
