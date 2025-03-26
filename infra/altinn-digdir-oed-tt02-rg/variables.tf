@@ -34,3 +34,9 @@ variable "domstol_fqdn" {
 variable "digdir_kv_sp_object_id" {
   type = string
 }
+variable "digdir_altinn3_law_id" {
+  type = string
+}
+variable "support_email" {
+  type = string
+}
