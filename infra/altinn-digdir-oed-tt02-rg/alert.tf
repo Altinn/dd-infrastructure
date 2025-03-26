@@ -24,7 +24,7 @@ resource "azurerm_monitor_scheduled_query_rules_alert_v2" "deadisalive_ar" {
     action_groups = [azurerm_monitor_action_group.email_ag.id]
   }
   criteria {
-    threshold = 1
+    threshold               = 1
     operator                = "GreaterThanOrEqual"
     query                   = "AppTraces\n| where AppRoleName startswith \"oed\"\n| where Properties.EventId == 5000\n\n"
     time_aggregation_method = "Count"
@@ -51,7 +51,7 @@ resource "azurerm_monitor_scheduled_query_rules_alert_v2" "SensitiveHeir_ar" {
     action_groups = [azurerm_monitor_action_group.email_ag.id]
   }
   criteria {
-    threshold = 1
+    threshold               = 1
     operator                = "GreaterThanOrEqual"
     query                   = "AppTraces\n| where AppRoleName startswith \"oed\"\n| where Properties.EventId == 5002\n\n"
     time_aggregation_method = "Count"
@@ -78,7 +78,7 @@ resource "azurerm_monitor_scheduled_query_rules_alert_v2" "failed_to_archive_ar"
     action_groups = [azurerm_monitor_action_group.email_ag.id]
   }
   criteria {
-    threshold = 1
+    threshold               = 1
     operator                = "GreaterThanOrEqual"
     query                   = "AppTraces\n| where AppRoleName startswith \"oed\"\n| where Message startswith \"Failed to archive\" or Properties.EventId == 4004\n"
     time_aggregation_method = "Count"
@@ -105,7 +105,7 @@ resource "azurerm_monitor_scheduled_query_rules_alert_v2" "minor_heir_ar" {
     action_groups = [azurerm_monitor_action_group.email_ag.id]
   }
   criteria {
-    threshold = 1
+    threshold               = 1
     operator                = "GreaterThanOrEqual"
     query                   = "AppTraces\n| where AppRoleName startswith \"oed\"\n| Properties.EventId == 3000\n"
     time_aggregation_method = "Count"
@@ -131,7 +131,7 @@ resource "azurerm_monitor_scheduled_query_rules_alert_v2" "misposted_ar" {
     action_groups = [azurerm_monitor_action_group.email_ag.id]
   }
   criteria {
-    threshold = 1
+    threshold               = 1
     operator                = "GreaterThanOrEqual"
     query                   = "AppTraces\n| where AppRoleName startswith \"oed\"\n| Properties.EventId == 2002\n"
     time_aggregation_method = "Count"
@@ -158,7 +158,7 @@ resource "azurerm_monitor_scheduled_query_rules_alert_v2" "partyservice_failed_a
     action_groups = [azurerm_monitor_action_group.email_ag.id]
   }
   criteria {
-    threshold = 1
+    threshold               = 1
     operator                = "GreaterThanOrEqual"
     query                   = "AppTraces\n| where AppRoleName startswith \"oed\"\n| Properties.EventId == 4005\n"
     time_aggregation_method = "Count"
@@ -185,7 +185,7 @@ resource "azurerm_monitor_scheduled_query_rules_alert_v2" "freg_failed_ar" {
     action_groups = [azurerm_monitor_action_group.email_ag.id]
   }
   criteria {
-    threshold = 1
+    threshold               = 1
     operator                = "GreaterThanOrEqual"
     query                   = "AppTraces\n| where AppRoleName startswith \"oed\"\n| Properties.EventId == 4005\n"
     time_aggregation_method = "Count"

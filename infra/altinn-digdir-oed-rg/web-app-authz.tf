@@ -48,8 +48,8 @@ resource "azurerm_windows_web_app" "authz" {
     health_check_path                 = "/health"
     http2_enabled                     = true
     application_stack {
-      current_stack                   = "dotnet"
-      dotnet_version                  = "v8.0"
+      current_stack  = "dotnet"
+      dotnet_version = "v8.0"
     }
   }
   sticky_settings {
