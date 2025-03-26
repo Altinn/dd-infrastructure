@@ -1,7 +1,7 @@
 resource "azurerm_monitor_action_group" "email_ag" {
   name                = "DD-email-notification-test-ag"
   resource_group_name = azurerm_resource_group.rg.name
-  short_name          = "E-mail DD - test"
+  short_name          = "E-mail DD-T"
   email_receiver {
     email_address = var.support_email
     name          = "send-to-EmailAction"
@@ -16,7 +16,7 @@ resource "azurerm_monitor_scheduled_query_rules_alert_v2" "deadisalive_ar" {
   evaluation_frequency  = "PT5M"
   location              = azurerm_resource_group.rg.location
   resource_group_name   = azurerm_resource_group.rg.name
-  scopes                = [digdir_altinn3_law_id]
+  scopes                = [var.digdir_altinn3_law_id]
   target_resource_types = ["Microsoft.OperationalInsights/workspaces"]
   severity              = 1
   window_duration       = "PT5M"
@@ -24,7 +24,7 @@ resource "azurerm_monitor_scheduled_query_rules_alert_v2" "deadisalive_ar" {
     action_groups = [azurerm_monitor_action_group.email_ag.id]
   }
   criteria {
-    threshold = 1
+    threshold               = 1
     operator                = "GreaterThanOrEqual"
     query                   = "AppTraces\n| where AppRoleName startswith \"oed\"\n| where Properties.EventId == 5000\n\n"
     time_aggregation_method = "Count"
@@ -43,7 +43,7 @@ resource "azurerm_monitor_scheduled_query_rules_alert_v2" "SensitiveHeir_ar" {
   evaluation_frequency  = "PT5M"
   location              = azurerm_resource_group.rg.location
   resource_group_name   = azurerm_resource_group.rg.name
-  scopes                = [digdir_altinn3_law_id]
+  scopes                = [var.digdir_altinn3_law_id]
   target_resource_types = ["Microsoft.OperationalInsights/workspaces"]
   severity              = 1
   window_duration       = "PT5M"
@@ -51,7 +51,7 @@ resource "azurerm_monitor_scheduled_query_rules_alert_v2" "SensitiveHeir_ar" {
     action_groups = [azurerm_monitor_action_group.email_ag.id]
   }
   criteria {
-    threshold = 1
+    threshold               = 1
     operator                = "GreaterThanOrEqual"
     query                   = "AppTraces\n| where AppRoleName startswith \"oed\"\n| where Properties.EventId == 5002\n\n"
     time_aggregation_method = "Count"
@@ -70,7 +70,7 @@ resource "azurerm_monitor_scheduled_query_rules_alert_v2" "failed_to_archive_ar"
   evaluation_frequency  = "PT5M"
   location              = azurerm_resource_group.rg.location
   resource_group_name   = azurerm_resource_group.rg.name
-  scopes                = [digdir_altinn3_law_id]
+  scopes                = [var.digdir_altinn3_law_id]
   target_resource_types = ["Microsoft.OperationalInsights/workspaces"]
   severity              = 1
   window_duration       = "PT5M"
@@ -78,7 +78,7 @@ resource "azurerm_monitor_scheduled_query_rules_alert_v2" "failed_to_archive_ar"
     action_groups = [azurerm_monitor_action_group.email_ag.id]
   }
   criteria {
-    threshold = 1
+    threshold               = 1
     operator                = "GreaterThanOrEqual"
     query                   = "AppTraces\n| where AppRoleName startswith \"oed\"\n| where Message startswith \"Failed to archive\" or Properties.EventId == 4004\n"
     time_aggregation_method = "Count"
@@ -97,7 +97,7 @@ resource "azurerm_monitor_scheduled_query_rules_alert_v2" "minor_heir_ar" {
   evaluation_frequency  = "PT30M"
   location              = azurerm_resource_group.rg.location
   resource_group_name   = azurerm_resource_group.rg.name
-  scopes                = [digdir_altinn3_law_id]
+  scopes                = [var.digdir_altinn3_law_id]
   target_resource_types = ["Microsoft.OperationalInsights/workspaces"]
   severity              = 2
   window_duration       = "PT30M"
@@ -105,7 +105,7 @@ resource "azurerm_monitor_scheduled_query_rules_alert_v2" "minor_heir_ar" {
     action_groups = [azurerm_monitor_action_group.email_ag.id]
   }
   criteria {
-    threshold = 1
+    threshold               = 1
     operator                = "GreaterThanOrEqual"
     query                   = "AppTraces\n| where AppRoleName startswith \"oed\"\n| Properties.EventId == 3000\n"
     time_aggregation_method = "Count"
@@ -123,7 +123,7 @@ resource "azurerm_monitor_scheduled_query_rules_alert_v2" "misposted_ar" {
   evaluation_frequency  = "PT30M"
   location              = azurerm_resource_group.rg.location
   resource_group_name   = azurerm_resource_group.rg.name
-  scopes                = [digdir_altinn3_law_id]
+  scopes                = [var.digdir_altinn3_law_id]
   target_resource_types = ["Microsoft.OperationalInsights/workspaces"]
   severity              = 3
   window_duration       = "PT30M"
@@ -131,7 +131,7 @@ resource "azurerm_monitor_scheduled_query_rules_alert_v2" "misposted_ar" {
     action_groups = [azurerm_monitor_action_group.email_ag.id]
   }
   criteria {
-    threshold = 1
+    threshold               = 1
     operator                = "GreaterThanOrEqual"
     query                   = "AppTraces\n| where AppRoleName startswith \"oed\"\n| Properties.EventId == 2002\n"
     time_aggregation_method = "Count"
@@ -150,7 +150,7 @@ resource "azurerm_monitor_scheduled_query_rules_alert_v2" "partyservice_failed_a
   evaluation_frequency  = "PT15M"
   location              = azurerm_resource_group.rg.location
   resource_group_name   = azurerm_resource_group.rg.name
-  scopes                = [digdir_altinn3_law_id]
+  scopes                = [var.digdir_altinn3_law_id]
   target_resource_types = ["Microsoft.OperationalInsights/workspaces"]
   severity              = 0
   window_duration       = "PT15M"
@@ -158,7 +158,7 @@ resource "azurerm_monitor_scheduled_query_rules_alert_v2" "partyservice_failed_a
     action_groups = [azurerm_monitor_action_group.email_ag.id]
   }
   criteria {
-    threshold = 1
+    threshold               = 1
     operator                = "GreaterThanOrEqual"
     query                   = "AppTraces\n| where AppRoleName startswith \"oed\"\n| Properties.EventId == 4005\n"
     time_aggregation_method = "Count"
@@ -177,7 +177,7 @@ resource "azurerm_monitor_scheduled_query_rules_alert_v2" "freg_failed_ar" {
   evaluation_frequency  = "PT15M"
   location              = azurerm_resource_group.rg.location
   resource_group_name   = azurerm_resource_group.rg.name
-  scopes                = [digdir_altinn3_law_id]
+  scopes                = [var.digdir_altinn3_law_id]
   target_resource_types = ["Microsoft.OperationalInsights/workspaces"]
   severity              = 0
   window_duration       = "PT15M"
@@ -185,7 +185,7 @@ resource "azurerm_monitor_scheduled_query_rules_alert_v2" "freg_failed_ar" {
     action_groups = [azurerm_monitor_action_group.email_ag.id]
   }
   criteria {
-    threshold = 1
+    threshold               = 1
     operator                = "GreaterThanOrEqual"
     query                   = "AppTraces\n| where AppRoleName startswith \"oed\"\n| Properties.EventId == 4005\n"
     time_aggregation_method = "Count"
