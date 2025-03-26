@@ -7,10 +7,14 @@ resource "azurerm_storage_account" "sa" {
   blob_properties {
     versioning_enabled = true
   }
-  network_rules {
-    default_action             = "Deny"
-    ip_rules                   = [azurerm_virtual_network.vnet.address_space[0]]
-    virtual_network_subnet_ids = [azurerm_subnet.default.id]
+  #network_rules {
+  #default_action             = "Deny"
+  #virtual_network_subnet_ids = [azurerm_subnet.default.id]
+  #}
+  tags = {
+    costcenter = "altinn3"
+    service    = "oed"
+    solution   = "apps"
   }
 }
 
