@@ -16,7 +16,7 @@ resource "azurerm_monitor_scheduled_query_rules_alert_v2" "deadisalive_ar" {
   evaluation_frequency  = "PT5M"
   location              = azurerm_resource_group.rg.location
   resource_group_name   = azurerm_resource_group.rg.name
-  scopes                = [digdir_altinn3_law_id]
+  scopes                = [var.digdir_altinn3_law_id]
   target_resource_types = ["Microsoft.OperationalInsights/workspaces"]
   severity              = 1
   window_duration       = "PT5M"
@@ -43,7 +43,7 @@ resource "azurerm_monitor_scheduled_query_rules_alert_v2" "SensitiveHeir_ar" {
   evaluation_frequency  = "PT5M"
   location              = azurerm_resource_group.rg.location
   resource_group_name   = azurerm_resource_group.rg.name
-  scopes                = [digdir_altinn3_law_id]
+  scopes                = [var.digdir_altinn3_law_id]
   target_resource_types = ["Microsoft.OperationalInsights/workspaces"]
   severity              = 1
   window_duration       = "PT5M"
@@ -70,7 +70,7 @@ resource "azurerm_monitor_scheduled_query_rules_alert_v2" "failed_to_archive_ar"
   evaluation_frequency  = "PT5M"
   location              = azurerm_resource_group.rg.location
   resource_group_name   = azurerm_resource_group.rg.name
-  scopes                = [digdir_altinn3_law_id]
+  scopes                = [var.digdir_altinn3_law_id]
   target_resource_types = ["Microsoft.OperationalInsights/workspaces"]
   severity              = 1
   window_duration       = "PT5M"
@@ -97,7 +97,7 @@ resource "azurerm_monitor_scheduled_query_rules_alert_v2" "minor_heir_ar" {
   evaluation_frequency  = "PT30M"
   location              = azurerm_resource_group.rg.location
   resource_group_name   = azurerm_resource_group.rg.name
-  scopes                = [digdir_altinn3_law_id]
+  scopes                = [var.digdir_altinn3_law_id]
   target_resource_types = ["Microsoft.OperationalInsights/workspaces"]
   severity              = 2
   window_duration       = "PT30M"
@@ -123,7 +123,7 @@ resource "azurerm_monitor_scheduled_query_rules_alert_v2" "misposted_ar" {
   evaluation_frequency  = "PT30M"
   location              = azurerm_resource_group.rg.location
   resource_group_name   = azurerm_resource_group.rg.name
-  scopes                = [digdir_altinn3_law_id]
+  scopes                = [var.digdir_altinn3_law_id]
   target_resource_types = ["Microsoft.OperationalInsights/workspaces"]
   severity              = 3
   window_duration       = "PT30M"
@@ -150,7 +150,7 @@ resource "azurerm_monitor_scheduled_query_rules_alert_v2" "partyservice_failed_a
   evaluation_frequency  = "PT15M"
   location              = azurerm_resource_group.rg.location
   resource_group_name   = azurerm_resource_group.rg.name
-  scopes                = [digdir_altinn3_law_id]
+  scopes                = [var.digdir_altinn3_law_id]
   target_resource_types = ["Microsoft.OperationalInsights/workspaces"]
   severity              = 0
   window_duration       = "PT15M"
@@ -177,7 +177,7 @@ resource "azurerm_monitor_scheduled_query_rules_alert_v2" "freg_failed_ar" {
   evaluation_frequency  = "PT15M"
   location              = azurerm_resource_group.rg.location
   resource_group_name   = azurerm_resource_group.rg.name
-  scopes                = [digdir_altinn3_law_id]
+  scopes                = [var.digdir_altinn3_law_id]
   target_resource_types = ["Microsoft.OperationalInsights/workspaces"]
   severity              = 0
   window_duration       = "PT15M"
