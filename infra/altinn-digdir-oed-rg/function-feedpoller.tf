@@ -9,7 +9,7 @@ resource "azurerm_windows_function_app" "feedpoller" {
     "MaskinportenSettings:Resource"           = "https://${var.domstol_fqdn}/api"
     "MaskinportenSettings:Scope"              = "domstol:forvaltningssaker:doedsfall.read altinn:serviceowner/events altinn:dd:internalevents"
     "MaskinportenSettings:DaResource"         = "https://oppgjoer-etter-doedsfall.apps.ocp.domstol.no/api"
-    "MaskinportenSettings:OedEventsResource"  = "https://digdir.apps.altinn.no/digdir/oed-events/da-events/api/v1    
+    "MaskinportenSettings:OedEventsResource"  = "https://digdir.apps.altinn.no/digdir/oed-events/da-events/api/v1"    
     "OedSettings:DaProxyHostEndpointMatch"    = "domstol.no$|brreg.no$|pipedream.net$|${var.cluster_fqdn}$"
     "OedSettings:OedEventsBaseUrl"            = "https://${var.cluster_fqdn}/digdir/oed-events/da-events/api/v1/"
     "FUNCTIONS_WORKER_RUNTIME"                = "dotnet-isolated"
