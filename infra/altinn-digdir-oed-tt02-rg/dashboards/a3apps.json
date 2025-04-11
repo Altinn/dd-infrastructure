@@ -1,0 +1,2341 @@
+{
+    "annotations": {
+      "list": [
+        {
+          "builtIn": 1,
+          "datasource": {
+            "type": "grafana",
+            "uid": "-- Grafana --"
+          },
+          "enable": true,
+          "hide": true,
+          "iconColor": "rgba(0, 211, 255, 1)",
+          "name": "Annotations & Alerts",
+          "type": "dashboard"
+        }
+      ]
+    },
+    "editable": true,
+    "fiscalYearStartMonth": 0,
+    "graphTooltip": 0,
+    "id": 114,
+    "links": [],
+    "panels": [
+      {
+        "collapsed": false,
+        "gridPos": {
+          "h": 1,
+          "w": 24,
+          "x": 0,
+          "y": 0
+        },
+        "id": 21,
+        "panels": [],
+        "title": "Overordnet",
+        "type": "row"
+      },
+      {
+        "datasource": {
+          "type": "grafana-azure-monitor-datasource",
+          "uid": "azure-monitor-oob"
+        },
+        "fieldConfig": {
+          "defaults": {
+            "color": {
+              "mode": "thresholds"
+            },
+            "mappings": [],
+            "noValue": "0",
+            "thresholds": {
+              "mode": "absolute",
+              "steps": [
+                {
+                  "color": "green",
+                  "value": null
+                }
+              ]
+            }
+          },
+          "overrides": []
+        },
+        "gridPos": {
+          "h": 5,
+          "w": 3,
+          "x": 0,
+          "y": 1
+        },
+        "id": 6,
+        "options": {
+          "colorMode": "value",
+          "graphMode": "area",
+          "justifyMode": "auto",
+          "orientation": "auto",
+          "reduceOptions": {
+            "calcs": [
+              "sum"
+            ],
+            "fields": "",
+            "values": false
+          },
+          "showPercentChange": false,
+          "textMode": "auto",
+          "wideLayout": true
+        },
+        "pluginVersion": "10.4.15",
+        "targets": [
+          {
+            "azureMonitor": {
+              "aggregation": "Total",
+              "allowedTimeGrainsMs": [
+                60000,
+                300000,
+                900000,
+                1800000,
+                3600000,
+                21600000,
+                43200000,
+                86400000
+              ],
+              "customNamespace": "Azure.ApplicationInsights",
+              "dimensionFilters": [],
+              "metricName": "altinn_app_oed_estate_created",
+              "metricNamespace": "microsoft.insights/components",
+              "region": "norwayeast",
+              "resources": [
+                {
+                  "metricNamespace": "Microsoft.Insights/components",
+                  "region": "norwayeast",
+                  "resourceGroup": "monitor-digdir-tt02-rg",
+                  "resourceName": "digdir-tt02-ai",
+                  "subscription": "7b6f8f15-3a3e-43a2-b6ac-8eb6c06ad103"
+                }
+              ],
+              "timeGrain": "auto"
+            },
+            "datasource": {
+              "type": "grafana-azure-monitor-datasource",
+              "uid": "azure-monitor-oob"
+            },
+            "queryType": "Azure Monitor",
+            "refId": "A",
+            "subscription": "7b6f8f15-3a3e-43a2-b6ac-8eb6c06ad103"
+          }
+        ],
+        "title": "Opprettede dødsbo",
+        "type": "stat"
+      },
+      {
+        "datasource": {
+          "type": "grafana-azure-monitor-datasource",
+          "uid": "azure-monitor-oob"
+        },
+        "fieldConfig": {
+          "defaults": {
+            "color": {
+              "mode": "thresholds"
+            },
+            "mappings": [],
+            "noValue": "0",
+            "thresholds": {
+              "mode": "absolute",
+              "steps": [
+                {
+                  "color": "green",
+                  "value": null
+                }
+              ]
+            }
+          },
+          "overrides": []
+        },
+        "gridPos": {
+          "h": 5,
+          "w": 3,
+          "x": 3,
+          "y": 1
+        },
+        "id": 15,
+        "options": {
+          "colorMode": "value",
+          "graphMode": "area",
+          "justifyMode": "auto",
+          "orientation": "auto",
+          "reduceOptions": {
+            "calcs": [
+              "sum"
+            ],
+            "fields": "",
+            "values": false
+          },
+          "showPercentChange": false,
+          "textMode": "auto",
+          "wideLayout": true
+        },
+        "pluginVersion": "10.4.15",
+        "targets": [
+          {
+            "azureMonitor": {
+              "aggregation": "Total",
+              "allowedTimeGrainsMs": [],
+              "customNamespace": "Azure.ApplicationInsights",
+              "dimensionFilters": [],
+              "metricName": "altinn_app_oed_declaration_created",
+              "metricNamespace": "microsoft.insights/components",
+              "region": "norwayeast",
+              "resources": [
+                {
+                  "metricNamespace": "Microsoft.Insights/components",
+                  "region": "norwayeast",
+                  "resourceGroup": "monitor-digdir-tt02-rg",
+                  "resourceName": "digdir-tt02-ai",
+                  "subscription": "7b6f8f15-3a3e-43a2-b6ac-8eb6c06ad103"
+                }
+              ],
+              "timeGrain": "auto"
+            },
+            "datasource": {
+              "type": "grafana-azure-monitor-datasource",
+              "uid": "azure-monitor-oob"
+            },
+            "queryType": "Azure Monitor",
+            "refId": "A",
+            "subscription": "7b6f8f15-3a3e-43a2-b6ac-8eb6c06ad103"
+          }
+        ],
+        "title": "Opprettede erklæringer",
+        "type": "stat"
+      },
+      {
+        "datasource": {
+          "type": "grafana-azure-monitor-datasource",
+          "uid": "azure-monitor-oob"
+        },
+        "fieldConfig": {
+          "defaults": {
+            "color": {
+              "mode": "thresholds"
+            },
+            "mappings": [],
+            "noValue": "0",
+            "thresholds": {
+              "mode": "absolute",
+              "steps": [
+                {
+                  "color": "green",
+                  "value": null
+                }
+              ]
+            }
+          },
+          "overrides": []
+        },
+        "gridPos": {
+          "h": 5,
+          "w": 3,
+          "x": 6,
+          "y": 1
+        },
+        "id": 14,
+        "options": {
+          "colorMode": "value",
+          "graphMode": "area",
+          "justifyMode": "auto",
+          "orientation": "auto",
+          "reduceOptions": {
+            "calcs": [
+              "sum"
+            ],
+            "fields": "",
+            "values": false
+          },
+          "showPercentChange": false,
+          "textMode": "auto",
+          "wideLayout": true
+        },
+        "pluginVersion": "10.4.15",
+        "targets": [
+          {
+            "azureMonitor": {
+              "aggregation": "Total",
+              "allowedTimeGrainsMs": [],
+              "customNamespace": "Azure.ApplicationInsights",
+              "dimensionFilters": [],
+              "metricName": "altinn_app_oed_declaration_submitted",
+              "metricNamespace": "microsoft.insights/components",
+              "region": "norwayeast",
+              "resources": [
+                {
+                  "metricNamespace": "Microsoft.Insights/components",
+                  "region": "norwayeast",
+                  "resourceGroup": "monitor-digdir-tt02-rg",
+                  "resourceName": "digdir-tt02-ai",
+                  "subscription": "7b6f8f15-3a3e-43a2-b6ac-8eb6c06ad103"
+                }
+              ],
+              "timeGrain": "auto"
+            },
+            "datasource": {
+              "type": "grafana-azure-monitor-datasource",
+              "uid": "azure-monitor-oob"
+            },
+            "queryType": "Azure Monitor",
+            "refId": "A",
+            "subscription": "7b6f8f15-3a3e-43a2-b6ac-8eb6c06ad103"
+          }
+        ],
+        "title": "Innsendte erklæringer",
+        "type": "stat"
+      },
+      {
+        "datasource": {
+          "type": "grafana-azure-monitor-datasource",
+          "uid": "azure-monitor-oob"
+        },
+        "fieldConfig": {
+          "defaults": {
+            "color": {
+              "mode": "thresholds"
+            },
+            "mappings": [],
+            "noValue": "0",
+            "thresholds": {
+              "mode": "absolute",
+              "steps": [
+                {
+                  "color": "green",
+                  "value": null
+                }
+              ]
+            }
+          },
+          "overrides": []
+        },
+        "gridPos": {
+          "h": 5,
+          "w": 3,
+          "x": 9,
+          "y": 1
+        },
+        "id": 23,
+        "options": {
+          "colorMode": "value",
+          "graphMode": "area",
+          "justifyMode": "auto",
+          "orientation": "auto",
+          "reduceOptions": {
+            "calcs": [
+              "sum"
+            ],
+            "fields": "",
+            "values": false
+          },
+          "showPercentChange": false,
+          "textMode": "auto",
+          "wideLayout": true
+        },
+        "pluginVersion": "10.4.15",
+        "targets": [
+          {
+            "azureLogAnalytics": {
+              "dashboardTime": true,
+              "query": "customMetrics\r\n| where name == \"altinn_app_oed_send_correspondence_item\" and customDimensions.itemType == \"ProbateIssuedItem\"\r\n| summarize sum(value)\r\n",
+              "resources": [
+                "/subscriptions/7b6f8f15-3a3e-43a2-b6ac-8eb6c06ad103/resourceGroups/monitor-digdir-tt02-rg/providers/Microsoft.Insights/components/digdir-tt02-ai"
+              ],
+              "resultFormat": "logs",
+              "timeColumn": "timestamp"
+            },
+            "datasource": {
+              "type": "grafana-azure-monitor-datasource",
+              "uid": "azure-monitor-oob"
+            },
+            "queryType": "Azure Log Analytics",
+            "refId": "A"
+          }
+        ],
+        "title": "Besluttede skifteformer",
+        "type": "stat"
+      },
+      {
+        "datasource": {
+          "type": "grafana-azure-monitor-datasource",
+          "uid": "azure-monitor-oob"
+        },
+        "description": "",
+        "fieldConfig": {
+          "defaults": {
+            "color": {
+              "mode": "thresholds"
+            },
+            "mappings": [],
+            "thresholds": {
+              "mode": "absolute",
+              "steps": [
+                {
+                  "color": "green",
+                  "value": null
+                },
+                {
+                  "color": "red",
+                  "value": 1
+                }
+              ]
+            }
+          },
+          "overrides": []
+        },
+        "gridPos": {
+          "h": 10,
+          "w": 7,
+          "x": 12,
+          "y": 1
+        },
+        "id": 28,
+        "options": {
+          "colorMode": "background",
+          "graphMode": "area",
+          "justifyMode": "auto",
+          "orientation": "auto",
+          "reduceOptions": {
+            "calcs": [
+              "last"
+            ],
+            "fields": "/^isOk$/",
+            "values": true
+          },
+          "showPercentChange": false,
+          "textMode": "name",
+          "wideLayout": true
+        },
+        "pluginVersion": "10.4.15",
+        "targets": [
+          {
+            "azureLogAnalytics": {
+              "dashboardTime": false,
+              "query": "let banks = dynamic({\"984851006\":\"DNB\", \"952706365\":\"SB1 Nord-Norge\", \"920058817\":\"Nordea\", \"920426530\": \"SB1 Østlandet\", \"937901003\": \"SB1 SMN\", \"937895321\": \"SB1 Sør-Norge\"});\r\ncustomMetrics \r\n| where cloud_RoleName == \"oed\" and name == \"altinn_app_oed_dan_request\" and value > 0\r\n| summarize lastrequest=arg_max(timestamp, customDimensions) by dataset=tostring(customDimensions.dataSetName), orgNr=tostring(customDimensions.orgNr)    // Siste request utført pr dataset\r\n| join kind=fullouter ( \r\n  customMetrics \r\n  | where cloud_RoleName == \"oed\" and name == \"altinn_app_oed_dan_error\" and value > 0\r\n  | summarize lasterror=arg_max(timestamp, customDimensions) by dataset=tostring(customDimensions.dataSetName), orgNr=tostring(customDimensions.orgNr)    // Siste error registrert pr dataset\r\n  )\r\n  on dataset\r\n| project dataset, name=iff(isnull(banks[orgNr]), orgNr, banks[orgNr]), lastrequest, lasterror, isOk = isnull(lasterror) or lasterror < lastrequest",
+              "resources": [
+                "/subscriptions/7b6f8f15-3a3e-43a2-b6ac-8eb6c06ad103/resourceGroups/monitor-digdir-tt02-rg/providers/Microsoft.Insights/components/digdir-tt02-ai"
+              ],
+              "resultFormat": "table"
+            },
+            "datasource": {
+              "type": "grafana-azure-monitor-datasource",
+              "uid": "azure-monitor-oob"
+            },
+            "queryType": "Azure Log Analytics",
+            "refId": "A"
+          }
+        ],
+        "title": "Status eksterne aktører",
+        "type": "stat"
+      },
+      {
+        "datasource": {
+          "type": "grafana-azure-monitor-datasource",
+          "uid": "azure-monitor-oob"
+        },
+        "fieldConfig": {
+          "defaults": {
+            "color": {
+              "mode": "palette-classic"
+            },
+            "custom": {
+              "hideFrom": {
+                "legend": false,
+                "tooltip": false,
+                "viz": false
+              }
+            },
+            "mappings": []
+          },
+          "overrides": []
+        },
+        "gridPos": {
+          "h": 10,
+          "w": 5,
+          "x": 19,
+          "y": 1
+        },
+        "id": 24,
+        "options": {
+          "displayLabels": [
+            "percent"
+          ],
+          "legend": {
+            "displayMode": "list",
+            "placement": "bottom",
+            "showLegend": true,
+            "values": [
+              "percent"
+            ]
+          },
+          "pieType": "pie",
+          "reduceOptions": {
+            "calcs": [
+              "lastNotNull"
+            ],
+            "fields": "",
+            "values": true
+          },
+          "tooltip": {
+            "mode": "single",
+            "sort": "asc"
+          }
+        },
+        "pluginVersion": "10.4.15",
+        "targets": [
+          {
+            "azureLogAnalytics": {
+              "dashboardTime": true,
+              "query": "requests\r\n| where cloud_RoleName == \"oed\" and url !contains \"/health\" and customDimensions contains \"user.id\"\r\n| summarize value=count() by client_OS, client_Browser\r\n| sort by value\r\n",
+              "resources": [
+                "/subscriptions/7b6f8f15-3a3e-43a2-b6ac-8eb6c06ad103/resourceGroups/monitor-digdir-tt02-rg/providers/Microsoft.Insights/components/digdir-tt02-ai"
+              ],
+              "resultFormat": "table",
+              "timeColumn": "timestamp"
+            },
+            "datasource": {
+              "type": "grafana-azure-monitor-datasource",
+              "uid": "azure-monitor-oob"
+            },
+            "queryType": "Azure Log Analytics",
+            "refId": "A"
+          }
+        ],
+        "title": "OS og browser",
+        "type": "piechart"
+      },
+      {
+        "datasource": {
+          "type": "grafana-azure-monitor-datasource",
+          "uid": "azure-monitor-oob"
+        },
+        "fieldConfig": {
+          "defaults": {
+            "color": {
+              "mode": "thresholds"
+            },
+            "mappings": [],
+            "noValue": "0",
+            "thresholds": {
+              "mode": "absolute",
+              "steps": [
+                {
+                  "color": "green",
+                  "value": null
+                },
+                {
+                  "color": "red",
+                  "value": 1
+                }
+              ]
+            }
+          },
+          "overrides": []
+        },
+        "gridPos": {
+          "h": 5,
+          "w": 3,
+          "x": 0,
+          "y": 6
+        },
+        "id": 13,
+        "options": {
+          "colorMode": "value",
+          "graphMode": "area",
+          "justifyMode": "auto",
+          "orientation": "auto",
+          "reduceOptions": {
+            "calcs": [
+              "sum"
+            ],
+            "fields": "",
+            "values": false
+          },
+          "showPercentChange": false,
+          "textMode": "auto",
+          "wideLayout": true
+        },
+        "pluginVersion": "10.4.15",
+        "targets": [
+          {
+            "azureMonitor": {
+              "aggregation": "Total",
+              "allowedTimeGrainsMs": [
+                60000,
+                300000,
+                900000,
+                1800000,
+                3600000,
+                21600000,
+                43200000,
+                86400000
+              ],
+              "customNamespace": "Azure.ApplicationInsights",
+              "dimensionFilters": [],
+              "metricName": "altinn_app_oed_sensitive_heir_estate_closure",
+              "metricNamespace": "microsoft.insights/components",
+              "region": "norwayeast",
+              "resources": [
+                {
+                  "metricNamespace": "Microsoft.Insights/components",
+                  "region": "norwayeast",
+                  "resourceGroup": "monitor-digdir-tt02-rg",
+                  "resourceName": "digdir-tt02-ai",
+                  "subscription": "7b6f8f15-3a3e-43a2-b6ac-8eb6c06ad103"
+                }
+              ],
+              "timeGrain": "auto"
+            },
+            "datasource": {
+              "type": "grafana-azure-monitor-datasource",
+              "uid": "azure-monitor-oob"
+            },
+            "queryType": "Azure Monitor",
+            "refId": "A",
+            "subscription": "7b6f8f15-3a3e-43a2-b6ac-8eb6c06ad103"
+          }
+        ],
+        "title": "Adressebeskyttelse",
+        "type": "stat"
+      },
+      {
+        "datasource": {
+          "type": "grafana-azure-monitor-datasource",
+          "uid": "azure-monitor-oob"
+        },
+        "fieldConfig": {
+          "defaults": {
+            "color": {
+              "mode": "thresholds"
+            },
+            "mappings": [],
+            "noValue": "0",
+            "thresholds": {
+              "mode": "absolute",
+              "steps": [
+                {
+                  "color": "green",
+                  "value": null
+                },
+                {
+                  "color": "red",
+                  "value": 1
+                }
+              ]
+            }
+          },
+          "overrides": []
+        },
+        "gridPos": {
+          "h": 5,
+          "w": 3,
+          "x": 3,
+          "y": 6
+        },
+        "id": 7,
+        "options": {
+          "colorMode": "value",
+          "graphMode": "area",
+          "justifyMode": "auto",
+          "orientation": "auto",
+          "reduceOptions": {
+            "calcs": [
+              "sum"
+            ],
+            "fields": "",
+            "values": false
+          },
+          "showPercentChange": false,
+          "textMode": "auto",
+          "wideLayout": true
+        },
+        "pluginVersion": "10.4.15",
+        "targets": [
+          {
+            "azureMonitor": {
+              "aggregation": "Total",
+              "allowedTimeGrainsMs": [],
+              "customNamespace": "Azure.ApplicationInsights",
+              "dimensionFilters": [],
+              "metricName": "altinn_app_oed_heir_below_legal_age",
+              "metricNamespace": "microsoft.insights/components",
+              "region": "norwayeast",
+              "resources": [
+                {
+                  "metricNamespace": "Microsoft.Insights/components",
+                  "region": "norwayeast",
+                  "resourceGroup": "monitor-digdir-tt02-rg",
+                  "resourceName": "digdir-tt02-ai",
+                  "subscription": "7b6f8f15-3a3e-43a2-b6ac-8eb6c06ad103"
+                }
+              ],
+              "timeGrain": "auto"
+            },
+            "datasource": {
+              "type": "grafana-azure-monitor-datasource",
+              "uid": "azure-monitor-oob"
+            },
+            "queryType": "Azure Monitor",
+            "refId": "A",
+            "subscription": "7b6f8f15-3a3e-43a2-b6ac-8eb6c06ad103"
+          }
+        ],
+        "title": "Arvinger under 18",
+        "type": "stat"
+      },
+      {
+        "datasource": {
+          "type": "grafana-azure-monitor-datasource",
+          "uid": "azure-monitor-oob"
+        },
+        "fieldConfig": {
+          "defaults": {
+            "color": {
+              "mode": "thresholds"
+            },
+            "mappings": [],
+            "noValue": "0",
+            "thresholds": {
+              "mode": "absolute",
+              "steps": [
+                {
+                  "color": "green",
+                  "value": null
+                },
+                {
+                  "color": "red",
+                  "value": 1
+                }
+              ]
+            }
+          },
+          "overrides": []
+        },
+        "gridPos": {
+          "h": 5,
+          "w": 3,
+          "x": 6,
+          "y": 6
+        },
+        "id": 8,
+        "options": {
+          "colorMode": "value",
+          "graphMode": "area",
+          "justifyMode": "auto",
+          "orientation": "auto",
+          "reduceOptions": {
+            "calcs": [
+              "sum"
+            ],
+            "fields": "",
+            "values": false
+          },
+          "showPercentChange": false,
+          "textMode": "auto",
+          "wideLayout": true
+        },
+        "pluginVersion": "10.4.15",
+        "targets": [
+          {
+            "azureMonitor": {
+              "aggregation": "Total",
+              "allowedTimeGrainsMs": [],
+              "customNamespace": "Azure.ApplicationInsights",
+              "dimensionFilters": [],
+              "metricName": "altinn_app_oed_deceased_is_alive",
+              "metricNamespace": "microsoft.insights/components",
+              "region": "norwayeast",
+              "resources": [
+                {
+                  "metricNamespace": "Microsoft.Insights/components",
+                  "region": "norwayeast",
+                  "resourceGroup": "monitor-digdir-tt02-rg",
+                  "resourceName": "digdir-tt02-ai",
+                  "subscription": "7b6f8f15-3a3e-43a2-b6ac-8eb6c06ad103"
+                }
+              ],
+              "timeGrain": "auto"
+            },
+            "datasource": {
+              "type": "grafana-azure-monitor-datasource",
+              "uid": "azure-monitor-oob"
+            },
+            "queryType": "Azure Monitor",
+            "refId": "A",
+            "subscription": "7b6f8f15-3a3e-43a2-b6ac-8eb6c06ad103"
+          }
+        ],
+        "title": "Levende",
+        "type": "stat"
+      },
+      {
+        "datasource": {
+          "type": "grafana-azure-monitor-datasource",
+          "uid": "azure-monitor-oob"
+        },
+        "fieldConfig": {
+          "defaults": {
+            "color": {
+              "mode": "thresholds"
+            },
+            "mappings": [],
+            "noValue": "0",
+            "thresholds": {
+              "mode": "absolute",
+              "steps": [
+                {
+                  "color": "green",
+                  "value": null
+                }
+              ]
+            }
+          },
+          "overrides": []
+        },
+        "gridPos": {
+          "h": 5,
+          "w": 3,
+          "x": 9,
+          "y": 6
+        },
+        "id": 29,
+        "options": {
+          "colorMode": "value",
+          "graphMode": "area",
+          "justifyMode": "auto",
+          "orientation": "auto",
+          "reduceOptions": {
+            "calcs": [
+              "lastNotNull"
+            ],
+            "fields": "",
+            "values": false
+          },
+          "showPercentChange": false,
+          "textMode": "auto",
+          "wideLayout": true
+        },
+        "pluginVersion": "10.4.15",
+        "targets": [
+          {
+            "azureLogAnalytics": {
+              "dashboardTime": true,
+              "query": "requests\r\n| where cloud_RoleName == \"oed\" and $__timeFilter(timestamp)\r\n| project userPartyId=tostring(customDimensions.['user.party.id']), \r\n          instanceOwnerPartyId=tostring(customDimensions.['instance.owner.party.id'])\r\n| where isnotempty(userPartyId) and isnotempty(instanceOwnerPartyId)\r\n| summarize ['Unike brukere']=dcount(userPartyId), ['Unike dødsbo']=dcount(instanceOwnerPartyId)\r\n\r\n",
+              "resources": [
+                "/subscriptions/7b6f8f15-3a3e-43a2-b6ac-8eb6c06ad103/resourceGroups/monitor-digdir-tt02-rg/providers/Microsoft.Insights/components/digdir-tt02-ai"
+              ],
+              "resultFormat": "table",
+              "timeColumn": "timestamp"
+            },
+            "datasource": {
+              "type": "grafana-azure-monitor-datasource",
+              "uid": "azure-monitor-oob"
+            },
+            "queryType": "Azure Log Analytics",
+            "refId": "A"
+          }
+        ],
+        "title": "Brukere",
+        "type": "stat"
+      },
+      {
+        "collapsed": true,
+        "gridPos": {
+          "h": 1,
+          "w": 24,
+          "x": 0,
+          "y": 11
+        },
+        "id": 22,
+        "panels": [
+          {
+            "datasource": {
+              "type": "grafana-azure-monitor-datasource",
+              "uid": "azure-monitor-oob"
+            },
+            "fieldConfig": {
+              "defaults": {
+                "color": {
+                  "mode": "palette-classic"
+                },
+                "custom": {
+                  "axisBorderShow": false,
+                  "axisCenteredZero": false,
+                  "axisColorMode": "text",
+                  "axisLabel": "",
+                  "axisPlacement": "auto",
+                  "barAlignment": 0,
+                  "drawStyle": "bars",
+                  "fillOpacity": 100,
+                  "gradientMode": "none",
+                  "hideFrom": {
+                    "legend": false,
+                    "tooltip": false,
+                    "viz": false
+                  },
+                  "insertNulls": false,
+                  "lineInterpolation": "linear",
+                  "lineWidth": 1,
+                  "pointSize": 5,
+                  "scaleDistribution": {
+                    "type": "linear"
+                  },
+                  "showPoints": "auto",
+                  "spanNulls": false,
+                  "stacking": {
+                    "group": "A",
+                    "mode": "none"
+                  },
+                  "thresholdsStyle": {
+                    "mode": "off"
+                  }
+                },
+                "mappings": [],
+                "thresholds": {
+                  "mode": "absolute",
+                  "steps": [
+                    {
+                      "color": "green"
+                    },
+                    {
+                      "color": "red",
+                      "value": 80
+                    }
+                  ]
+                }
+              },
+              "overrides": []
+            },
+            "gridPos": {
+              "h": 5,
+              "w": 12,
+              "x": 0,
+              "y": 12
+            },
+            "id": 9,
+            "options": {
+              "legend": {
+                "calcs": [
+                  "sum"
+                ],
+                "displayMode": "list",
+                "placement": "bottom",
+                "showLegend": true
+              },
+              "tooltip": {
+                "mode": "single",
+                "sort": "none"
+              }
+            },
+            "targets": [
+              {
+                "azureMonitor": {
+                  "aggregation": "Total",
+                  "allowedTimeGrainsMs": [],
+                  "customNamespace": "Azure.ApplicationInsights",
+                  "dimensionFilters": [],
+                  "metricName": "altinn_app_oed_estate_created",
+                  "metricNamespace": "microsoft.insights/components",
+                  "region": "norwayeast",
+                  "resources": [
+                    {
+                      "metricNamespace": "Microsoft.Insights/components",
+                      "region": "norwayeast",
+                      "resourceGroup": "monitor-digdir-tt02-rg",
+                      "resourceName": "digdir-tt02-ai",
+                      "subscription": "7b6f8f15-3a3e-43a2-b6ac-8eb6c06ad103"
+                    }
+                  ],
+                  "timeGrain": "auto"
+                },
+                "datasource": {
+                  "type": "grafana-azure-monitor-datasource",
+                  "uid": "azure-monitor-oob"
+                },
+                "queryType": "Azure Monitor",
+                "refId": "A",
+                "subscription": "7b6f8f15-3a3e-43a2-b6ac-8eb6c06ad103"
+              }
+            ],
+            "title": "Opprettede dødsbo",
+            "type": "timeseries"
+          },
+          {
+            "datasource": {
+              "type": "grafana-azure-monitor-datasource",
+              "uid": "azure-monitor-oob"
+            },
+            "fieldConfig": {
+              "defaults": {
+                "color": {
+                  "mode": "palette-classic"
+                },
+                "custom": {
+                  "axisBorderShow": false,
+                  "axisCenteredZero": false,
+                  "axisColorMode": "text",
+                  "axisLabel": "",
+                  "axisPlacement": "auto",
+                  "barAlignment": 0,
+                  "drawStyle": "bars",
+                  "fillOpacity": 100,
+                  "gradientMode": "none",
+                  "hideFrom": {
+                    "legend": false,
+                    "tooltip": false,
+                    "viz": false
+                  },
+                  "insertNulls": false,
+                  "lineInterpolation": "linear",
+                  "lineWidth": 1,
+                  "pointSize": 5,
+                  "scaleDistribution": {
+                    "type": "linear"
+                  },
+                  "showPoints": "auto",
+                  "spanNulls": false,
+                  "stacking": {
+                    "group": "A",
+                    "mode": "normal"
+                  },
+                  "thresholdsStyle": {
+                    "mode": "off"
+                  }
+                },
+                "mappings": [],
+                "thresholds": {
+                  "mode": "absolute",
+                  "steps": [
+                    {
+                      "color": "green"
+                    },
+                    {
+                      "color": "red",
+                      "value": 80
+                    }
+                  ]
+                }
+              },
+              "overrides": []
+            },
+            "gridPos": {
+              "h": 5,
+              "w": 12,
+              "x": 12,
+              "y": 12
+            },
+            "id": 19,
+            "options": {
+              "legend": {
+                "calcs": [
+                  "sum"
+                ],
+                "displayMode": "list",
+                "placement": "bottom",
+                "showLegend": true
+              },
+              "tooltip": {
+                "mode": "single",
+                "sort": "none"
+              }
+            },
+            "targets": [
+              {
+                "azureLogAnalytics": {
+                  "dashboardTime": true,
+                  "query": "customMetrics\r\n| where name == \"altinn_app_oed_send_correspondence_item\"\r\n| project timestamp, value, customDimensions.itemType\r\n| summarize sum(value) by bin(timestamp, 1m), tostring(customDimensions_itemType)\r\n| project timestamp, sum_value, customDimensions_itemType\r\n| project-rename sum=sum_value\r\n| order by timestamp asc",
+                  "resources": [
+                    "/subscriptions/7b6f8f15-3a3e-43a2-b6ac-8eb6c06ad103/resourceGroups/monitor-digdir-tt02-rg/providers/Microsoft.Insights/components/digdir-tt02-ai"
+                  ],
+                  "resultFormat": "time_series",
+                  "timeColumn": "timestamp"
+                },
+                "datasource": {
+                  "type": "grafana-azure-monitor-datasource",
+                  "uid": "azure-monitor-oob"
+                },
+                "queryType": "Azure Log Analytics",
+                "refId": "A"
+              }
+            ],
+            "title": "Korrespondanse items",
+            "type": "timeseries"
+          },
+          {
+            "datasource": {
+              "type": "grafana-azure-monitor-datasource",
+              "uid": "azure-monitor-oob"
+            },
+            "fieldConfig": {
+              "defaults": {
+                "color": {
+                  "mode": "palette-classic"
+                },
+                "custom": {
+                  "axisBorderShow": false,
+                  "axisCenteredZero": false,
+                  "axisColorMode": "text",
+                  "axisLabel": "",
+                  "axisPlacement": "auto",
+                  "barAlignment": 0,
+                  "drawStyle": "bars",
+                  "fillOpacity": 85,
+                  "gradientMode": "none",
+                  "hideFrom": {
+                    "legend": false,
+                    "tooltip": false,
+                    "viz": false
+                  },
+                  "insertNulls": false,
+                  "lineInterpolation": "linear",
+                  "lineWidth": 1,
+                  "pointSize": 5,
+                  "scaleDistribution": {
+                    "type": "linear"
+                  },
+                  "showPoints": "auto",
+                  "spanNulls": false,
+                  "stacking": {
+                    "group": "A",
+                    "mode": "none"
+                  },
+                  "thresholdsStyle": {
+                    "mode": "off"
+                  }
+                },
+                "mappings": [],
+                "thresholds": {
+                  "mode": "absolute",
+                  "steps": [
+                    {
+                      "color": "green"
+                    },
+                    {
+                      "color": "red",
+                      "value": 80
+                    }
+                  ]
+                }
+              },
+              "overrides": []
+            },
+            "gridPos": {
+              "h": 5,
+              "w": 12,
+              "x": 0,
+              "y": 17
+            },
+            "id": 12,
+            "options": {
+              "legend": {
+                "calcs": [
+                  "sum"
+                ],
+                "displayMode": "list",
+                "placement": "bottom",
+                "showLegend": true
+              },
+              "tooltip": {
+                "mode": "single",
+                "sort": "none"
+              }
+            },
+            "targets": [
+              {
+                "azureMonitor": {
+                  "aggregation": "Total",
+                  "allowedTimeGrainsMs": [
+                    60000,
+                    300000,
+                    900000,
+                    1800000,
+                    3600000,
+                    21600000,
+                    43200000,
+                    86400000
+                  ],
+                  "customNamespace": "Azure.ApplicationInsights",
+                  "dimensionFilters": [],
+                  "metricName": "altinn_app_oed_send_archive",
+                  "metricNamespace": "microsoft.insights/components",
+                  "region": "norwayeast",
+                  "resources": [
+                    {
+                      "metricNamespace": "Microsoft.Insights/components",
+                      "region": "norwayeast",
+                      "resourceGroup": "monitor-digdir-tt02-rg",
+                      "resourceName": "digdir-tt02-ai",
+                      "subscription": "7b6f8f15-3a3e-43a2-b6ac-8eb6c06ad103"
+                    }
+                  ],
+                  "timeGrain": "auto"
+                },
+                "datasource": {
+                  "type": "grafana-azure-monitor-datasource",
+                  "uid": "azure-monitor-oob"
+                },
+                "queryType": "Azure Monitor",
+                "refId": "A",
+                "subscription": "7b6f8f15-3a3e-43a2-b6ac-8eb6c06ad103"
+              }
+            ],
+            "title": "Utgående arkivering",
+            "type": "timeseries"
+          },
+          {
+            "datasource": {
+              "type": "grafana-azure-monitor-datasource",
+              "uid": "azure-monitor-oob"
+            },
+            "fieldConfig": {
+              "defaults": {
+                "color": {
+                  "mode": "palette-classic"
+                },
+                "custom": {
+                  "axisBorderShow": false,
+                  "axisCenteredZero": false,
+                  "axisColorMode": "text",
+                  "axisLabel": "",
+                  "axisPlacement": "auto",
+                  "barAlignment": 0,
+                  "drawStyle": "bars",
+                  "fillOpacity": 85,
+                  "gradientMode": "none",
+                  "hideFrom": {
+                    "legend": false,
+                    "tooltip": false,
+                    "viz": false
+                  },
+                  "insertNulls": false,
+                  "lineInterpolation": "linear",
+                  "lineWidth": 1,
+                  "pointSize": 5,
+                  "scaleDistribution": {
+                    "type": "linear"
+                  },
+                  "showPoints": "auto",
+                  "spanNulls": false,
+                  "stacking": {
+                    "group": "A",
+                    "mode": "none"
+                  },
+                  "thresholdsStyle": {
+                    "mode": "off"
+                  }
+                },
+                "mappings": [],
+                "thresholds": {
+                  "mode": "absolute",
+                  "steps": [
+                    {
+                      "color": "green"
+                    },
+                    {
+                      "color": "red",
+                      "value": 80
+                    }
+                  ]
+                }
+              },
+              "overrides": []
+            },
+            "gridPos": {
+              "h": 5,
+              "w": 12,
+              "x": 12,
+              "y": 17
+            },
+            "id": 11,
+            "options": {
+              "legend": {
+                "calcs": [
+                  "sum"
+                ],
+                "displayMode": "list",
+                "placement": "bottom",
+                "showLegend": true
+              },
+              "tooltip": {
+                "mode": "single",
+                "sort": "none"
+              }
+            },
+            "targets": [
+              {
+                "azureMonitor": {
+                  "aggregation": "Total",
+                  "allowedTimeGrainsMs": [
+                    60000,
+                    300000,
+                    900000,
+                    1800000,
+                    3600000,
+                    21600000,
+                    43200000,
+                    86400000
+                  ],
+                  "customNamespace": "Azure.ApplicationInsights",
+                  "dimensionFilters": [],
+                  "metricName": "altinn_app_oed_send_correspondence",
+                  "metricNamespace": "microsoft.insights/components",
+                  "region": "norwayeast",
+                  "resources": [
+                    {
+                      "metricNamespace": "Microsoft.Insights/components",
+                      "region": "norwayeast",
+                      "resourceGroup": "monitor-digdir-tt02-rg",
+                      "resourceName": "digdir-tt02-ai",
+                      "subscription": "7b6f8f15-3a3e-43a2-b6ac-8eb6c06ad103"
+                    }
+                  ],
+                  "timeGrain": "auto"
+                },
+                "datasource": {
+                  "type": "grafana-azure-monitor-datasource",
+                  "uid": "azure-monitor-oob"
+                },
+                "queryType": "Azure Monitor",
+                "refId": "A",
+                "subscription": "7b6f8f15-3a3e-43a2-b6ac-8eb6c06ad103"
+              }
+            ],
+            "title": "Utgående korrespondanse",
+            "type": "timeseries"
+          }
+        ],
+        "title": "Business detaljer",
+        "type": "row"
+      },
+      {
+        "collapsed": true,
+        "gridPos": {
+          "h": 1,
+          "w": 24,
+          "x": 0,
+          "y": 12
+        },
+        "id": 20,
+        "panels": [
+          {
+            "datasource": {
+              "type": "grafana-azure-monitor-datasource",
+              "uid": "azure-monitor-oob"
+            },
+            "fieldConfig": {
+              "defaults": {
+                "color": {
+                  "mode": "palette-classic"
+                },
+                "custom": {
+                  "axisBorderShow": false,
+                  "axisCenteredZero": false,
+                  "axisColorMode": "text",
+                  "axisLabel": "",
+                  "axisPlacement": "auto",
+                  "barAlignment": 0,
+                  "drawStyle": "line",
+                  "fillOpacity": 0,
+                  "gradientMode": "none",
+                  "hideFrom": {
+                    "legend": false,
+                    "tooltip": false,
+                    "viz": false
+                  },
+                  "insertNulls": false,
+                  "lineInterpolation": "linear",
+                  "lineWidth": 1,
+                  "pointSize": 5,
+                  "scaleDistribution": {
+                    "type": "linear"
+                  },
+                  "showPoints": "auto",
+                  "spanNulls": false,
+                  "stacking": {
+                    "group": "A",
+                    "mode": "none"
+                  },
+                  "thresholdsStyle": {
+                    "mode": "off"
+                  }
+                },
+                "mappings": [],
+                "thresholds": {
+                  "mode": "absolute",
+                  "steps": [
+                    {
+                      "color": "green"
+                    },
+                    {
+                      "color": "red",
+                      "value": 80
+                    }
+                  ]
+                }
+              },
+              "overrides": []
+            },
+            "gridPos": {
+              "h": 5,
+              "w": 12,
+              "x": 0,
+              "y": 13
+            },
+            "id": 3,
+            "options": {
+              "legend": {
+                "calcs": [],
+                "displayMode": "list",
+                "placement": "bottom",
+                "showLegend": true
+              },
+              "tooltip": {
+                "mode": "single",
+                "sort": "none"
+              }
+            },
+            "targets": [
+              {
+                "azureMonitor": {
+                  "aggregation": "Count",
+                  "allowedTimeGrainsMs": [
+                    60000,
+                    300000,
+                    900000,
+                    1800000,
+                    3600000,
+                    21600000,
+                    43200000,
+                    86400000
+                  ],
+                  "dimensionFilters": [
+                    {
+                      "dimension": "cloud/roleName",
+                      "filters": [
+                        "oed",
+                        "oed-declaration",
+                        "oed-events"
+                      ],
+                      "operator": "eq"
+                    }
+                  ],
+                  "metricName": "requests/count",
+                  "metricNamespace": "microsoft.insights/components",
+                  "region": "norwayeast",
+                  "resources": [
+                    {
+                      "metricNamespace": "Microsoft.Insights/components",
+                      "region": "norwayeast",
+                      "resourceGroup": "monitor-digdir-tt02-rg",
+                      "resourceName": "digdir-tt02-ai",
+                      "subscription": "7b6f8f15-3a3e-43a2-b6ac-8eb6c06ad103"
+                    }
+                  ],
+                  "timeGrain": "auto"
+                },
+                "datasource": {
+                  "type": "grafana-azure-monitor-datasource",
+                  "uid": "azure-monitor-oob"
+                },
+                "queryType": "Azure Monitor",
+                "refId": "A",
+                "subscription": "7b6f8f15-3a3e-43a2-b6ac-8eb6c06ad103"
+              },
+              {
+                "azureMonitor": {
+                  "aggregation": "Count",
+                  "alias": "Server requests oed-authz",
+                  "allowedTimeGrainsMs": [
+                    60000,
+                    300000,
+                    900000,
+                    1800000,
+                    3600000,
+                    21600000,
+                    43200000,
+                    86400000
+                  ],
+                  "dimensionFilters": [],
+                  "metricName": "requests/count",
+                  "metricNamespace": "microsoft.insights/components",
+                  "region": "westeurope",
+                  "resources": [
+                    {
+                      "metricNamespace": "microsoft.insights/components",
+                      "region": "westeurope",
+                      "resourceGroup": "altinn-digdir-oed-tt02-rg",
+                      "resourceName": "oed-test-authz-ai",
+                      "subscription": "7b6f8f15-3a3e-43a2-b6ac-8eb6c06ad103"
+                    }
+                  ],
+                  "timeGrain": "auto"
+                },
+                "datasource": {
+                  "type": "grafana-azure-monitor-datasource",
+                  "uid": "azure-monitor-oob"
+                },
+                "hide": false,
+                "queryType": "Azure Monitor",
+                "refId": "B",
+                "subscription": "7b6f8f15-3a3e-43a2-b6ac-8eb6c06ad103"
+              }
+            ],
+            "title": "Server requests",
+            "type": "timeseries"
+          },
+          {
+            "datasource": {
+              "type": "grafana-azure-monitor-datasource",
+              "uid": "azure-monitor-oob"
+            },
+            "fieldConfig": {
+              "defaults": {
+                "color": {
+                  "mode": "palette-classic"
+                },
+                "custom": {
+                  "axisBorderShow": false,
+                  "axisCenteredZero": false,
+                  "axisColorMode": "text",
+                  "axisLabel": "",
+                  "axisPlacement": "auto",
+                  "barAlignment": 0,
+                  "drawStyle": "bars",
+                  "fillOpacity": 100,
+                  "gradientMode": "none",
+                  "hideFrom": {
+                    "legend": false,
+                    "tooltip": false,
+                    "viz": false
+                  },
+                  "insertNulls": false,
+                  "lineInterpolation": "linear",
+                  "lineWidth": 1,
+                  "pointSize": 5,
+                  "scaleDistribution": {
+                    "type": "linear"
+                  },
+                  "showPoints": "auto",
+                  "spanNulls": false,
+                  "stacking": {
+                    "group": "A",
+                    "mode": "normal"
+                  },
+                  "thresholdsStyle": {
+                    "mode": "off"
+                  }
+                },
+                "mappings": [],
+                "min": 0,
+                "thresholds": {
+                  "mode": "absolute",
+                  "steps": [
+                    {
+                      "color": "green"
+                    },
+                    {
+                      "color": "red",
+                      "value": 80
+                    }
+                  ]
+                }
+              },
+              "overrides": []
+            },
+            "gridPos": {
+              "h": 5,
+              "w": 12,
+              "x": 12,
+              "y": 13
+            },
+            "id": 16,
+            "options": {
+              "legend": {
+                "calcs": [
+                  "sum"
+                ],
+                "displayMode": "list",
+                "placement": "bottom",
+                "showLegend": true
+              },
+              "tooltip": {
+                "mode": "single",
+                "sort": "none"
+              }
+            },
+            "targets": [
+              {
+                "azureLogAnalytics": {
+                  "dashboardTime": true,
+                  "query": "customMetrics\r\n| where name == \"altinn_app_oed_handle_event\"\r\n| project timestamp, value, customDimensions.eventType\r\n| summarize sum(value) by bin(timestamp, 1m), tostring(customDimensions_eventType)\r\n| project timestamp, sum_value, customDimensions_eventType\r\n| project-rename _=sum_value\r\n| order by timestamp asc",
+                  "resources": [
+                    "/subscriptions/7b6f8f15-3a3e-43a2-b6ac-8eb6c06ad103/resourceGroups/monitor-digdir-tt02-rg/providers/Microsoft.Insights/components/digdir-tt02-ai"
+                  ],
+                  "resultFormat": "time_series",
+                  "timeColumn": "timestamp"
+                },
+                "datasource": {
+                  "type": "grafana-azure-monitor-datasource",
+                  "uid": "azure-monitor-oob"
+                },
+                "queryType": "Azure Log Analytics",
+                "refId": "A"
+              }
+            ],
+            "title": "Håndterte eventer (oed)",
+            "type": "timeseries"
+          },
+          {
+            "datasource": {
+              "type": "grafana-azure-monitor-datasource",
+              "uid": "azure-monitor-oob"
+            },
+            "fieldConfig": {
+              "defaults": {
+                "color": {
+                  "mode": "palette-classic"
+                },
+                "custom": {
+                  "axisBorderShow": false,
+                  "axisCenteredZero": false,
+                  "axisColorMode": "text",
+                  "axisLabel": "",
+                  "axisPlacement": "auto",
+                  "barAlignment": 0,
+                  "drawStyle": "line",
+                  "fillOpacity": 0,
+                  "gradientMode": "none",
+                  "hideFrom": {
+                    "legend": false,
+                    "tooltip": false,
+                    "viz": false
+                  },
+                  "insertNulls": false,
+                  "lineInterpolation": "linear",
+                  "lineWidth": 1,
+                  "pointSize": 5,
+                  "scaleDistribution": {
+                    "type": "linear"
+                  },
+                  "showPoints": "auto",
+                  "spanNulls": true,
+                  "stacking": {
+                    "group": "A",
+                    "mode": "none"
+                  },
+                  "thresholdsStyle": {
+                    "mode": "off"
+                  }
+                },
+                "mappings": [],
+                "thresholds": {
+                  "mode": "absolute",
+                  "steps": [
+                    {
+                      "color": "green"
+                    },
+                    {
+                      "color": "red",
+                      "value": 1
+                    }
+                  ]
+                }
+              },
+              "overrides": []
+            },
+            "gridPos": {
+              "h": 5,
+              "w": 12,
+              "x": 0,
+              "y": 18
+            },
+            "id": 10,
+            "options": {
+              "legend": {
+                "calcs": [],
+                "displayMode": "list",
+                "placement": "bottom",
+                "showLegend": true
+              },
+              "tooltip": {
+                "mode": "single",
+                "sort": "none"
+              }
+            },
+            "targets": [
+              {
+                "azureMonitor": {
+                  "aggregation": "Average",
+                  "alias": "",
+                  "allowedTimeGrainsMs": [
+                    60000,
+                    300000,
+                    900000,
+                    1800000,
+                    3600000,
+                    21600000,
+                    43200000,
+                    86400000
+                  ],
+                  "customNamespace": "microsoft.insights/components",
+                  "dimensionFilters": [
+                    {
+                      "dimension": "cloud/roleName",
+                      "filters": [
+                        "oed",
+                        "oed-events",
+                        "oed-declaration"
+                      ],
+                      "operator": "eq"
+                    }
+                  ],
+                  "metricName": "requests/duration",
+                  "metricNamespace": "microsoft.insights/components",
+                  "region": "norwayeast",
+                  "resources": [
+                    {
+                      "metricNamespace": "Microsoft.Insights/components",
+                      "region": "norwayeast",
+                      "resourceGroup": "monitor-digdir-tt02-rg",
+                      "resourceName": "digdir-tt02-ai",
+                      "subscription": "7b6f8f15-3a3e-43a2-b6ac-8eb6c06ad103"
+                    }
+                  ],
+                  "timeGrain": "auto",
+                  "top": ""
+                },
+                "datasource": {
+                  "type": "grafana-azure-monitor-datasource",
+                  "uid": "azure-monitor-oob"
+                },
+                "queryType": "Azure Monitor",
+                "refId": "A",
+                "subscription": "7b6f8f15-3a3e-43a2-b6ac-8eb6c06ad103"
+              },
+              {
+                "azureMonitor": {
+                  "aggregation": "Average",
+                  "alias": "Server response time oed-authz",
+                  "allowedTimeGrainsMs": [
+                    60000,
+                    300000,
+                    900000,
+                    1800000,
+                    3600000,
+                    21600000,
+                    43200000,
+                    86400000
+                  ],
+                  "dimensionFilters": [],
+                  "metricName": "requests/duration",
+                  "metricNamespace": "microsoft.insights/components",
+                  "region": "westeurope",
+                  "resources": [
+                    {
+                      "metricNamespace": "microsoft.insights/components",
+                      "region": "westeurope",
+                      "resourceGroup": "altinn-digdir-oed-tt02-rg",
+                      "resourceName": "oed-test-authz-ai",
+                      "subscription": "7b6f8f15-3a3e-43a2-b6ac-8eb6c06ad103"
+                    }
+                  ],
+                  "timeGrain": "auto"
+                },
+                "datasource": {
+                  "type": "grafana-azure-monitor-datasource",
+                  "uid": "azure-monitor-oob"
+                },
+                "hide": false,
+                "queryType": "Azure Monitor",
+                "refId": "B",
+                "subscription": "7b6f8f15-3a3e-43a2-b6ac-8eb6c06ad103"
+              }
+            ],
+            "title": "Server response time",
+            "type": "timeseries"
+          },
+          {
+            "datasource": {
+              "type": "grafana-azure-monitor-datasource",
+              "uid": "azure-monitor-oob"
+            },
+            "fieldConfig": {
+              "defaults": {
+                "color": {
+                  "mode": "palette-classic"
+                },
+                "custom": {
+                  "axisBorderShow": false,
+                  "axisCenteredZero": false,
+                  "axisColorMode": "text",
+                  "axisLabel": "",
+                  "axisPlacement": "auto",
+                  "barAlignment": 0,
+                  "drawStyle": "bars",
+                  "fillOpacity": 100,
+                  "gradientMode": "none",
+                  "hideFrom": {
+                    "legend": false,
+                    "tooltip": false,
+                    "viz": false
+                  },
+                  "insertNulls": false,
+                  "lineInterpolation": "linear",
+                  "lineWidth": 1,
+                  "pointSize": 5,
+                  "scaleDistribution": {
+                    "type": "linear"
+                  },
+                  "showPoints": "auto",
+                  "spanNulls": false,
+                  "stacking": {
+                    "group": "A",
+                    "mode": "normal"
+                  },
+                  "thresholdsStyle": {
+                    "mode": "off"
+                  }
+                },
+                "mappings": [],
+                "thresholds": {
+                  "mode": "absolute",
+                  "steps": [
+                    {
+                      "color": "green"
+                    },
+                    {
+                      "color": "red",
+                      "value": 80
+                    }
+                  ]
+                }
+              },
+              "overrides": []
+            },
+            "gridPos": {
+              "h": 5,
+              "w": 12,
+              "x": 12,
+              "y": 18
+            },
+            "id": 17,
+            "options": {
+              "legend": {
+                "calcs": [
+                  "sum"
+                ],
+                "displayMode": "list",
+                "placement": "bottom",
+                "showLegend": true
+              },
+              "tooltip": {
+                "mode": "single",
+                "sort": "none"
+              }
+            },
+            "targets": [
+              {
+                "azureLogAnalytics": {
+                  "dashboardTime": true,
+                  "query": "customMetrics\r\n| where name == \"altinn_app_oed_post_event\"\r\n| project timestamp, value, customDimensions.eventType\r\n| summarize sum(value) by bin(timestamp, 1m), tostring(customDimensions_eventType)\r\n| project timestamp, sum_value, customDimensions_eventType\r\n| project-rename _=sum_value\r\n| order by timestamp asc",
+                  "resources": [
+                    "/subscriptions/7b6f8f15-3a3e-43a2-b6ac-8eb6c06ad103/resourceGroups/monitor-digdir-tt02-rg/providers/Microsoft.Insights/components/digdir-tt02-ai"
+                  ],
+                  "resultFormat": "time_series",
+                  "timeColumn": "timestamp"
+                },
+                "datasource": {
+                  "type": "grafana-azure-monitor-datasource",
+                  "uid": "azure-monitor-oob"
+                },
+                "queryType": "Azure Log Analytics",
+                "refId": "A"
+              }
+            ],
+            "title": "Publiserte eventer (oed)",
+            "type": "timeseries"
+          },
+          {
+            "datasource": {
+              "type": "grafana-azure-monitor-datasource",
+              "uid": "azure-monitor-oob"
+            },
+            "fieldConfig": {
+              "defaults": {
+                "color": {
+                  "mode": "palette-classic"
+                },
+                "custom": {
+                  "axisBorderShow": false,
+                  "axisCenteredZero": false,
+                  "axisColorMode": "text",
+                  "axisLabel": "",
+                  "axisPlacement": "auto",
+                  "barAlignment": 0,
+                  "drawStyle": "line",
+                  "fillOpacity": 0,
+                  "gradientMode": "none",
+                  "hideFrom": {
+                    "legend": false,
+                    "tooltip": false,
+                    "viz": false
+                  },
+                  "insertNulls": false,
+                  "lineInterpolation": "linear",
+                  "lineWidth": 1,
+                  "pointSize": 5,
+                  "scaleDistribution": {
+                    "type": "linear"
+                  },
+                  "showPoints": "auto",
+                  "spanNulls": false,
+                  "stacking": {
+                    "group": "A",
+                    "mode": "none"
+                  },
+                  "thresholdsStyle": {
+                    "mode": "off"
+                  }
+                },
+                "mappings": [],
+                "thresholds": {
+                  "mode": "absolute",
+                  "steps": [
+                    {
+                      "color": "green"
+                    },
+                    {
+                      "color": "red",
+                      "value": 80
+                    }
+                  ]
+                }
+              },
+              "overrides": []
+            },
+            "gridPos": {
+              "h": 5,
+              "w": 12,
+              "x": 0,
+              "y": 23
+            },
+            "id": 4,
+            "options": {
+              "legend": {
+                "calcs": [
+                  "sum"
+                ],
+                "displayMode": "list",
+                "placement": "bottom",
+                "showLegend": true
+              },
+              "tooltip": {
+                "mode": "single",
+                "sort": "none"
+              }
+            },
+            "targets": [
+              {
+                "azureMonitor": {
+                  "aggregation": "Count",
+                  "allowedTimeGrainsMs": [
+                    60000,
+                    300000,
+                    900000,
+                    1800000,
+                    3600000,
+                    21600000,
+                    43200000,
+                    86400000
+                  ],
+                  "dimensionFilters": [
+                    {
+                      "dimension": "cloud/roleName",
+                      "filters": [
+                        "oed",
+                        "oed-events",
+                        "oed-declaration"
+                      ],
+                      "operator": "eq"
+                    }
+                  ],
+                  "metricName": "requests/failed",
+                  "metricNamespace": "microsoft.insights/components",
+                  "region": "norwayeast",
+                  "resources": [
+                    {
+                      "metricNamespace": "Microsoft.Insights/components",
+                      "region": "norwayeast",
+                      "resourceGroup": "monitor-digdir-tt02-rg",
+                      "resourceName": "digdir-tt02-ai",
+                      "subscription": "7b6f8f15-3a3e-43a2-b6ac-8eb6c06ad103"
+                    }
+                  ],
+                  "timeGrain": "auto"
+                },
+                "datasource": {
+                  "type": "grafana-azure-monitor-datasource",
+                  "uid": "azure-monitor-oob"
+                },
+                "queryType": "Azure Monitor",
+                "refId": "A",
+                "subscription": "7b6f8f15-3a3e-43a2-b6ac-8eb6c06ad103"
+              },
+              {
+                "azureMonitor": {
+                  "aggregation": "Count",
+                  "alias": "Failed requests oed-authz",
+                  "allowedTimeGrainsMs": [
+                    60000,
+                    300000,
+                    900000,
+                    1800000,
+                    3600000,
+                    21600000,
+                    43200000,
+                    86400000
+                  ],
+                  "dimensionFilters": [],
+                  "metricName": "requests/failed",
+                  "metricNamespace": "microsoft.insights/components",
+                  "region": "westeurope",
+                  "resources": [
+                    {
+                      "metricNamespace": "microsoft.insights/components",
+                      "region": "westeurope",
+                      "resourceGroup": "altinn-digdir-oed-tt02-rg",
+                      "resourceName": "oed-test-authz-ai",
+                      "subscription": "7b6f8f15-3a3e-43a2-b6ac-8eb6c06ad103"
+                    }
+                  ],
+                  "timeGrain": "auto"
+                },
+                "datasource": {
+                  "type": "grafana-azure-monitor-datasource",
+                  "uid": "azure-monitor-oob"
+                },
+                "hide": false,
+                "queryType": "Azure Monitor",
+                "refId": "B",
+                "subscription": "7b6f8f15-3a3e-43a2-b6ac-8eb6c06ad103"
+              }
+            ],
+            "title": "Failed requests",
+            "type": "timeseries"
+          },
+          {
+            "datasource": {
+              "type": "grafana-azure-monitor-datasource",
+              "uid": "azure-monitor-oob"
+            },
+            "fieldConfig": {
+              "defaults": {
+                "color": {
+                  "mode": "palette-classic"
+                },
+                "custom": {
+                  "axisBorderShow": false,
+                  "axisCenteredZero": false,
+                  "axisColorMode": "text",
+                  "axisLabel": "",
+                  "axisPlacement": "auto",
+                  "barAlignment": 0,
+                  "drawStyle": "line",
+                  "fillOpacity": 0,
+                  "gradientMode": "none",
+                  "hideFrom": {
+                    "legend": false,
+                    "tooltip": false,
+                    "viz": false
+                  },
+                  "insertNulls": false,
+                  "lineInterpolation": "linear",
+                  "lineWidth": 1,
+                  "pointSize": 5,
+                  "scaleDistribution": {
+                    "type": "linear"
+                  },
+                  "showPoints": "auto",
+                  "spanNulls": false,
+                  "stacking": {
+                    "group": "A",
+                    "mode": "none"
+                  },
+                  "thresholdsStyle": {
+                    "mode": "off"
+                  }
+                },
+                "mappings": [],
+                "noValue": "0",
+                "thresholds": {
+                  "mode": "absolute",
+                  "steps": [
+                    {
+                      "color": "green"
+                    },
+                    {
+                      "color": "red",
+                      "value": 80
+                    }
+                  ]
+                }
+              },
+              "overrides": []
+            },
+            "gridPos": {
+              "h": 5,
+              "w": 12,
+              "x": 0,
+              "y": 28
+            },
+            "id": 25,
+            "options": {
+              "legend": {
+                "calcs": [
+                  "sum"
+                ],
+                "displayMode": "list",
+                "placement": "bottom",
+                "showLegend": true
+              },
+              "tooltip": {
+                "mode": "multi",
+                "sort": "none"
+              }
+            },
+            "targets": [
+              {
+                "azureLogAnalytics": {
+                  "dashboardTime": false,
+                  "query": "customMetrics\r\n| where name startswith \"altinn_app_oed_dan_request\"\r\n| project timestamp, value, customDimensions.dataSetName\r\n| summarize sum(value) by bin(timestamp, 1m), tostring(customDimensions_dataSetName)\r\n//| project timestamp, sum_value, customDimensions_dataSetName\r\n| project-rename _=sum_value\r\n| order by timestamp asc",
+                  "resources": [
+                    "/subscriptions/7b6f8f15-3a3e-43a2-b6ac-8eb6c06ad103/resourceGroups/monitor-digdir-tt02-rg/providers/Microsoft.Insights/components/digdir-tt02-ai"
+                  ],
+                  "resultFormat": "time_series"
+                },
+                "datasource": {
+                  "type": "grafana-azure-monitor-datasource",
+                  "uid": "azure-monitor-oob"
+                },
+                "queryType": "Azure Log Analytics",
+                "refId": "A"
+              }
+            ],
+            "title": "DAN requests",
+            "type": "timeseries"
+          },
+          {
+            "datasource": {
+              "type": "grafana-azure-monitor-datasource",
+              "uid": "azure-monitor-oob"
+            },
+            "fieldConfig": {
+              "defaults": {
+                "color": {
+                  "mode": "palette-classic"
+                },
+                "custom": {
+                  "axisBorderShow": false,
+                  "axisCenteredZero": false,
+                  "axisColorMode": "text",
+                  "axisLabel": "",
+                  "axisPlacement": "auto",
+                  "barAlignment": 0,
+                  "drawStyle": "line",
+                  "fillOpacity": 0,
+                  "gradientMode": "none",
+                  "hideFrom": {
+                    "legend": false,
+                    "tooltip": false,
+                    "viz": false
+                  },
+                  "insertNulls": false,
+                  "lineInterpolation": "linear",
+                  "lineWidth": 1,
+                  "pointSize": 5,
+                  "scaleDistribution": {
+                    "type": "linear"
+                  },
+                  "showPoints": "auto",
+                  "spanNulls": false,
+                  "stacking": {
+                    "group": "A",
+                    "mode": "none"
+                  },
+                  "thresholdsStyle": {
+                    "mode": "off"
+                  }
+                },
+                "mappings": [],
+                "thresholds": {
+                  "mode": "absolute",
+                  "steps": [
+                    {
+                      "color": "green"
+                    }
+                  ]
+                }
+              },
+              "overrides": []
+            },
+            "gridPos": {
+              "h": 5,
+              "w": 12,
+              "x": 0,
+              "y": 33
+            },
+            "id": 27,
+            "options": {
+              "legend": {
+                "calcs": [],
+                "displayMode": "list",
+                "placement": "bottom",
+                "showLegend": true
+              },
+              "tooltip": {
+                "mode": "single",
+                "sort": "none"
+              }
+            },
+            "targets": [
+              {
+                "azureLogAnalytics": {
+                  "dashboardTime": true,
+                  "query": "customMetrics\r\n| where name == \"altinn_app_oed_dan_responsetime\"\r\n| project timestamp, avg=(valueSum/valueCount), customDimensions.dataSetName\r\n//| project timestamp, avg=(valueSum/valueCount), min=valueMin, max=valueMax, customDimensions.dataSetName\r\n//| summarize sum(value) by bin(timestamp, 1m), tostring(customDimensions_dataSetName)\r\n//| project timestamp, sum_value, customDimensions_dataSetName\r\n//| project-rename _=sum_value\r\n| order by timestamp asc ",
+                  "resources": [
+                    "/subscriptions/7b6f8f15-3a3e-43a2-b6ac-8eb6c06ad103/resourceGroups/monitor-digdir-tt02-rg/providers/Microsoft.Insights/components/digdir-tt02-ai"
+                  ],
+                  "resultFormat": "time_series",
+                  "timeColumn": "timestamp"
+                },
+                "datasource": {
+                  "type": "grafana-azure-monitor-datasource",
+                  "uid": "azure-monitor-oob"
+                },
+                "queryType": "Azure Log Analytics",
+                "refId": "A"
+              }
+            ],
+            "title": "DAN response time",
+            "type": "timeseries"
+          },
+          {
+            "datasource": {
+              "type": "grafana-azure-monitor-datasource",
+              "uid": "azure-monitor-oob"
+            },
+            "fieldConfig": {
+              "defaults": {
+                "color": {
+                  "mode": "palette-classic"
+                },
+                "custom": {
+                  "axisBorderShow": false,
+                  "axisCenteredZero": false,
+                  "axisColorMode": "text",
+                  "axisLabel": "",
+                  "axisPlacement": "auto",
+                  "barAlignment": 0,
+                  "drawStyle": "line",
+                  "fillOpacity": 0,
+                  "gradientMode": "none",
+                  "hideFrom": {
+                    "legend": false,
+                    "tooltip": false,
+                    "viz": false
+                  },
+                  "insertNulls": false,
+                  "lineInterpolation": "linear",
+                  "lineWidth": 1,
+                  "pointSize": 5,
+                  "scaleDistribution": {
+                    "type": "linear"
+                  },
+                  "showPoints": "auto",
+                  "spanNulls": false,
+                  "stacking": {
+                    "group": "A",
+                    "mode": "none"
+                  },
+                  "thresholdsStyle": {
+                    "mode": "off"
+                  }
+                },
+                "mappings": [],
+                "noValue": "0",
+                "thresholds": {
+                  "mode": "absolute",
+                  "steps": [
+                    {
+                      "color": "dark-red"
+                    }
+                  ]
+                }
+              },
+              "overrides": []
+            },
+            "gridPos": {
+              "h": 5,
+              "w": 12,
+              "x": 0,
+              "y": 38
+            },
+            "id": 26,
+            "options": {
+              "legend": {
+                "calcs": [
+                  "sum"
+                ],
+                "displayMode": "list",
+                "placement": "bottom",
+                "showLegend": true
+              },
+              "tooltip": {
+                "mode": "multi",
+                "sort": "none"
+              }
+            },
+            "targets": [
+              {
+                "azureLogAnalytics": {
+                  "dashboardTime": false,
+                  "query": "customMetrics\r\n| where name startswith \"altinn_app_oed_dan_error\"\r\n| project timestamp, value, customDimensions.dataSetName\r\n| summarize sum(value) by bin(timestamp, 1m), tostring(customDimensions_dataSetName)\r\n//| project timestamp, sum_value, customDimensions_dataSetName\r\n| project-rename _=sum_value\r\n| order by timestamp asc",
+                  "resources": [
+                    "/subscriptions/7b6f8f15-3a3e-43a2-b6ac-8eb6c06ad103/resourceGroups/monitor-digdir-tt02-rg/providers/Microsoft.Insights/components/digdir-tt02-ai"
+                  ],
+                  "resultFormat": "time_series"
+                },
+                "datasource": {
+                  "type": "grafana-azure-monitor-datasource",
+                  "uid": "azure-monitor-oob"
+                },
+                "queryType": "Azure Log Analytics",
+                "refId": "A"
+              }
+            ],
+            "title": "DAN errors",
+            "type": "timeseries"
+          }
+        ],
+        "title": "Tekniske detaljer",
+        "type": "row"
+      }
+    ],
+    "refresh": "5m",
+    "schemaVersion": 39,
+    "tags": [],
+    "templating": {
+      "list": []
+    },
+    "time": {
+      "from": "now-24h",
+      "to": "now"
+    },
+    "timepicker": {},
+    "timezone": "browser",
+    "title": "A3 apps",
+    "uid": "cege8qqomzp4wa",
+    "version": 65,
+    "weekStart": ""
+  }

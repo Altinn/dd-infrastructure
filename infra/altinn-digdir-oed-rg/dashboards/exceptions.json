@@ -1,0 +1,580 @@
+{
+    "annotations": {
+      "list": [
+        {
+          "builtIn": 1,
+          "datasource": {
+            "type": "grafana",
+            "uid": "-- Grafana --"
+          },
+          "enable": true,
+          "hide": true,
+          "iconColor": "rgba(0, 211, 255, 1)",
+          "name": "Annotations & Alerts",
+          "type": "dashboard"
+        }
+      ]
+    },
+    "editable": true,
+    "fiscalYearStartMonth": 0,
+    "graphTooltip": 0,
+    "id": 113,
+    "links": [],
+    "panels": [
+      {
+        "collapsed": false,
+        "gridPos": {
+          "h": 1,
+          "w": 24,
+          "x": 0,
+          "y": 0
+        },
+        "id": 8,
+        "panels": [],
+        "title": "Stacked overview",
+        "type": "row"
+      },
+      {
+        "datasource": {
+          "type": "grafana-azure-monitor-datasource",
+          "uid": "azure-monitor-oob"
+        },
+        "fieldConfig": {
+          "defaults": {
+            "color": {
+              "mode": "palette-classic"
+            },
+            "custom": {
+              "axisBorderShow": true,
+              "axisCenteredZero": false,
+              "axisColorMode": "series",
+              "axisLabel": "",
+              "axisPlacement": "auto",
+              "barAlignment": 0,
+              "drawStyle": "line",
+              "fillOpacity": 100,
+              "gradientMode": "none",
+              "hideFrom": {
+                "legend": false,
+                "tooltip": false,
+                "viz": false
+              },
+              "insertNulls": false,
+              "lineInterpolation": "linear",
+              "lineWidth": 1,
+              "pointSize": 5,
+              "scaleDistribution": {
+                "type": "linear"
+              },
+              "showPoints": "always",
+              "spanNulls": false,
+              "stacking": {
+                "group": "A",
+                "mode": "none"
+              },
+              "thresholdsStyle": {
+                "mode": "off"
+              }
+            },
+            "decimals": 0,
+            "mappings": [],
+            "min": 0,
+            "noValue": "0",
+            "thresholds": {
+              "mode": "absolute",
+              "steps": [
+                {
+                  "color": "green",
+                  "value": null
+                },
+                {
+                  "color": "red",
+                  "value": 10
+                }
+              ]
+            },
+            "unit": "none"
+          },
+          "overrides": []
+        },
+        "gridPos": {
+          "h": 13,
+          "w": 12,
+          "x": 0,
+          "y": 1
+        },
+        "id": 1,
+        "options": {
+          "legend": {
+            "calcs": [],
+            "displayMode": "list",
+            "placement": "bottom",
+            "showLegend": true
+          },
+          "tooltip": {
+            "mode": "single",
+            "sort": "none"
+          }
+        },
+        "targets": [
+          {
+            "azureLogAnalytics": {
+              "dashboardTime": false,
+              "query": "AppExceptions\r\n| where SeverityLevel >2 and AppRoleName in (\"oed\", \"oed-declaration\", \"oed-events\") and TimeGenerated >= $__timeFrom and TimeGenerated <= $__timeTo\r\n| summarize Errors = count() by AppRoleName, bin(TimeGenerated, 5m)\r\n| order by bin(TimeGenerated, 5m) asc",
+              "resources": [
+                "/subscriptions/0f05e9d4-592b-491a-b9da-49a8b242d0c5/resourceGroups/monitor-digdir-prod-rg/providers/Microsoft.OperationalInsights/workspaces/application-digdir-prod-law"
+              ],
+              "resultFormat": "time_series"
+            },
+            "datasource": {
+              "type": "grafana-azure-monitor-datasource",
+              "uid": "azure-monitor-oob"
+            },
+            "queryType": "Azure Log Analytics",
+            "refId": "Altinn3"
+          },
+          {
+            "azureLogAnalytics": {
+              "dashboardTime": false,
+              "query": "AppExceptions\r\n| where SeverityLevel >2  and TimeGenerated >= $__timeFrom and TimeGenerated <= $__timeTo\r\n| summarize Errors = count() by AppRoleName, bin(TimeGenerated, 5m)\r\n| order by bin(TimeGenerated, 5m) asc",
+              "resources": [
+                "/subscriptions/0f05e9d4-592b-491a-b9da-49a8b242d0c5/resourceGroups/altinn-digdir-oed-rg/providers/Microsoft.OperationalInsights/workspaces/altinn-digdir-oed-law"
+              ],
+              "resultFormat": "time_series"
+            },
+            "datasource": {
+              "type": "grafana-azure-monitor-datasource",
+              "uid": "azure-monitor-oob"
+            },
+            "queryType": "Azure Log Analytics",
+            "refId": "OED"
+          }
+        ],
+        "title": "Number of exceptions",
+        "type": "timeseries"
+      },
+      {
+        "datasource": {
+          "type": "grafana-azure-monitor-datasource",
+          "uid": "azure-monitor-oob"
+        },
+        "gridPos": {
+          "h": 20,
+          "w": 7,
+          "x": 12,
+          "y": 1
+        },
+        "id": 9,
+        "options": {
+          "alertInstanceLabelFilter": "",
+          "alertName": "",
+          "dashboardAlerts": false,
+          "datasource": "-- Grafana --",
+          "folder": {
+            "title": "Digitalt Dødsbo",
+            "uid": "dei64t8jwq9s0b"
+          },
+          "groupBy": [],
+          "groupMode": "default",
+          "maxItems": 20,
+          "sortOrder": 1,
+          "stateFilter": {
+            "error": true,
+            "firing": true,
+            "noData": false,
+            "normal": false,
+            "pending": true
+          },
+          "viewMode": "list"
+        },
+        "targets": [
+          {
+            "azureMonitor": {
+              "allowedTimeGrainsMs": [],
+              "timeGrain": "auto"
+            },
+            "datasource": {
+              "type": "grafana-azure-monitor-datasource",
+              "uid": "azure-monitor-oob"
+            },
+            "queryType": "Azure Monitor",
+            "refId": "A"
+          }
+        ],
+        "title": "Active Alerts",
+        "type": "alertlist"
+      },
+      {
+        "datasource": {
+          "type": "grafana-azure-monitor-datasource",
+          "uid": "azure-monitor-oob"
+        },
+        "fieldConfig": {
+          "defaults": {
+            "color": {
+              "mode": "thresholds"
+            },
+            "mappings": [],
+            "thresholds": {
+              "mode": "absolute",
+              "steps": [
+                {
+                  "color": "green",
+                  "value": null
+                },
+                {
+                  "color": "red",
+                  "value": 80
+                }
+              ]
+            }
+          },
+          "overrides": []
+        },
+        "gridPos": {
+          "h": 4,
+          "w": 2,
+          "x": 0,
+          "y": 14
+        },
+        "id": 3,
+        "options": {
+          "minVizHeight": 75,
+          "minVizWidth": 75,
+          "orientation": "auto",
+          "reduceOptions": {
+            "calcs": [
+              "lastNotNull"
+            ],
+            "fields": "",
+            "values": false
+          },
+          "showThresholdLabels": false,
+          "showThresholdMarkers": true,
+          "sizing": "auto"
+        },
+        "pluginVersion": "10.4.15",
+        "targets": [
+          {
+            "azureLogAnalytics": {
+              "dashboardTime": false,
+              "query": "let times = range TimeGenerated from $__timeFrom() to $__timeTo() step 5m;\r\nAppExceptions\r\n| where AppRoleName contains \"authz\"\r\n      and SeverityLevel > 2\r\n      and TimeGenerated >= $__timeFrom() and TimeGenerated <= $__timeTo()\r\n| summarize Exceptions = count() by bin(TimeGenerated, 5m), AppRoleName\r\n| join kind=rightouter (\r\n    times\r\n) on TimeGenerated\r\n| project TimeGenerated, AppRoleName = coalesce(AppRoleName, \"authz\"), Exceptions = coalesce(Exceptions, 0)\r\n| order by TimeGenerated asc\r\n",
+              "resources": [
+                "/subscriptions/0f05e9d4-592b-491a-b9da-49a8b242d0c5/resourceGroups/altinn-digdir-oed-rg/providers/Microsoft.OperationalInsights/workspaces/altinn-digdir-oed-law"
+              ],
+              "resultFormat": "logs"
+            },
+            "datasource": {
+              "type": "grafana-azure-monitor-datasource",
+              "uid": "azure-monitor-oob"
+            },
+            "queryType": "Azure Log Analytics",
+            "refId": "A"
+          }
+        ],
+        "title": "Authz",
+        "type": "gauge"
+      },
+      {
+        "datasource": {
+          "type": "grafana-azure-monitor-datasource",
+          "uid": "azure-monitor-oob"
+        },
+        "fieldConfig": {
+          "defaults": {
+            "color": {
+              "mode": "thresholds"
+            },
+            "mappings": [],
+            "thresholds": {
+              "mode": "absolute",
+              "steps": [
+                {
+                  "color": "green",
+                  "value": null
+                },
+                {
+                  "color": "red",
+                  "value": 80
+                }
+              ]
+            }
+          },
+          "overrides": []
+        },
+        "gridPos": {
+          "h": 4,
+          "w": 2,
+          "x": 2,
+          "y": 14
+        },
+        "id": 5,
+        "options": {
+          "minVizHeight": 75,
+          "minVizWidth": 75,
+          "orientation": "auto",
+          "reduceOptions": {
+            "calcs": [
+              "lastNotNull"
+            ],
+            "fields": "",
+            "values": false
+          },
+          "showThresholdLabels": false,
+          "showThresholdMarkers": true,
+          "sizing": "auto"
+        },
+        "pluginVersion": "10.4.15",
+        "targets": [
+          {
+            "azureLogAnalytics": {
+              "dashboardTime": false,
+              "query": "let times = range TimeGenerated from $__timeFrom() to $__timeTo() step 5m;\r\nAppExceptions\r\n| where AppRoleName == \"oed\"\r\n      and SeverityLevel > 2\r\n      and TimeGenerated >= $__timeFrom() and TimeGenerated <= $__timeTo()\r\n| summarize Exceptions = count() by bin(TimeGenerated, 5m), AppRoleName\r\n| join kind=rightouter (\r\n    times\r\n) on TimeGenerated\r\n| project TimeGenerated, AppRoleName = coalesce(AppRoleName, \"oed\"), Exceptions = coalesce(Exceptions, 0)\r\n| order by TimeGenerated asc\r\n",
+              "resources": [
+                "/subscriptions/0f05e9d4-592b-491a-b9da-49a8b242d0c5/resourceGroups/monitor-digdir-prod-rg/providers/Microsoft.OperationalInsights/workspaces/application-digdir-prod-law"
+              ],
+              "resultFormat": "time_series"
+            },
+            "datasource": {
+              "type": "grafana-azure-monitor-datasource",
+              "uid": "azure-monitor-oob"
+            },
+            "queryType": "Azure Log Analytics",
+            "refId": "A"
+          }
+        ],
+        "title": "OED",
+        "type": "gauge"
+      },
+      {
+        "datasource": {
+          "type": "grafana-azure-monitor-datasource",
+          "uid": "azure-monitor-oob"
+        },
+        "fieldConfig": {
+          "defaults": {
+            "color": {
+              "mode": "thresholds"
+            },
+            "mappings": [],
+            "thresholds": {
+              "mode": "absolute",
+              "steps": [
+                {
+                  "color": "green",
+                  "value": null
+                },
+                {
+                  "color": "red",
+                  "value": 80
+                }
+              ]
+            }
+          },
+          "overrides": []
+        },
+        "gridPos": {
+          "h": 4,
+          "w": 2,
+          "x": 4,
+          "y": 14
+        },
+        "id": 7,
+        "options": {
+          "minVizHeight": 75,
+          "minVizWidth": 75,
+          "orientation": "auto",
+          "reduceOptions": {
+            "calcs": [
+              "lastNotNull"
+            ],
+            "fields": "",
+            "values": false
+          },
+          "showThresholdLabels": false,
+          "showThresholdMarkers": true,
+          "sizing": "auto"
+        },
+        "pluginVersion": "10.4.15",
+        "targets": [
+          {
+            "azureLogAnalytics": {
+              "dashboardTime": false,
+              "query": "let times = range TimeGenerated from $__timeFrom() to $__timeTo() step 5m;\r\nAppExceptions\r\n| where AppRoleName == \"oed-events\"\r\n      and SeverityLevel > 2\r\n      and TimeGenerated >= $__timeFrom() and TimeGenerated <= $__timeTo()\r\n| summarize Exceptions = count() by bin(TimeGenerated, 5m), AppRoleName\r\n| join kind=rightouter (\r\n    times\r\n) on TimeGenerated\r\n| project TimeGenerated, AppRoleName = coalesce(AppRoleName, \"oed-events\"), Exceptions = coalesce(Exceptions, 0)\r\n| order by TimeGenerated asc\r\n",
+              "resources": [
+                "/subscriptions/0f05e9d4-592b-491a-b9da-49a8b242d0c5/resourceGroups/monitor-digdir-prod-rg/providers/Microsoft.OperationalInsights/workspaces/application-digdir-prod-law"
+              ],
+              "resultFormat": "logs"
+            },
+            "datasource": {
+              "type": "grafana-azure-monitor-datasource",
+              "uid": "azure-monitor-oob"
+            },
+            "queryType": "Azure Log Analytics",
+            "refId": "A"
+          }
+        ],
+        "title": "Events",
+        "type": "gauge"
+      },
+      {
+        "datasource": {
+          "type": "grafana-azure-monitor-datasource",
+          "uid": "azure-monitor-oob"
+        },
+        "description": "",
+        "fieldConfig": {
+          "defaults": {
+            "color": {
+              "mode": "thresholds"
+            },
+            "mappings": [],
+            "thresholds": {
+              "mode": "absolute",
+              "steps": [
+                {
+                  "color": "green",
+                  "value": null
+                },
+                {
+                  "color": "red",
+                  "value": 80
+                }
+              ]
+            }
+          },
+          "overrides": []
+        },
+        "gridPos": {
+          "h": 4,
+          "w": 2,
+          "x": 6,
+          "y": 14
+        },
+        "id": 6,
+        "options": {
+          "minVizHeight": 75,
+          "minVizWidth": 75,
+          "orientation": "auto",
+          "reduceOptions": {
+            "calcs": [
+              "lastNotNull"
+            ],
+            "fields": "",
+            "values": false
+          },
+          "showThresholdLabels": false,
+          "showThresholdMarkers": true,
+          "sizing": "auto"
+        },
+        "pluginVersion": "10.4.15",
+        "targets": [
+          {
+            "azureLogAnalytics": {
+              "dashboardTime": false,
+              "query": "let times = range TimeGenerated from $__timeFrom() to $__timeTo() step 5m;\r\nAppExceptions\r\n| where AppRoleName contains \"oed-declaration\"\r\n      and SeverityLevel > 2\r\n      and TimeGenerated >= $__timeFrom() and TimeGenerated <= $__timeTo()\r\n| summarize Exceptions = count() by bin(TimeGenerated, 5m), AppRoleName\r\n| join kind=rightouter (\r\n    times\r\n) on TimeGenerated\r\n| project TimeGenerated, AppRoleName = coalesce(AppRoleName, \"oed-declaration\"), Exceptions = coalesce(Exceptions, 0)\r\n| order by TimeGenerated asc\r\n",
+              "resources": [
+                "/subscriptions/0f05e9d4-592b-491a-b9da-49a8b242d0c5/resourceGroups/monitor-digdir-prod-rg/providers/Microsoft.OperationalInsights/workspaces/application-digdir-prod-law"
+              ],
+              "resultFormat": "logs"
+            },
+            "datasource": {
+              "type": "grafana-azure-monitor-datasource",
+              "uid": "azure-monitor-oob"
+            },
+            "queryType": "Azure Log Analytics",
+            "refId": "A"
+          }
+        ],
+        "title": "Declaration",
+        "type": "gauge"
+      },
+      {
+        "datasource": {
+          "type": "grafana-azure-monitor-datasource",
+          "uid": "azure-monitor-oob"
+        },
+        "fieldConfig": {
+          "defaults": {
+            "color": {
+              "mode": "thresholds"
+            },
+            "mappings": [],
+            "thresholds": {
+              "mode": "absolute",
+              "steps": [
+                {
+                  "color": "green",
+                  "value": null
+                },
+                {
+                  "color": "red",
+                  "value": 80
+                }
+              ]
+            }
+          },
+          "overrides": []
+        },
+        "gridPos": {
+          "h": 4,
+          "w": 2,
+          "x": 8,
+          "y": 14
+        },
+        "id": 2,
+        "options": {
+          "minVizHeight": 75,
+          "minVizWidth": 75,
+          "orientation": "auto",
+          "reduceOptions": {
+            "calcs": [
+              "sum"
+            ],
+            "fields": "",
+            "values": false
+          },
+          "showThresholdLabels": false,
+          "showThresholdMarkers": true,
+          "sizing": "auto"
+        },
+        "pluginVersion": "10.4.15",
+        "targets": [
+          {
+            "azureLogAnalytics": {
+              "dashboardTime": false,
+              "query": "let times = range TimeGenerated from $__timeFrom() to $__timeTo() step 5m;\r\nAppExceptions\r\n| where AppRoleName contains \"feedpoller\"\r\n      and SeverityLevel > 2\r\n      and TimeGenerated >= $__timeFrom() and TimeGenerated <= $__timeTo()\r\n| summarize Exceptions = count() by bin(TimeGenerated, 5m), AppRoleName\r\n| join kind=rightouter (\r\n    times\r\n) on TimeGenerated\r\n| project TimeGenerated, AppRoleName = coalesce(AppRoleName, \"feedpoller\"), Exceptions = coalesce(Exceptions, 0)\r\n| order by TimeGenerated asc\r\n",
+              "resources": [
+                "/subscriptions/0f05e9d4-592b-491a-b9da-49a8b242d0c5/resourceGroups/altinn-digdir-oed-rg/providers/Microsoft.OperationalInsights/workspaces/altinn-digdir-oed-law"
+              ],
+              "resultFormat": "time_series"
+            },
+            "datasource": {
+              "type": "grafana-azure-monitor-datasource",
+              "uid": "azure-monitor-oob"
+            },
+            "queryType": "Azure Log Analytics",
+            "refId": "A"
+          }
+        ],
+        "title": "Feedpoller",
+        "type": "gauge"
+      }
+    ],
+    "refresh": "10s",
+    "schemaVersion": 39,
+    "tags": [],
+    "templating": {
+      "list": []
+    },
+    "time": {
+      "from": "now-6h",
+      "to": "now"
+    },
+    "timepicker": {},
+    "timezone": "browser",
+    "title": "Exceptions & Alerts",
+    "uid": "aehsg7sms17ggf",
+    "version": 12,
+    "weekStart": ""
+  }
