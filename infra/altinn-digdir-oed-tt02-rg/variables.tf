@@ -36,7 +36,32 @@ variable "digdir_kv_sp_object_id" {
 }
 variable "digdir_altinn3_law_id" {
   type = string
+  description = "Id'n til den felles law resursen som altinn3 apper bruker"
 }
 variable "support_email" {
   type = string
+  description = "epost adresse til en dedikert slack kanal, som alarmer sendes til"
+}
+variable "ip_whitelist" {
+  type = list(string)
+  description = "Liste over ip adresser som skal ha tilgang til resurser"
+  validation {
+    condition     = alltrue([for ip in var.ip_whitelist : can(regex("^\\d+\\.\\d+\\.\\d+\\.\\d+(\\/\\d+)?$", ip))])
+    error_message = "Alle elementer i ip_whitelist må være gyldige IPv4-adresser med optional CIDR."
+  }
+}
+
+variable "slack_webhook_url" {
+  type      = string
+  sensitive = true
+}
+
+variable "law_resources" {
+  description = "List of Log Analytics Workspace ARM IDs"
+  type        = list(string)
+}
+
+variable "ai_resources" {
+  description = "List of Application Insights ARM IDs"
+  type        = list(string)
 }

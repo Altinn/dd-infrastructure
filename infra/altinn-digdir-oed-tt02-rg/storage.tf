@@ -8,10 +8,11 @@ resource "azurerm_storage_account" "sa" {
   blob_properties {
     versioning_enabled = false
   }
-  #network_rules {
-  #default_action             = "Deny"
-  #virtual_network_subnet_ids = [azurerm_subnet.default.id]
-  #}
+  network_rules {
+    default_action              = "Deny"
+    ip_rules                    = var.ip_whitelist
+    virtual_network_subnet_ids  = [azurerm_subnet.default.id]
+  }
   tags = {
     costcenter = "altinn3"
     service    = "oed"
@@ -33,7 +34,7 @@ resource "azurerm_postgresql_flexible_server" "psql" {
   backup_retention_days         = 7
   location                      = var.alt_location
   name                          = "oed-${var.environment}-authz-pg"
-  public_network_access_enabled = true
+  public_network_access_enabled = false
   resource_group_name           = azurerm_resource_group.rg.name
   sku_name                      = "B_Standard_B1ms"
   version                       = "14"
@@ -59,6 +60,14 @@ resource "azurerm_postgresql_flexible_server_database" "oedauthz" {
   server_id = azurerm_postgresql_flexible_server.psql.id
   collation = "en_US.utf8"
   charset   = "utf8"
+}
+
+resource "azurerm_postgresql_flexible_server_firewall_rule" "allow_ips" {
+  for_each = toset(var.ip_whitelist)
+  server_id           = psql.id
+  name                = "Allow-${each.key}"
+  start_ip_address    = each.value
+  end_ip_address      = each.value
 }
 
 

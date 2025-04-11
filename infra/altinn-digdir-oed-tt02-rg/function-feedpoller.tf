@@ -48,5 +48,8 @@ resource "azurerm_windows_function_app" "feedpoller" {
       allowed_origins     = ["https://portal.azure.com"]
       support_credentials = false
     }
+    scm_ip_restriction {
+      ip_address = var.ip_whitelist
+    }
   }
 }
