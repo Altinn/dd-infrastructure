@@ -136,11 +136,11 @@ resource "azurerm_redis_firewall_rule" "cidr_rules" {
 
 #Legge til authz
 resource "azurerm_redis_firewall_rule" "cidr_rules_authz" {
-  for_each = toset(split(",", azurerm_app_service.authz.outbound_ip_addresses))
+  for_each = toset(split(",", azurerm_windows_web_app.authz.outbound_ip_addresses))
 
   name                = "Allow_App_${replace(each.key, ".", "_")}"
-  redis_cache_name    = azurerm_redis_cache.cache
-  resource_group_name = azurerm_resource_group.cache.resource_group_name
+  redis_cache_name    = azurerm_redis_cache.cache.name
+  resource_group_name = azurerm_redis_cache.cache.resource_group_name
   start_ip            = each.key
   end_ip              = each.key
 }
@@ -148,8 +148,8 @@ resource "azurerm_redis_firewall_rule" "cidr_rules_authz" {
 #Legge til feedpoller
 resource "azurerm_redis_firewall_rule" "cidr_rules_feedpoller" {
   name                = "Allow_App_Feedpoller"
-  redis_cache_name    = azurerm_redis_cache.cache
-  resource_group_name = azurerm_resource_group.cache.resource_group_name
-  start_ip            = azurerm_nat_gateway.public_ip.ip_address
-  end_ip              = azurerm_nat_gateway.public_ip.ip_address
+  redis_cache_name    = azurerm_redis_cache.cache.name
+  resource_group_name = azurerm_redis_cache.cache.resource_group_name
+  start_ip            = azurerm_public_ip.pip.ip_address
+  end_ip              = azurerm_public_ip.pip.ip_address
 }
