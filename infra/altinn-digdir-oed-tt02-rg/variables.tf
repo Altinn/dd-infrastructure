@@ -41,10 +41,10 @@ variable "support_email" {
   type = string
 }
 variable "aks_cdir" {
-  type = string
+  type    = string
   default = "AKS clusters outbound cdir address"
 }
 variable "okern_office_cdir" {
-  type = string
+  type    = string
   default = "Økern office outbound cdir address"
 }
