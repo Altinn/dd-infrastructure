@@ -127,7 +127,7 @@ locals {
 resource "azurerm_redis_firewall_rule" "cidr_rules" {
   for_each = local.redis_ip_ranges
 
-  name                = "Allow_${each.key}"
+  name                = "Allow_AKS_${each.key}"
   redis_cache_name    = azurerm_redis_cache.cache.name
   resource_group_name = azurerm_redis_cache.cache.resource_group_name
   start_ip            = each.value.start
@@ -138,7 +138,7 @@ resource "azurerm_redis_firewall_rule" "cidr_rules" {
 resource "azurerm_redis_firewall_rule" "cidr_rules_authz" {
   for_each = toset(split(",", azurerm_windows_web_app.authz.outbound_ip_addresses))
 
-  name                = "Allow_App_${replace(each.key, ".", "_")}"
+  name                = "Allow_Authz_${replace(each.key, ".", "_")}"
   redis_cache_name    = azurerm_redis_cache.cache.name
   resource_group_name = azurerm_redis_cache.cache.resource_group_name
   start_ip            = each.key
@@ -147,7 +147,7 @@ resource "azurerm_redis_firewall_rule" "cidr_rules_authz" {
 
 #Legge til feedpoller
 resource "azurerm_redis_firewall_rule" "cidr_rules_feedpoller" {
-  name                = "Allow_App_Feedpoller"
+  name                = "Allow_Feedpoller"
   redis_cache_name    = azurerm_redis_cache.cache.name
   resource_group_name = azurerm_redis_cache.cache.resource_group_name
   start_ip            = azurerm_public_ip.pip.ip_address
