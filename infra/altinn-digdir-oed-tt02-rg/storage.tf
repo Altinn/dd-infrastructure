@@ -146,7 +146,7 @@ resource "azurerm_redis_firewall_rule" "cidr_rules_authz" {
 }
 
 #Legge til feedpoller
-resource "azurerm_redis_firewall_rule" "cidr_rules_authz" {
+resource "azurerm_redis_firewall_rule" "cidr_rules_feedpoller" {
   name                = "Allow_App_Feedpoller"
   redis_cache_name    = azurerm_redis_cache.cache
   resource_group_name = azurerm_resource_group.cache.resource_group_name
