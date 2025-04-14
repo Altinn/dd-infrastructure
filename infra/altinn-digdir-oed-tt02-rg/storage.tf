@@ -108,3 +108,28 @@ resource "azurerm_redis_cache" "cache" {
   family              = "C"
   sku_name            = "Basic"
 }
+
+locals {
+  # 👉 Legg inn dine CIDR-blokker her
+  redis_allowed_cidrs = [
+    var.aks_cdir
+  ]
+
+  redis_ip_ranges = {
+    for cidr in local.redis_allowed_cidrs :
+    replace(replace(cidr, ".", "_"), "/", "_") => {
+      start = cidrhost(cidr, 0)
+      end   = cidrhost(cidr, pow(2, 32 - tonumber(split("/", cidr)[1])) - 1)
+    }
+  }
+}
+
+resource "azurerm_redis_firewall_rule" "cidr_rules" {
+  for_each = local.redis_ip_ranges
+
+  name                = "Allow_${each.key}"
+  redis_cache_name    = azurerm_redis_cache.cache.name
+  resource_group_name = azurerm_redis_cache.cache.resource_group_name
+  start_ip            = each.value.start
+  end_ip              = each.value.end
+}
