@@ -7,10 +7,12 @@ resource "azurerm_storage_account" "sa" {
   blob_properties {
     versioning_enabled = true
   }
-  #network_rules {
-  #default_action             = "Deny"
-  #virtual_network_subnet_ids = [azurerm_subnet.default.id]
-  #}
+  network_rules {
+    default_action             = "Deny"
+    ip_rules                   = [var.aks_cdir, var.okern_office_cdir]
+    bypass                     = ["AzureServices"]
+    virtual_network_subnet_ids = [azurerm_subnet.default.id]
+  }
   tags = {
     costcenter = "altinn3"
     service    = "oed"
@@ -53,6 +55,35 @@ resource "azurerm_postgresql_flexible_server" "psql" {
     start_hour   = "1"
     start_minute = "4"
   }
+}
+
+# CIDR-blokker som tillates
+locals {
+  allowed_cidrs = [
+    var.aks_cdir,
+    var.okern_office_cdir
+  ]
+}
+
+# Beregn start og slutt for hver CIDR
+locals {
+  ip_ranges = {
+    for cidr in local.allowed_cidrs :
+    cidr => {
+      start_ip = cidrhost(cidr, 0)
+      end_ip   = cidrhost(cidr, pow(2, 32 - tonumber(split("/", cidr)[1])) - 1)
+    }
+  }
+}
+
+# Lag én firewall rule per CIDR-blokk
+resource "azurerm_postgresql_flexible_server_firewall_rule" "cidr_rules" {
+  server_id = azurerm_postgresql_flexible_server.psql.id
+  for_each  = local.ip_ranges
+
+  name             = "Allow_${replace(replace(each.key, ".", "_"), "/", "_")}"
+  start_ip_address = each.value.start_ip
+  end_ip_address   = each.value.end_ip
 }
 
 resource "azurerm_postgresql_flexible_server_database" "oedauthz" {
