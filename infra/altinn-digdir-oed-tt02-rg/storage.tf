@@ -73,11 +73,11 @@ locals {
 # Lag én firewall rule per CIDR-blokk
 resource "azurerm_postgresql_flexible_server_firewall_rule" "cidr_rules" {
   server_id = azurerm_postgresql_flexible_server.psql.id
-  for_each = local.ip_ranges
+  for_each  = local.ip_ranges
 
-  name                = "Allow_${replace(each.key, "/", "_")}"
-  start_ip_address    = each.value.start_ip
-  end_ip_address      = each.value.end_ip
+  name             = "Allow_${replace(each.key, "/", "_")}"
+  start_ip_address = each.value.start_ip
+  end_ip_address   = each.value.end_ip
 }
 
 import {
