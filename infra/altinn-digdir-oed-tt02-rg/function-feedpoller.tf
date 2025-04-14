@@ -47,12 +47,12 @@ resource "azurerm_windows_function_app" "feedpoller" {
       # Kommasepparert liste over cdir eller ip adresser
       name = "AKS cluster"
       ip_address =  var.aks_cdir
-      action = "allow" 
+      action = "Allow" 
     }
     ip_restriction {
       name = "Okern office"
       ip_address =  var.okern_office_cdir
-      action = "allow"
+      action = "Allow"
     }
 
     application_stack {
