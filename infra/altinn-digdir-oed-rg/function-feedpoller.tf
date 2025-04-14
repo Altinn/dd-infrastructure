@@ -39,7 +39,21 @@ resource "azurerm_windows_function_app" "feedpoller" {
     ftps_state                             = "FtpsOnly"
     remote_debugging_enabled               = false
     vnet_route_all_enabled                 = true
-    use_32_bit_worker                      = false
+    use_32_bit_worker                      = false    
+
+    ip_restriction_default_action = "Deny"
+    ip_restriction {
+      # Kommasepparert liste over cdir eller ip adresser
+      name       = "AKS cluster"
+      ip_address = var.aks_cdir
+      action     = "Allow"
+    }
+    ip_restriction {
+      name       = "Okern office"
+      ip_address = var.okern_office_cdir
+      action     = "Allow"
+    }
+
     application_stack {
       dotnet_version = "v6.0"
     }
