@@ -109,23 +109,8 @@ resource "azurerm_redis_cache" "cache" {
   sku_name            = "Basic"
 }
 
-locals {
-  # 👉 Legg inn dine CIDR-blokker her
-  redis_allowed_cidrs = [
-    var.aks_cdir
-  ]
-
-  redis_ip_ranges = {
-    for cidr in local.redis_allowed_cidrs :
-    replace(replace(cidr, ".", "_"), "/", "_") => {
-      start = cidrhost(cidr, 0)
-      end   = cidrhost(cidr, pow(2, 32 - tonumber(split("/", cidr)[1])) - 1)
-    }
-  }
-}
-
 resource "azurerm_redis_firewall_rule" "cidr_rules" {
-  for_each = local.redis_ip_ranges
+  for_each = local.whitelist_start_stop
 
   name                = "Allow_AKS_${each.key}"
   redis_cache_name    = azurerm_redis_cache.cache.name
@@ -136,7 +121,7 @@ resource "azurerm_redis_firewall_rule" "cidr_rules" {
 
 #Legge til authz
 resource "azurerm_redis_firewall_rule" "cidr_rules_authz" {
-  for_each = toset(split(",", azurerm_windows_web_app.authz.outbound_ip_addresses))
+  for_each = whitelist_authz_comma
 
   name                = "Allow_Authz_${replace(each.key, ".", "_")}"
   redis_cache_name    = azurerm_redis_cache.cache.name
@@ -150,6 +135,6 @@ resource "azurerm_redis_firewall_rule" "cidr_rules_feedpoller" {
   name                = "Allow_Feedpoller"
   redis_cache_name    = azurerm_redis_cache.cache.name
   resource_group_name = azurerm_redis_cache.cache.resource_group_name
-  start_ip            = azurerm_public_ip.pip.ip_address
-  end_ip              = azurerm_public_ip.pip.ip_address
+  start_ip            = locals.whitelist_feedpoller_pip
+  end_ip              = locals.whitelist_feedpoller_pip
 }

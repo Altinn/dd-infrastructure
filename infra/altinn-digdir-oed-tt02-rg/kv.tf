@@ -1,3 +1,4 @@
+
 resource "azurerm_key_vault" "kv" {
   name                     = "oed-kv"
   location                 = azurerm_resource_group.rg.location
@@ -8,6 +9,12 @@ resource "azurerm_key_vault" "kv" {
   tags = {
     "costcenter" = "altinn3"
     "solution"   = "apps"
+  }
+  network_acls {
+    default_action = "Deny"
+    bypass = ["AzureServices"]
+    ip_rules = local.whitelist_all_comma
+    virtual_network_subnet_ids = azurerm_subnet.default
   }
 }
 
