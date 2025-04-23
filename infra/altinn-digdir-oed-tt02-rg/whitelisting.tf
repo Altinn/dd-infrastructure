@@ -1,16 +1,8 @@
 locals {
-  # 👉 Legg inn dine CIDR-blokker her  
+  # 👉 Legg inn dine CIDR-blokker her
   allowed_cidrs = [
     var.aks_cdir
   ]
-  #Array med start og end adresse/konvertering av cdir - start -stop ip
-  whitelist_start_stop = {
-    for cidr in local.allowed_cidrs :
-    replace(replace(cidr, ".", "_"), "/", "_") => {
-      start = cidrhost(cidr, 0)
-      end   = cidrhost(cidr, pow(2, 32 - tonumber(split("/", cidr)[1])) - 1)
-    }
-  }
 
   # 🚦 Skiller mellom CIDR og enkel IP (de uten "/")
   individual_ips = [
@@ -39,6 +31,23 @@ locals {
   whitelist_authz_array = toset(split(",", azurerm_windows_web_app.authz.outbound_ip_addresses))
 
   whitelist_all_array = concat(split(",", locals.whitelist_authz_comma),whitelist_feedpoller_pip,whitelist_array)
-  
-  whitelist_all_comma = split(",", whitelist_all_array)  
+
+  whitelist_all_comma = split(",", whitelist_all_array)
+
+  whitelist_start_stop = merge(
+    {
+      for cidr in local.allowed_cidrs :
+      replace(replace(cidr, ".", "_"), "/", "_") => {
+        start = cidrhost(cidr, 0)
+        end   = cidrhost(cidr, pow(2, 32 - tonumber(split("/", cidr)[1])) - 1)
+      }
+    },
+    {
+      for ip in whitelist_authz_array :
+      replace(ip, ".", "_") => {
+        start = ip
+        end   = ip
+      }
+    }
+  )
 }
