@@ -11,9 +11,9 @@ resource "azurerm_key_vault" "kv" {
     "solution"   = "apps"
   }
   network_acls {
-    default_action = "Deny"
-    bypass = ["AzureServices"]
-    ip_rules = local.whitelist_all_comma
+    default_action             = "Deny"
+    bypass                     = ["AzureServices"]
+    ip_rules                   = local.whitelist_all_comma
     virtual_network_subnet_ids = azurerm_subnet.default
   }
 }

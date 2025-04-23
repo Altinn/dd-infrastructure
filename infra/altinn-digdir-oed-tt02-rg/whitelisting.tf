@@ -19,7 +19,7 @@ locals {
   cidr_ips = flatten([
     for cidr in local.cidr_blocks : [
       for i in range(pow(2, 32 - tonumber(split("/", cidr)[1]))) :
-        cidrhost(cidr, i)
+      cidrhost(cidr, i)
     ]
   ])
 
@@ -27,9 +27,9 @@ locals {
   whitelist_array = concat(local.individual_ips, local.cidr_ips)
 
   whitelist_feedpoller_pip = azurerm_public_ip.pip.ip_address
-  whitelist_authz_array = toset(split(",", azurerm_windows_web_app.authz.outbound_ip_addresses))
+  whitelist_authz_array    = toset(split(",", azurerm_windows_web_app.authz.outbound_ip_addresses))
 
-  whitelist_all_comma = concat(split(",", local.whitelist_array),split(",", local.whitelist_authz_array), local.whitelist_feedpoller_pip)
+  whitelist_all_comma = concat(split(",", local.whitelist_array), split(",", local.whitelist_authz_array), local.whitelist_feedpoller_pip)
   whitelist_all_array = concat(split(",", locals.whitelist_authz_comma), local.whitelist_feedpoller_pip, local.whitelist_array)
 
   whitelist_start_stop = merge(

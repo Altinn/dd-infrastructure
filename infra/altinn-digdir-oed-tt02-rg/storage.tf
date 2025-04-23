@@ -53,8 +53,8 @@ resource "azurerm_postgresql_flexible_server" "psql" {
 
 # Lag én firewall rule per CIDR-blokk
 resource "azurerm_postgresql_flexible_server_firewall_rule" "postgres_whitelist_rules" {
-  server_id = azurerm_postgresql_flexible_server.psql.id
-  for_each  = local.whitelist_start_stop
+  server_id        = azurerm_postgresql_flexible_server.psql.id
+  for_each         = local.whitelist_start_stop
   name             = "Allow_${replace(replace(each.key, ".", "_"), "/", "_")}"
   start_ip_address = each.value.start_ip
   end_ip_address   = each.value.end_ip
