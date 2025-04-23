@@ -27,6 +27,7 @@ locals {
   whitelist_array = concat(local.individual_ips, local.cidr_ips)
 
   whitelist_feedpoller_pip = azurerm_public_ip.pip.ip_address
+  whitelist_authz_comma    = split(",", azurerm_windows_web_app.authz.outbound_ip_addresses)
   whitelist_authz_array    = toset(split(",", azurerm_windows_web_app.authz.outbound_ip_addresses))
 
   whitelist_all_comma = concat(split(",", local.whitelist_array), split(",", local.whitelist_authz_array), local.whitelist_feedpoller_pip)
