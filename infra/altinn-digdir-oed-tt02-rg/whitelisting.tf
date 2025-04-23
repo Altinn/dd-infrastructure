@@ -23,16 +23,14 @@ locals {
     ]
   ])
 
-  # 📦 Full liste over alle individuelle IP-er
+  # 📦 Full liste over alle individuelle AKS IP-er
   whitelist_array = concat(local.individual_ips, local.cidr_ips)
 
   whitelist_feedpoller_pip = azurerm_public_ip.pip.ip_address
-
   whitelist_authz_array = toset(split(",", azurerm_windows_web_app.authz.outbound_ip_addresses))
 
-  whitelist_all_array = concat(split(",", locals.whitelist_authz_comma),whitelist_feedpoller_pip,whitelist_array)
-
-  whitelist_all_comma = split(",", whitelist_all_array)
+  whitelist_all_comma = concat(split(",", local.whitelist_array),split(",", local.whitelist_authz_array), local.whitelist_feedpoller_pip)
+  whitelist_all_array = concat(split(",", locals.whitelist_authz_comma), local.whitelist_feedpoller_pip, local.whitelist_array)
 
   whitelist_start_stop = merge(
     {

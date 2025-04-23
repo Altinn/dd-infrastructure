@@ -101,7 +101,7 @@ resource "azurerm_redis_firewall_rule" "cidr_rules" {
 
 #Legge til authz
 resource "azurerm_redis_firewall_rule" "cidr_rules_authz" {
-  for_each = whitelist_authz_comma
+  for_each = local.whitelist_authz_array
 
   name                = "Allow_Authz_${replace(each.key, ".", "_")}"
   redis_cache_name    = azurerm_redis_cache.cache.name
@@ -115,6 +115,6 @@ resource "azurerm_redis_firewall_rule" "cidr_rules_feedpoller" {
   name                = "Allow_Feedpoller"
   redis_cache_name    = azurerm_redis_cache.cache.name
   resource_group_name = azurerm_redis_cache.cache.resource_group_name
-  start_ip            = locals.whitelist_feedpoller_pip
-  end_ip              = locals.whitelist_feedpoller_pip
+  start_ip            = azurerm_public_ip.pip.ip_address
+  end_ip              = azurerm_public_ip.pip.ip_address
 }
