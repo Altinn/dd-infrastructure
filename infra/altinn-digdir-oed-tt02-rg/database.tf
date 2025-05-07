@@ -14,21 +14,20 @@ resource "azurerm_postgresql_flexible_server" "pg" {
   resource_group_name    = azurerm_resource_group.rg.name
   administrator_login    = "pgadmin"
   administrator_password = random_password.dd_admin_password.result
-  version                = "15"
-  sku_name               = "B1ms"
+  version                = "16"
+  sku_name               = "B_Standard_B1ms"
   storage_mb             = 32768
+  backup_retention_days  = 35
 
   authentication {
     password_auth_enabled = true
   }
 
   high_availability {
-    mode = "Disabled"
+    mode = "SameZone"
   }
 
   public_network_access_enabled = true
-
-  zone = "1"
 }
 
 resource "azurerm_postgresql_flexible_server_database" "db" {
