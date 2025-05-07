@@ -39,11 +39,11 @@ resource "azurerm_postgresql_flexible_server_database" "db" {
   collation = "en_US.utf8"
 }
 
-locals{
-    app_user = {
-        name     = "appuser"
-        password = random_password.dd_user_password.result
-    }
+locals {
+  app_user = {
+    name     = "appuser"
+    password = random_password.dd_user_password.result
+  }
 }
 
 resource "null_resource" "execute_az_cli" {
@@ -53,7 +53,7 @@ resource "null_resource" "execute_az_cli" {
       pwsh -Command "\$sqlCommand = \"CREATE USER ${local.app_user.name} WITH PASSWORD '${local.app_user.password}'\"; az postgres flexible-server execute -n ${azurerm_postgresql_flexible_server.pg.name} -u ${azurerm_postgresql_flexible_server.pg.administrator_login} -p '${random_password.dd_admin_password}' -d '${azurerm_postgresql_flexible_server_database.db.name}' -q \$sqlCommand --output table"
     EOT
   }
-  depends_on = [ azurerm_postgresql_flexible_server.pg, azurerm_postgresql_flexible_server_database.db ]
+  depends_on = [azurerm_postgresql_flexible_server.pg, azurerm_postgresql_flexible_server_database.db]
 }
 
 # Key Vault-oppsett
