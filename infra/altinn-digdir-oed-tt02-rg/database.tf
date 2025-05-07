@@ -70,6 +70,6 @@ resource "azurerm_key_vault_secret" "admin_conn_string" {
 
 resource "azurerm_key_vault_secret" "user_conn_string" {
   name         = "dd-pguser-connection-string"
-  value        = "Server=${azurerm_postgresql_flexible_server.pg.fqdn};Username=${azurerm_postgresql_flexible_server_role.app_user.name};Database=${azurerm_postgresql_flexible_server_database.db.name};Port=5432;Password=${random_password.dd_user_password.result};SSLMode=Prefer"
+  value        = "Server=${azurerm_postgresql_flexible_server.pg.fqdn};Username=${local.app_user.name};Database=${azurerm_postgresql_flexible_server_database.db.name};Port=5432;Password=${local.app_user.password};SSLMode=Prefer"
   key_vault_id = data.azurerm_key_vault.digdir_kv.id
 }
