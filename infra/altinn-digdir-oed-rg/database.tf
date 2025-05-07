@@ -18,18 +18,19 @@ resource "azurerm_postgresql_flexible_server" "pg" {
   sku_name               = "B_Standard_B1ms"
   storage_mb             = 32768
   backup_retention_days  = 35
+  auto_grow_enabled             = true
+  public_network_access_enabled = true
 
   authentication {
     active_directory_auth_enabled = true
     password_auth_enabled         = true
     tenant_id                     = var.tenant_id
   }
-
-  high_availability {
-    mode = "SameZone"
+   maintenance_window {
+    day_of_week  = "2"
+    start_hour   = "1"
+    start_minute = "4"
   }
-
-  public_network_access_enabled = true
 }
 
 resource "azurerm_postgresql_flexible_server_database" "db" {

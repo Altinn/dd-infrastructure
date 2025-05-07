@@ -9,27 +9,27 @@ resource "random_password" "dd_user_password" {
 }
 
 resource "azurerm_postgresql_flexible_server" "pg" {
-  name                   = "dd-${var.environment}-pg"
-  location               = azurerm_resource_group.rg.location
-  resource_group_name    = azurerm_resource_group.rg.name
-  administrator_login    = "pgadmin"
-  administrator_password = random_password.dd_admin_password.result
-  version                = "16"
-  sku_name               = "B_Standard_B1ms"
-  storage_mb             = 32768
-  backup_retention_days  = 35
+  name                          = "dd-${var.environment}-pg"
+  location                      = azurerm_resource_group.rg.location
+  resource_group_name           = azurerm_resource_group.rg.name
+  administrator_login           = "pgadmin"
+  administrator_password        = random_password.dd_admin_password.result
+  version                       = "16"
+  sku_name                      = "B_Standard_B1ms"
+  storage_mb                    = 32768
+  backup_retention_days         = 7
+  auto_grow_enabled             = false
+  public_network_access_enabled = true
 
   authentication {
     active_directory_auth_enabled = true
     password_auth_enabled         = true
     tenant_id                     = var.tenant_id
   }
-
-  high_availability {
-    mode = "SameZone"
+  tags = {
+    "costcenter" = "altinn3"
+    "solution"   = "apps"
   }
-
-  public_network_access_enabled = true
 }
 
 resource "azurerm_postgresql_flexible_server_database" "db" {
