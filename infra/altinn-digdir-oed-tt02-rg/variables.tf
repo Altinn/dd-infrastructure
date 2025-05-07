@@ -40,3 +40,9 @@ variable "digdir_altinn3_law_id" {
 variable "support_email" {
   type = string
 }
+variable "altinn_apps_digdir_kv_name" {
+  type = string
+}
+variable "altinn_apps_digdir_rg_name" {
+  type = string
+}
