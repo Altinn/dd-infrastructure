@@ -14,3 +14,4 @@ digdir_altinn3_law_id      = "/subscriptions/7b6f8f15-3a3e-43a2-b6ac-8eb6c06ad10
 support_email              = "digitalt-dodsbo-test-aaaapwt4zc7waueeb6s5s6j2qi@digdir.slack.com"
 altinn_apps_digdir_kv_name = "digdir-tt02-apps-kv"
 altinn_apps_digdir_rg_name = "altinnapps-digdir-tt02-rg"
+github_action_oid          = "b59ab7b9-db38-4bd3-8614-e6d10ad70b11"
