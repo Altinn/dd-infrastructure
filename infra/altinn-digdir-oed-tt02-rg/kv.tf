@@ -23,12 +23,11 @@ resource "azurerm_key_vault_access_policy" "digdir_kv_sp" {
 
 #access til github action brukeren for dd-infrastructure
 resource "azurerm_key_vault_access_policy" "github_access" {
-  key_vault_id = azurerm_key_vault.kv.id
-
-  tenant_id = var.tenant_id         # Fra iss=
-  object_id = var.github_action_oid # oid=
-
-  secret_permissions      = ["Get", "Set", "List"]
-  key_permissions         = ["Get", "Set", "List"]
-  certificate_permissions = ["Get", "Set", "List"]
+  depends_on              = [azurerm_key_vault.kv]
+  key_vault_id            = azurerm_key_vault.kv.id
+  tenant_id               = var.tenant_id
+  object_id               = var.github_action_oid
+  key_permissions         = ["Get", "Create", "List"]
+  secret_permissions      = ["Get", "Create", "List"]
+  certificate_permissions = ["Get", "Create", "List"]
 }
