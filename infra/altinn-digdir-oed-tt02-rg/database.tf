@@ -51,27 +51,10 @@ locals {
   }
 }
 
-resource "null_resource" "execute_az_cli" {
-  provisioner "local-exec" {
-    command = <<-EOT
-      az postgres flexible-server connect -n ${azurerm_postgresql_flexible_server.pg.name} -u '${azurerm_postgresql_flexible_server.pg.administrator_login}' -p '${random_password.dd_admin_password.result}' -d azurerm_postgresql_flexible_server_database.db.name
-      pwsh -Command "\$sqlCommand = \"CREATE USER '${local.app_user.name}' WITH PASSWORD '${local.app_user.password}'\"; az postgres flexible-server execute -n ${azurerm_postgresql_flexible_server.pg.name} -u ${azurerm_postgresql_flexible_server.pg.administrator_login} -p '${random_password.dd_admin_password.result}' -d '${azurerm_postgresql_flexible_server_database.db.name}' -q \$sqlCommand --output table"
-    EOT
-  }
-  depends_on = [azurerm_postgresql_flexible_server.pg, azurerm_postgresql_flexible_server_database.db]
-}
-
-# Key Vault-oppsett
-#data "azurerm_key_vault" "digdir_kv" {
-#  name                = var.altinn_apps_digdir_kv_name
-#  resource_group_name = var.altinn_apps_digdir_rg_name
-#}
-
 #Har ikke tilgang til a3 aps kv, så connstringen legges i oed-kv og må flyttes manuelt
 resource "azurerm_key_vault_secret" "admin_conn_string" {
   name  = "dd-pgadmin-connection-string"
   value = "Server=${azurerm_postgresql_flexible_server.pg.fqdn};Username=${azurerm_postgresql_flexible_server.pg.administrator_login};Database=${azurerm_postgresql_flexible_server_database.db.name};Port=5432;Password=${random_password.dd_admin_password.result};SSLMode=Prefer"
-  #key_vault_id = data.azurerm_key_vault.digdir_kv.id
   key_vault_id = azurerm_key_vault.kv.id
 }
 
