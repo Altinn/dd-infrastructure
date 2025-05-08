@@ -27,7 +27,7 @@ resource "azurerm_key_vault_access_policy" "github_access" {
   key_vault_id            = azurerm_key_vault.kv.id
   tenant_id               = var.tenant_id
   object_id               = var.github_action_oid
-  key_permissions         = ["Get", "Create", "List"]
-  secret_permissions      = ["Get", "Create", "List"]
-  certificate_permissions = ["Get", "Create", "List"]
+  key_permissions         = ["Get", "Create", "List", "Delete"]
+  secret_permissions      = ["Get", "Set", "List", "Delete"]
+  certificate_permissions = ["Get", "Create", "List", "Delete"]
 }
