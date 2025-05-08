@@ -9,6 +9,11 @@ resource "random_password" "dd_user_password" {
 }
 
 resource "azurerm_postgresql_flexible_server" "pg" {
+  lifecycle {
+    ignore_changes = [
+      zone
+    ]
+  }
   name                          = "dd-${var.environment}-pg"
   location                      = azurerm_resource_group.rg.location
   resource_group_name           = azurerm_resource_group.rg.name
