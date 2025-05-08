@@ -55,8 +55,8 @@ locals {
 resource "null_resource" "execute_az_cli" {
   provisioner "local-exec" {
     command = <<-EOT
-      az postgres flexible-server connect -n ${azurerm_postgresql_flexible_server.pg.name} -u ${azurerm_postgresql_flexible_server.pg.administrator_login} -p ${random_password.dd_admin_password.result} -d azurerm_postgresql_flexible_server_database.db.name
-      pwsh -Command "\$sqlCommand = \"CREATE USER ${local.app_user.name} WITH PASSWORD '${local.app_user.password}'\"; az postgres flexible-server execute -n ${azurerm_postgresql_flexible_server.pg.name} -u ${azurerm_postgresql_flexible_server.pg.administrator_login} -p '${random_password.dd_admin_password.result}' -d '${azurerm_postgresql_flexible_server_database.db.name}' -q \$sqlCommand --output table"
+      az postgres flexible-server connect -n ${azurerm_postgresql_flexible_server.pg.name} -u '${azurerm_postgresql_flexible_server.pg.administrator_login}' -p '${random_password.dd_admin_password.result}' -d azurerm_postgresql_flexible_server_database.db.name
+      pwsh -Command "\$sqlCommand = \"CREATE USER '${local.app_user.name}' WITH PASSWORD '${local.app_user.password}'\"; az postgres flexible-server execute -n ${azurerm_postgresql_flexible_server.pg.name} -u '${azurerm_postgresql_flexible_server.pg.administrator_login}' -p '${random_password.dd_admin_password.result}' -d '${azurerm_postgresql_flexible_server_database.db.name}' -q \$sqlCommand --output table"
     EOT
   }
   depends_on = [azurerm_postgresql_flexible_server.pg, azurerm_postgresql_flexible_server_database.db]
