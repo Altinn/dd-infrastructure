@@ -35,11 +35,15 @@ resource "azurerm_postgresql_flexible_server" "pg" {
     day_of_week  = "2"
     start_hour   = "1"
     start_minute = "4"
+  }  
+  tags = {
+    "costcenter" = "altinn3"
+    "solution"   = "apps"
   }
 }
 
-resource "azurerm_postgresql_flexible_server_database" "db" {
-  name      = "dd-${var.environment}-pg-db"
+resource "azurerm_postgresql_flexible_server_database" "oed_db" {
+  name      = "dd-oed-${var.environment}-pg-db"
   server_id = azurerm_postgresql_flexible_server.pg.id
   charset   = "UTF8"
   collation = "en_US.utf8"
@@ -60,7 +64,7 @@ resource "azurerm_key_vault_secret" "admin_conn_string" {
 }
 
 resource "azurerm_key_vault_secret" "user_conn_string" {
-  name         = "dd-pguser-connection-string"
+  name         = "OedConfig--Postgres--ConnectionString"
   value        = "Server=${azurerm_postgresql_flexible_server.pg.fqdn};Username=${local.app_user.name};Database=${azurerm_postgresql_flexible_server_database.db.name};Port=5432;Password='${local.app_user.password}';SSLMode=Prefer"
   key_vault_id = azurerm_key_vault.kv.id
 }
