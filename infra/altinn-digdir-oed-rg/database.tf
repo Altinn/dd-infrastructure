@@ -35,7 +35,7 @@ resource "azurerm_postgresql_flexible_server" "pg" {
     day_of_week  = "2"
     start_hour   = "1"
     start_minute = "4"
-  }  
+  }
   tags = {
     "costcenter" = "altinn3"
     "solution"   = "apps"
@@ -59,12 +59,12 @@ locals {
 #Har ikke tilgang til a3 aps kv, så connstringen legges i oed-kv og må flyttes manuelt
 resource "azurerm_key_vault_secret" "admin_conn_string" {
   name         = "dd-pgadmin-connection-string"
-  value        = "Server=${azurerm_postgresql_flexible_server.pg.fqdn};Username=${azurerm_postgresql_flexible_server.pg.administrator_login};Database=${azurerm_postgresql_flexible_server_database.db.name};Port=5432;Password='${random_password.dd_admin_password.result}';SSLMode=Prefer"
+  value        = "Server=${azurerm_postgresql_flexible_server.pg.fqdn};Username=${azurerm_postgresql_flexible_server.pg.administrator_login};Database=${azurerm_postgresql_flexible_server_database.oed_db.name};Port=5432;Password='${random_password.dd_admin_password.result}';SSLMode=Prefer"
   key_vault_id = azurerm_key_vault.kv.id
 }
 
 resource "azurerm_key_vault_secret" "user_conn_string" {
   name         = "OedConfig--Postgres--ConnectionString"
-  value        = "Server=${azurerm_postgresql_flexible_server.pg.fqdn};Username=${local.app_user.name};Database=${azurerm_postgresql_flexible_server_database.db.name};Port=5432;Password='${local.app_user.password}';SSLMode=Prefer"
+  value        = "Server=${azurerm_postgresql_flexible_server.pg.fqdn};Username=${local.app_user.name};Database=${azurerm_postgresql_flexible_server_database.oed_db.name};Port=5432;Password='${local.app_user.password}';SSLMode=Prefer"
   key_vault_id = azurerm_key_vault.kv.id
 }
