@@ -1,8 +1,14 @@
 resource "azurerm_servicebus_namespace" "dd_sb_ns" {
-  name                = "dd-${var.environment}-sb"
+  name                = "dd-${var.environment}-sbn"
   location            = azurerm_resource_group.rg.location
   resource_group_name = azurerm_resource_group.rg.name
   sku                 = "Standard"
+  minimum_tls_version = "1.3"
+  
+   tags = {
+    costcenter = "altinn3"
+    solution   = "apps"
+  } 
 }
 
 resource "azurerm_servicebus_topic" "dd_events" {
