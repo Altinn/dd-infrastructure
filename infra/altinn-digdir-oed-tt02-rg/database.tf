@@ -67,7 +67,7 @@ resource "azurerm_key_vault_secret" "user_conn_string" {
 locals {
   # splitter "outbound_ip_addresses" (komma-separert streng) til liste
   authz_ips = split(",", azurerm_windows_web_app.authz.outbound_ip_addresses)  
-  feedpoller_ips    = split(",", azurerm_function_app.feedpoller.outbound_ip_addresses)
+  feedpoller_ips    = split(",", azurerm_windows_function_app.feedpoller.outbound_ip_addresses)
 
   # bygg en liste av objekter med navn og IP
   dynamic_whitelist = flatten([
