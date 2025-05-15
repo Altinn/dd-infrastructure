@@ -71,8 +71,8 @@ resource "azurerm_key_vault_secret" "user_conn_string" {
 
 locals {
   # splitter "outbound_ip_addresses" (komma-separert streng) til liste
-  authz_ips = split(",", azurerm_windows_web_app.authz.outbound_ip_addresses)  
-  feedpoller_ips    = split(",", azurerm_windows_function_app.feedpoller.outbound_ip_addresses)
+  authz_ips      = split(",", azurerm_windows_web_app.authz.outbound_ip_addresses)
+  feedpoller_ips = [azurerm_public_ip.pip.ip_address]
 
   # bygg en liste av objekter med navn og IP
   dynamic_whitelist = flatten([
@@ -96,11 +96,11 @@ locals {
 }
 
 resource "azurerm_postgresql_flexible_server_firewall_rule" "whitelist" {
-  depends_on = [ local.whitelist_map ]
-  for_each = local.whitelist_map
+  depends_on = [local.whitelist_map]
+  for_each   = local.whitelist_map
 
-  name                = each.key
-  server_id = azurerm_postgresql_flexible_server.pg.id  
-  start_ip_address    = each.value.start_ip
-  end_ip_address      = each.value.end_ip
+  name             = each.key
+  server_id        = azurerm_postgresql_flexible_server.pg.id
+  start_ip_address = each.value.start_ip
+  end_ip_address   = each.value.end_ip
 }

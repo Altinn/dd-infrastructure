@@ -15,14 +15,14 @@ altinn_apps_digdir_kv_name = "digdir-prod-apps-kv"
 altinn_apps_digdir_rg_name = "altinnapps-digdir-prod-rg"
 github_action_oid          = "b59ab7b9-db38-4bd3-8614-e6d10ad70b11"
 static_whitelist = [
-    {
-      name     = "Oekern_office"
-      start_ip = "78.41.45.0"
-      end_ip   = "78.41.45.0"
-    },
-    {
-      name     = "aks"
-      start_ip = "20.251.5.58"
-      end_ip   = "20.251.5.59"
-    }
-  ]
+  {
+    name     = "Oekern_office"
+    start_ip = "78.41.45.0"
+    end_ip   = "78.41.45.0"
+  },
+  {
+    name     = "aks"
+    start_ip = "20.251.5.58"
+    end_ip   = "20.251.5.59"
+  }
+]
