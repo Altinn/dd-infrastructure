@@ -36,8 +36,8 @@ data "azuread_service_principal" "aks_identity" {
 
 # Gi full topic/subscription access til felles principal fra AKS
 resource "azurerm_role_assignment" "sb_aks_principal_ra" {
-  depends_on = [data.azuread_service_principal.aks_identity]
+  depends_on = [azuread_service_principal.aks_identity]
   scope                = azurerm_servicebus_namespace.dd_sb_ns.id
   role_definition_name = "Azure Service Bus Data Owner"
-  principal_id         = azuread_service_principal.aks_identity.object_id
+  principal_id         = data.azuread_service_principal.aks_sp.object_id
 }
