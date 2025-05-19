@@ -28,6 +28,6 @@ resource "azurerm_key_vault_access_policy" "github_access" {
   tenant_id               = var.tenant_id
   object_id               = var.github_action_oid
   key_permissions         = ["Get", "Create", "List", "Delete"]
-  secret_permissions      = ["Get", "Set", "List", "Delete"]
+  secret_permissions      = ["Get", "Set", "List", "Delete", "Purge"]
   certificate_permissions = ["Get", "Create", "List", "Delete"]
 }
