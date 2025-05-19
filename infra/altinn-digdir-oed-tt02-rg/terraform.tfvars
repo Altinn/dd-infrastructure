@@ -23,7 +23,7 @@ static_whitelist = [
   },
   {
     name     = "aks"
-    start_ip = "20.100.24.184"
-    end_ip   = "20.100.24.185"
+    start_ip = "51.13.16.142"
+    end_ip   = "51.13.16.143"
   }
 ]
