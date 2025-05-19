@@ -30,9 +30,14 @@ resource "azurerm_role_assignment" "sb_feedpoller_ra" {
   principal_id         = azurerm_windows_function_app.feedpoller.identity[0].principal_id
 }
 
+data "azuread_service_principal" "aks_identity" {
+  client_id = var.digdir_kv_sp_object_id
+}
+
 # Gi full topic/subscription access til felles principal fra AKS
 resource "azurerm_role_assignment" "sb_aks_principal_ra" {
+  depends_on = [data.azuread_service_principal.aks_identity]
   scope                = azurerm_servicebus_namespace.dd_sb_ns.id
   role_definition_name = "Azure Service Bus Data Owner"
-  principal_id         = var.digdir_kv_sp_object_id
+  principal_id         = azuread_service_principal.aks_identity.object_id
 }
