@@ -9,13 +9,6 @@ resource "azurerm_servicebus_namespace" "dd_sb_ns" {
   }
 }
 
-# Gi full topic/subscription access til testapp
-resource "azurerm_role_assignment" "sb_testapp_ra" {
-  scope                = azurerm_servicebus_namespace.dd_sb_ns.id
-  role_definition_name = "Azure Service Bus Data Owner"
-  principal_id         = azurerm_windows_web_app.testapp.identity[0].principal_id
-}
-
 # Gi full topic/subscription access til authz
 resource "azurerm_role_assignment" "sb_authz_ra" {
   scope                = azurerm_servicebus_namespace.dd_sb_ns.id
