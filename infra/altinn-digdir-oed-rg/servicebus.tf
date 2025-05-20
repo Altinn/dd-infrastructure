@@ -11,7 +11,7 @@ resource "azurerm_servicebus_namespace" "dd_sb_ns" {
     default_action                = "Deny"
     public_network_access_enabled = true
     trusted_services_allowed      = true
-    ip_rules                      = whitelist_array
+    ip_rules                      = local.whitelist_array
   }
 }
 
