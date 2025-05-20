@@ -57,3 +57,7 @@ variable "static_whitelist" {
     end_ip   = string
   }))
 }
+variable "a3_sp_app_oid" {
+  description = "Digdir A3 app principal object id"
+  type = string
+}
