@@ -30,8 +30,7 @@ resource "azurerm_role_assignment" "sb_feedpoller_ra" {
 }
 
 data "azuread_application" "kv_sp" {
-  object_id = var.a3_sp_app_oid
-  #display_name = "digdir-tt02-kv-sp"
+  display_name = var.a3_sp_app_name
 }
 
 resource "azurerm_role_assignment" "sb_aks_ra" {
