@@ -9,24 +9,6 @@ resource "azurerm_servicebus_namespace" "dd_sb_ns" {
   }
 }
 
-resource "azurerm_servicebus_namespace_network_rule_set" "sb_whitelist" {
-  name                = azurerm_servicebus_namespace.dd_sb_ns.name
-  namespace_name      = azurerm_servicebus_namespace.dd_sb_ns.name
-  resource_group_name = azurerm_servicebus_namespace.dd_sb_ns.resource_group_name
-
-  default_action = "Deny"
-
-  ip_rule {
-    for_each = local.whitelist_map_pg
-
-    name      = each.value.name
-    ip_mask   = each.value.start_ip
-  }
-
-  trusted_services_allowed = true
-}
-
-
 # Gi full topic/subscription access til testapp
 resource "azurerm_role_assignment" "sb_testapp_ra" {
   scope                = azurerm_servicebus_namespace.dd_sb_ns.id
