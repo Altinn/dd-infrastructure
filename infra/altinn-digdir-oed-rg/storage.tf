@@ -62,6 +62,16 @@ resource "azurerm_postgresql_flexible_server_database" "oedauthz" {
   charset   = "utf8"
 }
 
+resource "azurerm_postgresql_flexible_server_firewall_rule" "authz_whitelist" {
+  depends_on = [local.whitelist_map_pg]
+  for_each   = local.whitelist_map_pg
+
+  name             = each.key
+  server_id        = azurerm_postgresql_flexible_server.psql.id
+  start_ip_address = each.value.start_ip
+  end_ip_address   = each.value.end_ip
+}
+
 resource "azurerm_key_vault_secret" "psql_connect" {
   for_each     = toset(["Secrets--PostgreSqlAdminConnectionString", "Secrets--PostgreSqlUserConnectionString"])
   name         = each.key
