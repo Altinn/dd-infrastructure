@@ -35,3 +35,14 @@ resource "azurerm_role_assignment" "sb_feedpoller_ra" {
   role_definition_name = "Azure Service Bus Data Owner"
   principal_id         = azurerm_windows_function_app.feedpoller.identity[0].principal_id
 }
+
+data "azuread_application" "kv_sp" {
+  object_id = "624533ce-2ca8-47a9-886d-6e667defc442"
+  #display_name = "digdir-tt02-kv-sp"
+}
+
+resource "azurerm_role_assignment" "sb_aks_ra" {
+  scope                = azurerm_servicebus_namespace.dd_sb_ns.id
+  role_definition_name = "Azure Service Bus Data Owner"
+  principal_id         = data.azuread_application.kv_sp.object_id
+}
