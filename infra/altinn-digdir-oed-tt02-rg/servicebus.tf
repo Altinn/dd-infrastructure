@@ -9,6 +9,24 @@ resource "azurerm_servicebus_namespace" "dd_sb_ns" {
   }
 }
 
+resource "azurerm_servicebus_namespace_network_rule_set" "sb_whitelist" {
+  name                = azurerm_servicebus_namespace.dd_sb_ns.name
+  namespace_name      = azurerm_servicebus_namespace.dd_sb_ns.name
+  resource_group_name = azurerm_servicebus_namespace.dd_sb_ns.resource_group_name
+
+  default_action = "Deny"
+
+  ip_rule {
+    for_each = local.whitelist_map_pg
+
+    name      = each.value.name
+    ip_mask   = each.value.start_ip
+  }
+
+  trusted_services_allowed = true
+}
+
+
 # Gi full topic/subscription access til testapp
 resource "azurerm_role_assignment" "sb_testapp_ra" {
   scope                = azurerm_servicebus_namespace.dd_sb_ns.id
@@ -28,11 +46,4 @@ resource "azurerm_role_assignment" "sb_feedpoller_ra" {
   scope                = azurerm_servicebus_namespace.dd_sb_ns.id
   role_definition_name = "Azure Service Bus Data Owner"
   principal_id         = azurerm_windows_function_app.feedpoller.identity[0].principal_id
-}
-
-# Gi full topic/subscription access til aks a3 apps
-resource "azurerm_role_assignment" "sb_aks_ra" {
-  scope                = azurerm_servicebus_namespace.dd_sb_ns.id
-  role_definition_name = "Azure Service Bus Data Owner"
-  principal_id         = var.digdir_kv_sp_object_id
 }
