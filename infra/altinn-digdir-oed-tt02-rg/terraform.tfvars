@@ -27,3 +27,4 @@ static_whitelist = [
     end_ip   = "51.13.16.143"
   }
 ]
+a3_sp_app_name = "digdir-tt02-kv-sp"

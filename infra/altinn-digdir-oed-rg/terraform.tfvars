@@ -26,3 +26,4 @@ static_whitelist = [
     end_ip   = "20.251.5.59"
   }
 ]
+a3_sp_app_oid = ""

@@ -24,4 +24,7 @@ locals {
 
   # lag map for for_each
   whitelist_map_pg = { for rule in local.all_whitelist : rule.name => rule }
+
+  # eks. ["10.0.0.1","10.0.0.1",.....]
+  whitelist_array = [for rule in local.all_whitelist : rule.start_ip]
 }
