@@ -56,5 +56,5 @@ variable "static_whitelist" {
 }
 variable "a3_sp_app_name" {
   description = "Digdir A3 app principal object name"
-  type = string
+  type        = string
 }
