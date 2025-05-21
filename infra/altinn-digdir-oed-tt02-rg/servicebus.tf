@@ -40,12 +40,12 @@ data "azuread_application" "kv_sp" {
   display_name = var.a3_sp_app_name
 }
 
-resource "azuread_service_principal" "aks_sp" {
-  client_id = data.azuread_application.kv_sp.client_id
+data "azuread_service_principal" "aks_sp" {
+  client_id = data.azuread_application.kv_sp.client_id  
 }
 
 resource "azurerm_role_assignment" "sb_aks_ra" {
   scope                = azurerm_servicebus_namespace.dd_sb_ns.id
   role_definition_name = "Azure Service Bus Data Owner"
-  principal_id         = azuread_service_principal.aks_sp.object_id
+  principal_id         = data.azuread_service_principal.aks_sp.object_id
 }
