@@ -41,7 +41,7 @@ data "azuread_application" "kv_sp" {
 }
 
 data "azuread_service_principal" "aks_sp" {
-  client_id = data.azuread_application.kv_sp.client_id  
+  client_id = data.azuread_application.kv_sp.client_id
 }
 
 resource "azurerm_role_assignment" "sb_aks_ra" {
