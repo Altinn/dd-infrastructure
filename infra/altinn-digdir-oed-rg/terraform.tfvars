@@ -22,8 +22,8 @@ static_whitelist = [
   },
   {
     name     = "aks"
-    start_ip = "20.251.5.58"
-    end_ip   = "20.251.5.59"
+    start_ip = "20.100.24.184"
+    end_ip   = "20.100.24.185"
   }
 ]
 a3_sp_app_name = "digdir-prod-kv-sp"
