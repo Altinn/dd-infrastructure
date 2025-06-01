@@ -26,6 +26,7 @@ resource "azurerm_postgresql_flexible_server" "psql" {
       high_availability,
       administrator_password
     ]
+    prevent_destroy = true
   }
   administrator_login = "oed${var.environment}pgadmin"
   #administrator_password        = random_password.psql_oedpgadmin.result
