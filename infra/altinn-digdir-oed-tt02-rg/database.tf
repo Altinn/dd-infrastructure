@@ -13,6 +13,7 @@ resource "azurerm_postgresql_flexible_server" "pg" {
     ignore_changes = [
       zone
     ]
+    prevent_destroy = true
   }
   name                          = "dd-${var.environment}-pg"
   location                      = azurerm_resource_group.rg.location
@@ -20,7 +21,7 @@ resource "azurerm_postgresql_flexible_server" "pg" {
   administrator_login           = "pgadmin"
   administrator_password        = random_password.dd_admin_password.result
   version                       = "16"
-  sku_name                      = "B_Standard_B1ms"
+  sku_name                      = "B_Standard_B2ms"
   storage_mb                    = 32768
   backup_retention_days         = 7
   auto_grow_enabled             = false
