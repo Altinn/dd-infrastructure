@@ -12,7 +12,7 @@ resource "azurerm_linux_web_app" "admin_app" {
   resource_group_name = azurerm_resource_group.rg.name
   service_plan_id     = azurerm_service_plan.admin_asp.id
   https_only          = true
-  
+
   app_settings = {
     "APPINSIGHTS_INSTRUMENTATIONKEY"             = azurerm_application_insights.adminapp_ai.instrumentation_key
     "APPLICATIONINSIGHTS_CONNECTION_STRING"      = azurerm_application_insights.adminapp_ai.connection_string
