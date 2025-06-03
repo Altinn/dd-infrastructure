@@ -1,7 +1,13 @@
+data "azurerm_client_config" "current" {}
+
+data "azuread_group" "developers" {
+  display_name = var.admin_app_user_groupname
+}
+
 resource "azurerm_app_service_plan" "admin_asp" {
-  name                = "ASP-altinn-digdir-dd-admin-${var.environment}"
-  location            = rg.location
-  resource_group_name = rg.name
+  name                = "ASP altinndigdir-dd-${var.environment}-admin"
+  location            = azurerm_resource_group.rg.location
+  resource_group_name = azurerm_resource_group.rg.name
   kind                = "Linux"
   reserved            = true
 
@@ -11,52 +17,15 @@ resource "azurerm_app_service_plan" "admin_asp" {
   }
 }
 
-resource "azuread_application" "dd_admin" {
-  display_name = "dd-admin"
-
-  web {
-    redirect_uris = [
-      "https://${var.app_service_hostname}/.auth/login/aad/callback"
-    ]
-
-    implicit_grant {
-      id_token_issuance_enabled = true
-      access_token_issuance_enabled = false
-    }
-  }
-
-  optional_claims {
-    id {
-      name     = "groups"
-      essential = false
-    }
-  }
-
-  api {
-    requested_access_token_version = 2
-  }
-}
-
-# App Service bruker denne ID-en
-output "aad_client_id" {
-  value = azuread_application.dd_admin.client_id
-}
-
-resource "azurerm_linux_web_app" "admin_wa" {
+resource "azurerm_linux_web_app" "admin_app" {
   name                = "dd-${var.environment}-admin-app"
-  location            = rg.location
-  resource_group_name = rg.name
-  https_only          = true
+  location            = azurerm_resource_group.rg.location
+  resource_group_name = azurerm_resource_group.rg.name
   service_plan_id     = azurerm_app_service_plan.admin_asp.id
 
-
   site_config {
-    linux_fx_version = "DOTNETCORE|8.0"
-    minimum_tls_version = "1.3"
-    ftps_state = "FtpsOnly"  # Kreves for publish profile
-    application_stack{
-      dotnet_version = "9.0"
-    }
+    always_on        = false
+    linux_fx_version = "DOTNETCORE|9.0" # Juster til korrekt runtime
   }
 
   identity {
@@ -64,15 +33,14 @@ resource "azurerm_linux_web_app" "admin_wa" {
   }
 
   auth_settings_v2 {
-    auth_enabled           = true
-    require_authentication = true
-    unauthenticated_action = "RedirectToLoginPage"
-    default_provider       = "azure_active_directory"
+    auth_enabled            = true
+    require_authentication  = true
+    default_provider        = "azureactivedirectory"
 
     active_directory_v2 {
-      client_id             = var.aad_client_id
-      tenant_auth_endpoint  = "https://login.microsoftonline.com/${var.tenant_id}/v2.0"
-      allowed_audiences     = [var.aad_client_id]
+      client_id           = data.azurerm_client_config.current.client_id
+      tenant_auth_endpoint = "https://login.microsoftonline.com/${var.tenant_id}/v2.0/"
+      allowed_groups = [data.azuread_group.developers.display_name]
     }
 
     login {
@@ -80,18 +48,14 @@ resource "azurerm_linux_web_app" "admin_wa" {
     }
   }
 
-  tags = {
-    costcenter = "altinn3"
-    service    = "oed"
-    solution   = "apps"
-  }
+  https_only = true
 }
 
 resource "azurerm_key_vault_access_policy" "dd_admin_read_secrets" {
-  depends_on = [ azurerm_linux_web_app.admin_wa ]
+  depends_on = [ azurerm_linux_web_app.admin_app ]
   key_vault_id = azurerm_key_vault.kv.id
-  tenant_id    = azurerm_linux_web_app.admin_wa.identity[0].tenant_id
-  object_id    = azurerm_linux_web_app.admin_wa.identity[0].principal_id
+  tenant_id    = azurerm_linux_web_app.admin_app.identity[0].tenant_id
+  object_id    = azurerm_linux_web_app.admin_app.identity[0].principal_id
 
   secret_permissions = [
     "Get",

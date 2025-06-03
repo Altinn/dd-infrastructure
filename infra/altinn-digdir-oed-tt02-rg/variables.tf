@@ -49,3 +49,6 @@ variable "altinn_apps_digdir_rg_name" {
 variable "github_action_oid" {
   type = string
 }
+variable "admin_app_user_groupname" {
+  type = string
+}

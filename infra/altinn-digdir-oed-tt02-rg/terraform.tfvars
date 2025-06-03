@@ -15,3 +15,4 @@ support_email              = "digitalt-dodsbo-test-aaaapwt4zc7waueeb6s5s6j2qi@di
 altinn_apps_digdir_kv_name = "digdir-tt02-apps-kv"
 altinn_apps_digdir_rg_name = "altinnapps-digdir-tt02-rg"
 github_action_oid          = "b59ab7b9-db38-4bd3-8614-e6d10ad70b11"
+admin_app_user_groupname   = "altinn-digdir-oed-tt02-rg"
