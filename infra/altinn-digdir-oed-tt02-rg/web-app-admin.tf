@@ -1,9 +1,5 @@
-data "azuread_group" "developers" {
-  display_name = var.admin_app_user_groupname
-}
-
 resource "azurerm_service_plan" "admin_asp" {
-  name                = "ASP altinndigdir-dd-${var.environment}-admin"
+  name                = "asp-altinndigdir-dd-${var.environment}-admin"
   location            = azurerm_resource_group.rg.location
   resource_group_name = azurerm_resource_group.rg.name
   os_type             = "Linux"
@@ -16,11 +12,19 @@ resource "azurerm_linux_web_app" "admin_app" {
   resource_group_name = azurerm_resource_group.rg.name
   service_plan_id     = azurerm_service_plan.admin_asp.id
   https_only          = true
+  
+  app_settings = {
+    "APPINSIGHTS_INSTRUMENTATIONKEY"             = azurerm_application_insights.adminapp_ai.instrumentation_key
+    "APPLICATIONINSIGHTS_CONNECTION_STRING"      = azurerm_application_insights.adminapp_ai.connection_string
+    "ApplicationInsightsAgent_EXTENSION_VERSION" = "~3"
+  }
+
   tags = {
 
     "costcenter" = "altinn3"
     "solution"   = "apps"
   }
+
   site_config {
     application_stack {
       dotnet_version = "9.0"
@@ -40,7 +44,7 @@ resource "azurerm_linux_web_app" "admin_app" {
     active_directory_v2 {
       client_id            = data.azurerm_client_config.current.client_id
       tenant_auth_endpoint = "https://login.microsoftonline.com/${var.tenant_id}/v2.0/"
-      allowed_groups       = [data.azuread_group.developers.display_name]
+      allowed_groups       = [var.admin_app_user_group_id]
     }
 
     login {

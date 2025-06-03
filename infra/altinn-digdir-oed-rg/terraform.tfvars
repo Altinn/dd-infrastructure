@@ -14,6 +14,7 @@ support_email              = "digitalt-dodsbo-prod-aaaapupmzvtgp4ppcx7ggiaou4@di
 altinn_apps_digdir_kv_name = "digdir-prod-apps-kv"
 altinn_apps_digdir_rg_name = "altinnapps-digdir-prod-rg"
 github_action_oid          = "b59ab7b9-db38-4bd3-8614-e6d10ad70b11"
+admin_app_user_group_id    = "1d6f4be0-f9fb-4312-a4cb-82d5fdb07dcf"
 static_whitelist = [
   {
     name     = "Oekern_office"

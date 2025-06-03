@@ -49,7 +49,7 @@ variable "altinn_apps_digdir_rg_name" {
 variable "github_action_oid" {
   type = string
 }
-variable "admin_app_user_groupname" {
+variable "admin_app_user_group_id" {
   type = string
 }
 variable "static_whitelist" {
