@@ -1,5 +1,3 @@
-data "azurerm_client_config" "current" {}
-
 data "azuread_group" "developers" {
   display_name = var.admin_app_user_groupname
 }
