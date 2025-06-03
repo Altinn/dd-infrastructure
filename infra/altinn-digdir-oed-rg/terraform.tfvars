@@ -14,3 +14,16 @@ support_email              = "digitalt-dodsbo-prod-aaaapupmzvtgp4ppcx7ggiaou4@di
 altinn_apps_digdir_kv_name = "digdir-prod-apps-kv"
 altinn_apps_digdir_rg_name = "altinnapps-digdir-prod-rg"
 github_action_oid          = "b59ab7b9-db38-4bd3-8614-e6d10ad70b11"
+static_whitelist = [
+  {
+    name     = "Oekern_office"
+    start_ip = "78.41.45.0"
+    end_ip   = "78.41.45.0"
+  },
+  {
+    name     = "aks"
+    start_ip = "20.100.24.184"
+    end_ip   = "20.100.24.185"
+  }
+]
+a3_sp_app_name = "digdir-prod-kv-sp"

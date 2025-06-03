@@ -26,6 +26,7 @@ resource "azurerm_postgresql_flexible_server" "psql" {
       high_availability,
       administrator_password
     ]
+    prevent_destroy = true
   }
   administrator_login = "oed${var.environment}pgadmin"
   #administrator_password        = random_password.psql_oedpgadmin.result
@@ -61,13 +62,15 @@ resource "azurerm_postgresql_flexible_server_database" "oedauthz" {
   charset   = "utf8"
 }
 
+resource "azurerm_postgresql_flexible_server_firewall_rule" "authz_whitelist" {
+  depends_on = [local.whitelist_map_pg]
+  for_each   = local.whitelist_map_pg
 
-#resource "azurerm_key_vault_secret" "psql_connect" {
-#  for_each     = toset(["Secrets--PostgreSqlAdminConnectionString", "Secrets--PostgreSqlUserConnectionString"])
-#  name         = each.key
-#  value        = "Server=${azurerm_postgresql_flexible_server.psql.fqdn};Username=${azurerm_postgresql_flexible_server.psql.administrator_login};Database=oedauthz;Port=5432;Password=${random_password.psql_oedpgadmin.result};SSLMode=Prefer"
-#  key_vault_id = azurerm_key_vault.kv.id
-#}
+  name             = each.key
+  server_id        = azurerm_postgresql_flexible_server.psql.id
+  start_ip_address = each.value.start_ip
+  end_ip_address   = each.value.end_ip
+}
 
 resource "azurerm_redis_cache" "cache" {
   name                = "oed-${var.environment}-cache"

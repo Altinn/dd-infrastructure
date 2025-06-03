@@ -46,3 +46,15 @@ variable "altinn_apps_digdir_rg_name" {
 variable "github_action_oid" {
   type = string
 }
+variable "static_whitelist" {
+  description = "Liste med hardkodede IP-regler"
+  type = list(object({
+    name     = string
+    start_ip = string
+    end_ip   = string
+  }))
+}
+variable "a3_sp_app_name" {
+  description = "Digdir A3 app principal object name"
+  type        = string
+}

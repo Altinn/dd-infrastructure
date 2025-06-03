@@ -52,3 +52,15 @@ variable "github_action_oid" {
 variable "admin_app_user_groupname" {
   type = string
 }
+variable "static_whitelist" {
+  description = "Liste med hardkodede IP-regler"
+  type = list(object({
+    name     = string
+    start_ip = string
+    end_ip   = string
+  }))
+}
+variable "a3_sp_app_name" {
+  description = "Digdir A3 app principal object name"
+  type        = string
+}

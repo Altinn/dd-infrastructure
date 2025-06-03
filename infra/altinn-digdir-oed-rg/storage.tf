@@ -30,6 +30,7 @@ resource "azurerm_postgresql_flexible_server" "psql" {
       zone,
       high_availability[0].standby_availability_zone
     ]
+    prevent_destroy = true
   }
   administrator_login           = "oedpgadmin"
   administrator_password        = random_password.psql_oedpgadmin.result
@@ -39,7 +40,7 @@ resource "azurerm_postgresql_flexible_server" "psql" {
   name                          = "oed-authz-pg"
   public_network_access_enabled = true
   resource_group_name           = azurerm_resource_group.rg.name
-  sku_name                      = "B_Standard_B1ms"
+  sku_name                      = "GP_Standard_D2s_v3"
   version                       = "16"
 
   authentication {
@@ -60,6 +61,16 @@ resource "azurerm_postgresql_flexible_server_database" "oedauthz" {
   server_id = azurerm_postgresql_flexible_server.psql.id
   collation = "en_US.utf8"
   charset   = "utf8"
+}
+
+resource "azurerm_postgresql_flexible_server_firewall_rule" "authz_whitelist" {
+  depends_on = [local.whitelist_map_pg]
+  for_each   = local.whitelist_map_pg
+
+  name             = each.key
+  server_id        = azurerm_postgresql_flexible_server.psql.id
+  start_ip_address = each.value.start_ip
+  end_ip_address   = each.value.end_ip
 }
 
 resource "azurerm_key_vault_secret" "psql_connect" {

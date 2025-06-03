@@ -16,3 +16,16 @@ altinn_apps_digdir_kv_name = "digdir-tt02-apps-kv"
 altinn_apps_digdir_rg_name = "altinnapps-digdir-tt02-rg"
 github_action_oid          = "b59ab7b9-db38-4bd3-8614-e6d10ad70b11"
 admin_app_user_groupname   = "altinn-digdir-oed-tt02-rg"
+static_whitelist = [
+  {
+    name     = "Oekern_office"
+    start_ip = "78.41.45.0"
+    end_ip   = "78.41.45.0"
+  },
+  {
+    name     = "aks"
+    start_ip = "51.13.16.142"
+    end_ip   = "51.13.16.143"
+  }
+]
+a3_sp_app_name = "digdir-tt02-kv-sp"
