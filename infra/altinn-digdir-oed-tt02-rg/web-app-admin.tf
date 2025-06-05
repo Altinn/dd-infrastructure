@@ -38,18 +38,18 @@ resource "azurerm_linux_web_app" "admin_app" {
     type = "SystemAssigned"
   }
   auth_settings_v2 {
-    auth_enabled           = true
-    require_authentication = true
+    auth_enabled           = false
+    require_authentication = false
     default_provider       = "azureactivedirectory"
 
     active_directory_v2 {
       client_id            = data.azurerm_client_config.current.client_id
       tenant_auth_endpoint = "https://login.microsoftonline.com/${var.tenant_id}/v2.0/"
-      # allowed_groups       = [var.admin_app_user_group_id]
+      allowed_groups       = [var.admin_app_user_group_id]
     }
 
     login {
-      token_store_enabled = true
+      token_store_enabled = false
     }
   }
 }
