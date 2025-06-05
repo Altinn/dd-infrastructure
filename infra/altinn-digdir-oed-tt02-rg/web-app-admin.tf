@@ -37,21 +37,21 @@ resource "azurerm_linux_web_app" "admin_app" {
   identity {
     type = "SystemAssigned"
   }
-  # auth_settings_v2 {
-  #   auth_enabled           = true
-  #   require_authentication = true
-  #   default_provider       = "azureactivedirectory"
+  auth_settings_v2 {
+    auth_enabled           = true
+    require_authentication = true
+    default_provider       = "azureactivedirectory"
 
-  #   active_directory_v2 {
-  #     client_id            = data.azurerm_client_config.current.client_id
-  #     tenant_auth_endpoint = "https://login.microsoftonline.com/${var.tenant_id}/v2.0/"
-  #     allowed_groups       = [var.admin_app_user_group_id]
-  #   }
+    active_directory_v2 {
+      client_id            = data.azurerm_client_config.current.client_id
+      tenant_auth_endpoint = "https://login.microsoftonline.com/${var.tenant_id}/v2.0/"
+      # allowed_groups       = [var.admin_app_user_group_id]
+    }
 
-  #   login {
-  #     token_store_enabled = true
-  #   }
-  # }
+    login {
+      token_store_enabled = true
+    }
+  }
 }
 
 resource "azurerm_key_vault_access_policy" "dd_admin_read_secrets" {
