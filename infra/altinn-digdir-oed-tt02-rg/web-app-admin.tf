@@ -27,6 +27,7 @@ resource "azurerm_linux_web_app" "admin_app" {
   }
 
   site_config {
+    minimum_tls_version = "1.3"
     application_stack {
       dotnet_version = "9.0"
     }
@@ -36,10 +37,9 @@ resource "azurerm_linux_web_app" "admin_app" {
   identity {
     type = "SystemAssigned"
   }
-
   auth_settings_v2 {
-    auth_enabled           = true
-    require_authentication = true
+    auth_enabled           = false
+    require_authentication = false
     default_provider       = "azureactivedirectory"
 
     active_directory_v2 {
@@ -49,7 +49,7 @@ resource "azurerm_linux_web_app" "admin_app" {
     }
 
     login {
-      token_store_enabled = true
+      token_store_enabled = false
     }
   }
 }
