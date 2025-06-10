@@ -31,10 +31,19 @@ resource "azurerm_linux_web_app" "admin_app" {
     "MICROSOFT_PROVIDER_AUTHENTICATION_SECRET"   = data.azurerm_key_vault_secret.adminapp_client_secret.value
   }
 
+  sticky_settings {
+    app_setting_names       = ["MICROSOFT_PROVIDER_AUTHENTICATION_SECRET"]
+    connection_string_names = []    
+  }
+
   tags = {
 
     "costcenter" = "altinn3"
     "solution"   = "apps"
+    "hidden-link: /app-insights-conn-string" = azurerm_application_insights.adminapp_ai.connection_string
+    "hidden-link: /app-insights-instrumentation-key" = azurerm_application_insights.adminapp_ai.instrumentation_key
+    "hidden-link: /app-insights-resource-id"         = azurerm_application_insights.adminapp_ai.id
+
   }
 
   site_config {
@@ -49,8 +58,8 @@ resource "azurerm_linux_web_app" "admin_app" {
     type = "SystemAssigned"
   }
   auth_settings_v2 {
-    auth_enabled           = false
-    require_authentication = false
+    auth_enabled           = true
+    require_authentication = true
     unauthenticated_action = "Return403"
     default_provider       = "azureactivedirectory"
 
@@ -59,12 +68,12 @@ resource "azurerm_linux_web_app" "admin_app" {
       allowed_audiences          = ["api://${data.azuread_application.admin_app_application.client_id}"]
       client_id                  = data.azuread_application.admin_app_application.client_id
       client_secret_setting_name = "MICROSOFT_PROVIDER_AUTHENTICATION_SECRET"
-      tenant_auth_endpoint       = "https://login.microsoftonline.com/${var.tenant_id}/v2.0/"
+      tenant_auth_endpoint       = "https://sts.windows.net/${var.tenant_id}/v2.0/"
       allowed_groups             = [var.admin_app_user_group_id]
     }
 
     login {
-      token_store_enabled = false
+      token_store_enabled = true
     }
   }
 }
