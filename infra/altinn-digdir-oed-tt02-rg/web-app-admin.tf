@@ -33,14 +33,14 @@ resource "azurerm_linux_web_app" "admin_app" {
 
   sticky_settings {
     app_setting_names       = ["MICROSOFT_PROVIDER_AUTHENTICATION_SECRET"]
-    connection_string_names = []    
+    connection_string_names = []
   }
 
   tags = {
 
-    "costcenter" = "altinn3"
-    "solution"   = "apps"
-    "hidden-link: /app-insights-conn-string" = azurerm_application_insights.adminapp_ai.connection_string
+    "costcenter"                                     = "altinn3"
+    "solution"                                       = "apps"
+    "hidden-link: /app-insights-conn-string"         = azurerm_application_insights.adminapp_ai.connection_string
     "hidden-link: /app-insights-instrumentation-key" = azurerm_application_insights.adminapp_ai.instrumentation_key
     "hidden-link: /app-insights-resource-id"         = azurerm_application_insights.adminapp_ai.id
 
