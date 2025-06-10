@@ -1,4 +1,4 @@
-data "azurerm_key_vault_secret" "adminapp_client_secret"{
+data "azurerm_key_vault_secret" "adminapp_client_secret" {
   key_vault_id = azurerm_key_vault.kv.id
   name         = "DDAdminapp--ClientSecret"
 }
@@ -11,7 +11,7 @@ resource "azurerm_service_plan" "admin_asp" {
   sku_name            = "B1"
 }
 
-data "azuread_application" "admin_app_application"{
+data "azuread_application" "admin_app_application" {
   display_name = "dd-${var.environment}-admin-app"
 }
 
@@ -50,7 +50,7 @@ resource "azurerm_linux_web_app" "admin_app" {
   }
   auth_settings_v2 {
     auth_enabled           = false
-    require_authentication = false    
+    require_authentication = false
     unauthenticated_action = "Return403"
     default_provider       = "azureactivedirectory"
 
