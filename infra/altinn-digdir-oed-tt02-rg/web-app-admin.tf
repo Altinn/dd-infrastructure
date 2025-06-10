@@ -32,8 +32,7 @@ resource "azurerm_linux_web_app" "admin_app" {
   }
 
   sticky_settings {
-    app_setting_names       = ["MICROSOFT_PROVIDER_AUTHENTICATION_SECRET"]
-    connection_string_names = [""]
+    app_setting_names = ["MICROSOFT_PROVIDER_AUTHENTICATION_SECRET"]    
   }
 
   tags = {
