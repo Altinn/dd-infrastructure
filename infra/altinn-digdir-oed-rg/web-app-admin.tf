@@ -1,8 +1,12 @@
+locals {
+  app_hostname = "dd-${var.environment}-admin-app.azurewebsites.net"
+}
+
 resource "azuread_application" "admin_app_reg" {
   display_name = "dd-${var.environment}-admin-app"
   web {
     redirect_uris = [
-      "https://${azurerm_linux_web_app.admin_app.default_hostname}/.auth/login/aad/callback"
+      "https://${local.app_hostname}/.auth/login/aad/callback"
     ]
     implicit_grant {
       access_token_issuance_enabled = true
@@ -72,8 +76,8 @@ resource "azurerm_linux_web_app" "admin_app" {
   }
 
   auth_settings_v2 {
-    auth_enabled           = true
-    require_authentication = true
+    auth_enabled           = false
+    require_authentication = false
     default_provider       = "azureactivedirectory"
     unauthenticated_action = "RedirectToLoginPage"
     excluded_paths         = ["/health", "/swagger"]

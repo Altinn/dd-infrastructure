@@ -3,6 +3,7 @@
 locals {
   # splitter "outbound_ip_addresses" (komma-separert streng) til liste
   authz_ips      = split(",", azurerm_windows_web_app.authz.outbound_ip_addresses)
+  admin_ips      = split(",", azurerm_windows_web_app.admin_app.outbound_ip_addresses)
   feedpoller_ips = [azurerm_public_ip.pip.ip_address]
 
   # bygg en liste av objekter med navn og IP
@@ -17,6 +18,11 @@ locals {
       start_ip = ip
       end_ip   = ip
     }],
+    [for ip in local.admin_ips : {
+      name     = "admin-${replace(ip, ".", "-")}"
+      start_ip = ip
+      end_ip   = ip
+    }]
   ])
 
   # kombiner statisk + dynamisk
