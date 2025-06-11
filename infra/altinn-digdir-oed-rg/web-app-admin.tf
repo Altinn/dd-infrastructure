@@ -1,3 +1,28 @@
+resource "azuread_application" "admin_app" {
+  depends_on   = [azurerm_linux_web_app.admin_app]
+  display_name = "dd-${var.environment}-admin-app"
+  web {
+    redirect_uris = [
+      "https://${azurerm_linux_web_app.admin_app.default_hostname}/.auth/login/aad/callback"
+    ]
+    implicit_grant {
+      access_token_issuance_enabled = true
+      id_token_issuance_enabled     = true
+    }
+  }
+}
+
+resource "azuread_service_principal" "admin_app_sp" {
+  depends_on   = [azuread_application.admin_app]
+  client_id    = azuread_application.admin_app.application_id
+  display_name = azuread_application.admin_app.display_name
+}
+
+resource "azuread_application_password" "admin_app_secret" {
+  application_id = azuread_application.admin_app.id
+  display_name   = azuread_application.admin_app.display_name
+}
+
 resource "azurerm_service_plan" "admin_asp" {
   name                = "asp-altinndigdir-dd-${var.environment}-admin"
   location            = azurerm_resource_group.rg.location
@@ -18,6 +43,17 @@ resource "azurerm_linux_web_app" "admin_app" {
     "APPINSIGHTS_INSTRUMENTATIONKEY"             = azurerm_application_insights.adminapp_ai.instrumentation_key
     "APPLICATIONINSIGHTS_CONNECTION_STRING"      = azurerm_application_insights.adminapp_ai.connection_string
     "ApplicationInsightsAgent_EXTENSION_VERSION" = "~3"
+    "WEBSITE_AUTH_AAD_ALLOWED_TENANTS"           = var.tenant_id
+    "MICROSOFT_PROVIDER_AUTHENTICATION_SECRET"   = azuread_application_password.admin_app_secret.value
+  }
+
+  sticky_settings {
+    app_setting_names = [
+      "MICROSOFT_PROVIDER_AUTHENTICATION_SECRET",
+      "WEBSITE_AUTH_AAD_ALLOWED_TENANTS",
+      "APPINSIGHTS_INSTRUMENTATIONKEY",
+      "APPLICATIONINSIGHTS_CONNECTION_STRING"
+    ]
   }
 
   tags = {
@@ -41,11 +77,14 @@ resource "azurerm_linux_web_app" "admin_app" {
     auth_enabled           = true
     require_authentication = true
     default_provider       = "azureactivedirectory"
+    unauthenticated_action = "RedirectToLoginPage"
+    excluded_paths         = ["/health", "/swagger"]
 
     active_directory_v2 {
-      client_id            = data.azurerm_client_config.current.client_id
-      tenant_auth_endpoint = "https://login.microsoftonline.com/${var.tenant_id}/v2.0/"
-      allowed_groups       = [var.admin_app_user_group_id]
+      client_id                  = azuread_application.admin_app.client_id
+      tenant_auth_endpoint       = "https://login.microsoftonline.com/${var.tenant_id}/v2.0/"
+      client_secret_setting_name = "MICROSOFT_PROVIDER_AUTHENTICATION_SECRET"
+      allowed_groups             = [var.admin_app_user_group_id]
     }
 
     login {
