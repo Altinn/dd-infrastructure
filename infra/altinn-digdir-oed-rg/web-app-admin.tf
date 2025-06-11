@@ -16,7 +16,7 @@ resource "azuread_application" "admin_app_reg" {
 }
 
 resource "azuread_service_principal" "admin_app_sp" {
-  client_id    = azuread_application.admin_app_reg.application_id
+  client_id    = azuread_application.admin_app_reg.client_id
   display_name = azuread_application.admin_app_reg.display_name
 }
 

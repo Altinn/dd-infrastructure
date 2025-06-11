@@ -3,7 +3,7 @@
 locals {
   # splitter "outbound_ip_addresses" (komma-separert streng) til liste
   authz_ips      = split(",", azurerm_windows_web_app.authz.outbound_ip_addresses)
-  admin_ips      = split(",", azurerm_windows_web_app.admin_app.outbound_ip_addresses)
+  admin_ips      = split(",", azurerm_linux_web_app.admin_app.outbound_ip_addresses)
   feedpoller_ips = [azurerm_public_ip.pip.ip_address]
 
   # bygg en liste av objekter med navn og IP
