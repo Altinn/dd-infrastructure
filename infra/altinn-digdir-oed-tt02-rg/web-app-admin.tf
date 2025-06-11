@@ -57,8 +57,8 @@ resource "azurerm_linux_web_app" "admin_app" {
     type = "SystemAssigned"
   }
   auth_settings_v2 {
-    auth_enabled           = true
-    require_authentication = true
+    auth_enabled           = false
+    require_authentication = false
     unauthenticated_action = "Return403"
     default_provider       = "azureactivedirectory"
 

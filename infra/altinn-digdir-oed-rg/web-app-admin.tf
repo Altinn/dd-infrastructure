@@ -16,7 +16,7 @@ resource "azuread_application" "admin_app_reg" {
 }
 
 resource "azuread_service_principal" "admin_app_sp" {
-  client_id    = azuread_application.admin_app_reg.id
+  client_id = azuread_application.admin_app_reg.id
 }
 
 data "azuread_group" "oed_developers" {
@@ -69,8 +69,11 @@ resource "azurerm_linux_web_app" "admin_app" {
 
   tags = {
 
-    "costcenter" = "altinn3"
-    "solution"   = "apps"
+    "costcenter"                                     = "altinn3"
+    "solution"                                       = "apps"
+    "hidden-link: /app-insights-conn-string"         = azurerm_application_insights.adminapp_ai.connection_string
+    "hidden-link: /app-insights-instrumentation-key" = azurerm_application_insights.adminapp_ai.instrumentation_key
+    "hidden-link: /app-insights-resource-id"         = azurerm_application_insights.adminapp_ai.id
   }
 
   site_config {
@@ -85,8 +88,8 @@ resource "azurerm_linux_web_app" "admin_app" {
   }
 
   auth_settings_v2 {
-    auth_enabled           = false
-    require_authentication = false
+    auth_enabled           = true
+    require_authentication = true
     default_provider       = "azureactivedirectory"
     unauthenticated_action = "RedirectToLoginPage"
     excluded_paths         = ["/health", "/swagger"]
