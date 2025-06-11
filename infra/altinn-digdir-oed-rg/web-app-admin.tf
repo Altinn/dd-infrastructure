@@ -20,7 +20,7 @@ resource "azuread_service_principal" "admin_app_sp" {
 }
 
 data "azuread_group" "oed_developers" {
-  id = var.admin_app_user_group_id
+  object_id = var.admin_app_user_group_id
 }
 
 resource "azuread_app_role_assignment" "group_assignment" {
