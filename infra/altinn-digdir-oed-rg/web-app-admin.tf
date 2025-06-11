@@ -16,7 +16,17 @@ resource "azuread_application" "admin_app_reg" {
 }
 
 resource "azuread_service_principal" "admin_app_sp" {
-  client_id    = azuread_application.admin_app_reg.client_id
+  client_id    = azuread_application.admin_app_reg.id
+}
+
+data "azuread_group" "oed_developers" {
+  id = var.admin_app_user_group_id
+}
+
+resource "azuread_app_role_assignment" "group_assignment" {
+  principal_object_id = data.azuread_group.oed_developers.object_id
+  resource_object_id  = azuread_service_principal.admin_app_sp.object_id
+  app_role_id         = "00000000-0000-0000-0000-000000000000" # Default role
 }
 
 resource "azuread_application_password" "admin_app_secret" {
