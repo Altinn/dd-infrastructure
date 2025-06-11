@@ -1,4 +1,4 @@
-resource "azuread_application" "admin_app" {
+resource "azuread_application" "admin_app_reg" {
   display_name = "dd-${var.environment}-admin-app"
   web {
     redirect_uris = [
@@ -12,13 +12,13 @@ resource "azuread_application" "admin_app" {
 }
 
 resource "azuread_service_principal" "admin_app_sp" {
-  client_id    = azuread_application.admin_app.application_id
-  display_name = azuread_application.admin_app.display_name
+  client_id    = azuread_application.admin_app_reg.application_id
+  display_name = azuread_application.admin_app_reg.display_name
 }
 
 resource "azuread_application_password" "admin_app_secret" {
-  application_id = azuread_application.admin_app.id
-  display_name   = azuread_application.admin_app.display_name
+  application_id = azuread_application.admin_app_reg.id
+  display_name   = azuread_application.admin_app_reg.display_name
 }
 
 resource "azurerm_service_plan" "admin_asp" {
@@ -79,7 +79,7 @@ resource "azurerm_linux_web_app" "admin_app" {
     excluded_paths         = ["/health", "/swagger"]
 
     active_directory_v2 {
-      client_id                  = azuread_application.admin_app.client_id
+      client_id                  = azuread_application.admin_app_reg.client_id
       tenant_auth_endpoint       = "https://login.microsoftonline.com/${var.tenant_id}/v2.0/"
       client_secret_setting_name = "MICROSOFT_PROVIDER_AUTHENTICATION_SECRET"
       allowed_groups             = [var.admin_app_user_group_id]
