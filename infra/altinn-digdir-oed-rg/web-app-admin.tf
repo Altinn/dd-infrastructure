@@ -1,5 +1,4 @@
 resource "azuread_application" "admin_app" {
-  depends_on   = [azurerm_linux_web_app.admin_app]
   display_name = "dd-${var.environment}-admin-app"
   web {
     redirect_uris = [
@@ -13,7 +12,6 @@ resource "azuread_application" "admin_app" {
 }
 
 resource "azuread_service_principal" "admin_app_sp" {
-  depends_on   = [azuread_application.admin_app]
   client_id    = azuread_application.admin_app.application_id
   display_name = azuread_application.admin_app.display_name
 }
