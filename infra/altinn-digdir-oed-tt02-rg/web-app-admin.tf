@@ -2,27 +2,27 @@ locals {
   app_hostname = "dd-${var.environment}-admin-app.azurewebsites.net"
 }
 
-resource "azuread_application" "admin_app_reg" {
-  display_name = "dd-${var.environment}-admin-app"
-  web {
-    redirect_uris = [
-      "https://${local.app_hostname}/.auth/login/aad/callback"
-    ]
-    implicit_grant {
-      access_token_issuance_enabled = true
-      id_token_issuance_enabled     = true
-    }
-  }
-}
+# resource "azuread_application" "admin_app_reg" {
+#   display_name = "dd-${var.environment}-admin-app"
+#   web {
+#     redirect_uris = [
+#       "https://${local.app_hostname}/.auth/login/aad/callback"
+#     ]
+#     implicit_grant {
+#       access_token_issuance_enabled = true
+#       id_token_issuance_enabled     = true
+#     }
+#   }
+# }
 
-resource "azuread_service_principal" "admin_app_sp" {
-  client_id = azuread_application.admin_app_reg.id
-}
+# resource "azuread_service_principal" "admin_app_sp" {
+#   client_id = azuread_application.admin_app_reg.id
+# }
 
-resource "azuread_application_password" "admin_app_secret" {
-  application_id = azuread_application.admin_app_reg.id
-  display_name   = azuread_application.admin_app_reg.display_name
-}
+# resource "azuread_application_password" "admin_app_secret" {
+#   application_id = azuread_application.admin_app_reg.id
+#   display_name   = azuread_application.admin_app_reg.display_name
+# }
 
 resource "azurerm_service_plan" "admin_asp" {
   name                = "asp-altinndigdir-dd-${var.environment}-admin"
@@ -45,12 +45,12 @@ resource "azurerm_linux_web_app" "admin_app" {
     "APPLICATIONINSIGHTS_CONNECTION_STRING"      = azurerm_application_insights.adminapp_ai.connection_string
     "ApplicationInsightsAgent_EXTENSION_VERSION" = "~3"
     "WEBSITE_AUTH_AAD_ALLOWED_TENANTS"           = var.tenant_id
-    "MICROSOFT_PROVIDER_AUTHENTICATION_SECRET"   = azuread_application_password.admin_app_secret.value
+#    "MICROSOFT_PROVIDER_AUTHENTICATION_SECRET"   = azuread_application_password.admin_app_secret.value
   }
 
   sticky_settings {
     app_setting_names = [
-      "MICROSOFT_PROVIDER_AUTHENTICATION_SECRET",
+#      "MICROSOFT_PROVIDER_AUTHENTICATION_SECRET",
       "WEBSITE_AUTH_AAD_ALLOWED_TENANTS",
       "APPINSIGHTS_INSTRUMENTATIONKEY",
       "APPLICATIONINSIGHTS_CONNECTION_STRING"
@@ -78,24 +78,24 @@ resource "azurerm_linux_web_app" "admin_app" {
     type = "SystemAssigned"
   }
 
-  auth_settings_v2 {
-    auth_enabled           = true
-    require_authentication = true
-    default_provider       = "azureactivedirectory"
-    unauthenticated_action = "RedirectToLoginPage"
-    excluded_paths         = ["/health", "/swagger"]
+  # auth_settings_v2 {
+  #   auth_enabled           = true
+  #   require_authentication = true
+  #   default_provider       = "azureactivedirectory"
+  #   unauthenticated_action = "RedirectToLoginPage"
+  #   excluded_paths         = ["/health", "/swagger"]
 
-    active_directory_v2 {
-      client_id                  = azuread_application.admin_app_reg.client_id
-      tenant_auth_endpoint       = "https://login.microsoftonline.com/${var.tenant_id}/v2.0/"
-      client_secret_setting_name = "MICROSOFT_PROVIDER_AUTHENTICATION_SECRET"
-      allowed_groups             = [var.admin_app_user_group_id]
-    }
+  #   active_directory_v2 {
+  #     client_id                  = azuread_application.admin_app_reg.client_id
+  #     tenant_auth_endpoint       = "https://login.microsoftonline.com/${var.tenant_id}/v2.0/"
+  #     client_secret_setting_name = "MICROSOFT_PROVIDER_AUTHENTICATION_SECRET"
+  #     allowed_groups             = [var.admin_app_user_group_id]
+  #   }
 
-    login {
-      token_store_enabled = true
-    }
-  }
+  #   login {
+  #     token_store_enabled = true
+  #   }
+  # }
 }
 
 resource "azurerm_key_vault_access_policy" "dd_admin_read_secrets" {
