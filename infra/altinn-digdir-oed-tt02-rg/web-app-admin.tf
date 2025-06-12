@@ -41,6 +41,10 @@ resource "azurerm_linux_web_app" "admin_app" {
   https_only          = true
 
   app_settings = {
+    "DOTNET_ENVIRONMENT"                         = "Staging"
+    "ASPNETCORE_ENVIRONMENT"                		 = "Staging"
+    "ConnectionStrings__OedDb"              		 = "@Microsoft.KeyVault(VaultName=${azurerm_key_vault.kv.name};SecretName=OedConfig--Postgres--ConnectionString)"
+    "ConnectionStrings__OedAuthzDb"              = "@Microsoft.KeyVault(VaultName=${azurerm_key_vault.kv.name};SecretName=Secrets--PostgreSqlUserConnectionString)"
     "APPINSIGHTS_INSTRUMENTATIONKEY"             = azurerm_application_insights.adminapp_ai.instrumentation_key
     "APPLICATIONINSIGHTS_CONNECTION_STRING"      = azurerm_application_insights.adminapp_ai.connection_string
     "ApplicationInsightsAgent_EXTENSION_VERSION" = "~3"
