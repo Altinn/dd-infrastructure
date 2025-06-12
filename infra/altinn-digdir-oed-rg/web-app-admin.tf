@@ -42,8 +42,8 @@ resource "azurerm_linux_web_app" "admin_app" {
 
   app_settings = {
     "DOTNET_ENVIRONMENT"                         = "Production"
-    "ASPNETCORE_ENVIRONMENT"                		 = "Production"
-    "ConnectionStrings__OedDb"              		 = "@Microsoft.KeyVault(VaultName=${azurerm_key_vault.kv.name};SecretName=OedConfig--Postgres--ConnectionString)"
+    "ASPNETCORE_ENVIRONMENT"                     = "Production"
+    "ConnectionStrings__OedDb"                   = "@Microsoft.KeyVault(VaultName=${azurerm_key_vault.kv.name};SecretName=OedConfig--Postgres--ConnectionString)"
     "ConnectionStrings__OedAuthzDb"              = "@Microsoft.KeyVault(VaultName=${azurerm_key_vault.kv.name};SecretName=Secrets--PostgreSqlUserConnectionString)"
     "APPINSIGHTS_INSTRUMENTATIONKEY"             = azurerm_application_insights.adminapp_ai.instrumentation_key
     "APPLICATIONINSIGHTS_CONNECTION_STRING"      = azurerm_application_insights.adminapp_ai.connection_string
