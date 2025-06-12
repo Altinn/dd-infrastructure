@@ -45,12 +45,12 @@ resource "azurerm_linux_web_app" "admin_app" {
     "APPLICATIONINSIGHTS_CONNECTION_STRING"      = azurerm_application_insights.adminapp_ai.connection_string
     "ApplicationInsightsAgent_EXTENSION_VERSION" = "~3"
     "WEBSITE_AUTH_AAD_ALLOWED_TENANTS"           = var.tenant_id
-#    "MICROSOFT_PROVIDER_AUTHENTICATION_SECRET"   = azuread_application_password.admin_app_secret.value
+    #    "MICROSOFT_PROVIDER_AUTHENTICATION_SECRET"   = azuread_application_password.admin_app_secret.value
   }
 
   sticky_settings {
     app_setting_names = [
-#      "MICROSOFT_PROVIDER_AUTHENTICATION_SECRET",
+      #      "MICROSOFT_PROVIDER_AUTHENTICATION_SECRET",
       "WEBSITE_AUTH_AAD_ALLOWED_TENANTS",
       "APPINSIGHTS_INSTRUMENTATIONKEY",
       "APPLICATIONINSIGHTS_CONNECTION_STRING"
