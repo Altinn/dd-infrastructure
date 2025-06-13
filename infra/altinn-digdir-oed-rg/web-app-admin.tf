@@ -9,7 +9,7 @@ resource "azuread_application" "admin_app_reg" {
     resource_app_id = "00000003-0000-0000-c000-000000000000" # Microsoft Graph
     resource_access {
       id   = "5b567255-7703-4780-807c-7be8301ae99b" # GroupMember.Read.All
-      type = "Delegated"
+      type = "Scope"
     }
   }
   web {
