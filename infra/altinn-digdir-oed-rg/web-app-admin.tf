@@ -5,6 +5,13 @@ locals {
 resource "azuread_application" "admin_app_reg" {
   display_name = "dd-${var.environment}-admin-app"
   owners       = [data.azurerm_client_config.current.object_id]
+  required_resource_access {
+    resource_app_id = "00000003-0000-0000-c000-000000000000" # Microsoft Graph
+    resource_access {
+      id   = "5b567255-7703-4780-807c-7be8301ae99b" # GroupMember.Read.All
+      type = "Scope"
+    }
+  }
   web {
     redirect_uris = [
       "https://${local.app_hostname}/.auth/login/aad/callback"
