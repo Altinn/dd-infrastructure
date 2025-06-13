@@ -4,6 +4,7 @@ locals {
 
 resource "azuread_application" "admin_app_reg" {
   display_name = "dd-${var.environment}-admin-app"
+  owners       = [data.azurerm_client_config.current.object_id]
   web {
     redirect_uris = [
       "https://${local.app_hostname}/.auth/login/aad/callback"
@@ -87,7 +88,7 @@ resource "azurerm_linux_web_app" "admin_app" {
     require_authentication = true
     default_provider       = "azureactivedirectory"
     unauthenticated_action = "RedirectToLoginPage"
-    excluded_paths         = ["/health", "/swagger"]
+    excluded_paths         = ["/health", "/scalar"]
 
     active_directory_v2 {
       client_id                  = azuread_application.admin_app_reg.client_id
