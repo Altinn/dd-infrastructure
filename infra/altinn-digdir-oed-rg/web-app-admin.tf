@@ -17,7 +17,8 @@ resource "azuread_application" "admin_app_reg" {
 }
 
 resource "azuread_service_principal" "admin_app_sp" {
-  client_id = azuread_application.admin_app_reg.id
+  client_id = azuread_application.admin_app_reg.client_id
+  owners    = [data.azurerm_client_config.current.object_id]
 }
 
 resource "azuread_application_password" "admin_app_secret" {
