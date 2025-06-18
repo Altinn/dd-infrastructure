@@ -97,7 +97,7 @@ resource "azurerm_linux_web_app" "admin_app" {
       client_id                  = azuread_application.admin_app_reg.client_id
       tenant_auth_endpoint       = "https://login.microsoftonline.com/${var.tenant_id}/v2.0/"
       client_secret_setting_name = "MICROSOFT_PROVIDER_AUTHENTICATION_SECRET"
-      allowed_groups             = [var.admin_app_user_group_id]
+      #allowed_groups             = [var.admin_app_user_group_id]
     }
 
     login {
@@ -120,4 +120,12 @@ resource "azurerm_key_vault_access_policy" "dd_admin_read_secrets" {
     "Get",
     "List"
   ]
+}
+
+# Legger client secret som har utløpsdato i keyvault slik at vi kan følge opp.
+resource "azurerm_key_vault_secret" "admin_app_client_secret" {
+  name            = "dd-admin-app-client-secret"
+  value           =  azuread_application_password.admin_app_secret_V2.value
+  expiration_date = azuread_application_password.admin_app_secret_V2.expiration_date
+  key_vault_id    = azurerm_key_vault.kv.id
 }
