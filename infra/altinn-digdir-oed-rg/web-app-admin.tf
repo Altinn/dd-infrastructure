@@ -1,5 +1,5 @@
 locals {
-  app_hostname = "dd-${var.environment}-admin-app.azurewebsites.net"
+  app_hostname  = "dd-${var.environment}-admin-app.azurewebsites.net"
   app_hostname2 = azurerm_linux_web_app.admin_app.default_hostname
 }
 
