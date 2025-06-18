@@ -27,7 +27,7 @@ resource "azuread_application_password" "admin_app_secret_V2" {
 }
 
 output "app_password_expiry" {
-  value = azuread_application_password.admin_app_secret.end_date
+  value = azuread_application_password.admin_app_secret_v2.end_date
 }
 
 resource "azurerm_service_plan" "admin_asp" {
