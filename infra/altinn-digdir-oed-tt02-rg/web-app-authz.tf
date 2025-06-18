@@ -3,7 +3,7 @@ resource "azurerm_windows_web_app" "authz" {
     ignore_changes = [
       app_settings["WEBSITE_DAAS_STORAGE_CONNECTIONSTRING"],
       tags["hidden-link: /app-insights-resource-id"]
-  ]
+    ]
   }
   app_settings = {
     WEBSITE_DAAS_STORAGE_CONNECTIONSTRING                          = "DefaultEndpointsProtocol=https;AccountName=oedteson39ei;EndpointSuffix=core.windows.net"

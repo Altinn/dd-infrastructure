@@ -8,7 +8,7 @@ resource "azuread_application" "admin_app_reg" {
   required_resource_access {
     resource_app_id = "00000003-0000-0000-c000-000000000000" # Microsoft Graph
     resource_access {
-      id   = "5b567255-7703-4780-807c-7be8301ae99b"          # GroupMember.Read.All
+      id   = "5b567255-7703-4780-807c-7be8301ae99b" # GroupMember.Read.All
       type = "Scope"
     }
   }
@@ -42,7 +42,7 @@ resource "azurerm_service_plan" "admin_asp" {
 }
 
 resource "azurerm_linux_web_app" "admin_app" {
-  depends_on          = [azurerm_service_plan.admin_asp]
+  depends_on = [azurerm_service_plan.admin_asp]
   lifecycle {
     ignore_changes = [
       tags["hidden-link: /app-insights-resource-id"]
@@ -63,7 +63,7 @@ resource "azurerm_linux_web_app" "admin_app" {
     "APPLICATIONINSIGHTS_CONNECTION_STRING"      = azurerm_application_insights.adminapp_ai.connection_string
     "ApplicationInsightsAgent_EXTENSION_VERSION" = "~3"
     "WEBSITE_AUTH_AAD_ALLOWED_TENANTS"           = var.tenant_id
-    "MICROSOFT_PROVIDER_AUTHENTICATION_SECRET" = azuread_application_password.admin_app_secret_V2.value
+    "MICROSOFT_PROVIDER_AUTHENTICATION_SECRET"   = azuread_application_password.admin_app_secret_V2.value
   }
 
   tags = {

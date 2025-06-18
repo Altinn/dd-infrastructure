@@ -33,7 +33,7 @@ resource "azurerm_service_plan" "admin_asp" {
 }
 
 resource "azurerm_linux_web_app" "admin_app" {
-  depends_on          = [azurerm_service_plan.admin_asp]
+  depends_on = [azurerm_service_plan.admin_asp]
   lifecycle {
     ignore_changes = [
       tags["hidden-link: /app-insights-resource-id"]
