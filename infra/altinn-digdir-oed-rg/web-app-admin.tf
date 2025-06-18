@@ -5,6 +5,13 @@ locals {
 resource "azuread_application" "admin_app_reg" {
   display_name = "dd-${var.environment}-admin-app"
   owners       = [data.azurerm_client_config.current.object_id]
+  required_resource_access {
+    resource_app_id = "00000003-0000-0000-c000-000000000000" # Microsoft Graph
+    resource_access {
+      id   = "5b567255-7703-4780-807c-7be8301ae99b"          # GroupMember.Read.All
+      type = "Scope"
+    }
+  }
   web {
     redirect_uris = [
       "https://${local.app_hostname}/.auth/login/aad/callback"
@@ -36,6 +43,11 @@ resource "azurerm_service_plan" "admin_asp" {
 
 resource "azurerm_linux_web_app" "admin_app" {
   depends_on          = [azurerm_service_plan.admin_asp]
+  lifecycle {
+    ignore_changes = [
+      tags["hidden-link: /app-insights-resource-id"]
+    ]
+  }
   name                = "dd-${var.environment}-admin-app"
   location            = azurerm_resource_group.rg.location
   resource_group_name = azurerm_resource_group.rg.name
@@ -50,12 +62,11 @@ resource "azurerm_linux_web_app" "admin_app" {
     "APPINSIGHTS_INSTRUMENTATIONKEY"             = azurerm_application_insights.adminapp_ai.instrumentation_key
     "APPLICATIONINSIGHTS_CONNECTION_STRING"      = azurerm_application_insights.adminapp_ai.connection_string
     "ApplicationInsightsAgent_EXTENSION_VERSION" = "~3"
-    #    "WEBSITE_AUTH_AAD_ALLOWED_TENANTS"           = var.tenant_id
+    "WEBSITE_AUTH_AAD_ALLOWED_TENANTS"           = var.tenant_id
     "MICROSOFT_PROVIDER_AUTHENTICATION_SECRET" = azuread_application_password.admin_app_secret_V2.value
   }
 
   tags = {
-
     "costcenter"                                     = "altinn3"
     "solution"                                       = "apps"
     "hidden-link: /app-insights-conn-string"         = azurerm_application_insights.adminapp_ai.connection_string
@@ -86,7 +97,7 @@ resource "azurerm_linux_web_app" "admin_app" {
       client_id                  = azuread_application.admin_app_reg.client_id
       tenant_auth_endpoint       = "https://login.microsoftonline.com/${var.tenant_id}/v2.0/"
       client_secret_setting_name = "MICROSOFT_PROVIDER_AUTHENTICATION_SECRET"
-      #allowed_groups             = [var.admin_app_user_group_id]
+      allowed_groups             = [var.admin_app_user_group_id]
     }
 
     login {
