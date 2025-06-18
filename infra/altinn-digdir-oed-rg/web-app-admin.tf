@@ -1,5 +1,5 @@
 locals {
-  app_hostname  =  "dd-${var.environment}-admin-app.azurewebsites.net"
+  app_hostname = "dd-${var.environment}-admin-app.azurewebsites.net"
 }
 
 resource "azuread_application" "admin_app_reg" {
@@ -50,8 +50,8 @@ resource "azurerm_linux_web_app" "admin_app" {
     "APPINSIGHTS_INSTRUMENTATIONKEY"             = azurerm_application_insights.adminapp_ai.instrumentation_key
     "APPLICATIONINSIGHTS_CONNECTION_STRING"      = azurerm_application_insights.adminapp_ai.connection_string
     "ApplicationInsightsAgent_EXTENSION_VERSION" = "~3"
-#    "WEBSITE_AUTH_AAD_ALLOWED_TENANTS"           = var.tenant_id
-    "MICROSOFT_PROVIDER_AUTHENTICATION_SECRET"   = azuread_application_password.admin_app_secret_V2.value
+    #    "WEBSITE_AUTH_AAD_ALLOWED_TENANTS"           = var.tenant_id
+    "MICROSOFT_PROVIDER_AUTHENTICATION_SECRET" = azuread_application_password.admin_app_secret_V2.value
   }
 
   tags = {
