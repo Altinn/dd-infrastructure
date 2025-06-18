@@ -75,7 +75,7 @@ resource "azurerm_linux_web_app" "admin_app" {
     application_stack {
       dotnet_version = "9.0"
     }
-    always_on = false
+    always_on = true
   }
 
   identity {
