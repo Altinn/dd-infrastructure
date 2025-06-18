@@ -5,7 +5,11 @@ import {
 
 resource "azurerm_windows_web_app" "testapp" {
   lifecycle {
-    ignore_changes = [app_settings["AuthSettings:CloudEventSecret"]]
+    ignore_changes = [
+      app_settings["AuthSettings:CloudEventSecret"],
+      tags["hidden-link: /app-insights-resource-id"],
+      site_config[0].virtual_application
+    ]
   }
   app_settings = {
     APPINSIGHTS_INSTRUMENTATIONKEY                  = azurerm_application_insights.testapp_ai.instrumentation_key
