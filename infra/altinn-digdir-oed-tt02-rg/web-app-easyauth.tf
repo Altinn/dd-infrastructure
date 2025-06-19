@@ -18,6 +18,6 @@ resource "azurerm_windows_web_app" "easyauth_app" {
     }
   }
   identity {
-    type = SystemAssigned
+    type = "SystemAssigned"
   }
 }
