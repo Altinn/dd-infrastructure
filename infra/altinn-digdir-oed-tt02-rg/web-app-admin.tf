@@ -66,6 +66,10 @@ resource "azurerm_linux_web_app" "admin_app" {
     "ApplicationInsightsAgent_EXTENSION_VERSION" = "~3"
     "WEBSITE_AUTH_AAD_ALLOWED_TENANTS"           = var.tenant_id
     "MICROSOFT_PROVIDER_AUTHENTICATION_SECRET"   = azuread_application_password.admin_app_secret_V2.value
+    "MaskinportenSettings__ClientId"             = "@Microsoft.KeyVault(VaultName=${azurerm_key_vault.kv.name};SecretName=OedAdmin--MaskinportenSettings--ClientId)"
+    "MaskinportenSettings__Environment"          = "@Microsoft.KeyVault(VaultName=${azurerm_key_vault.kv.name};SecretName=OedAdmin--MaskinportenSettings--Environment)"
+    "MaskinportenSettings__EncodedJwk"           = "@Microsoft.KeyVault(VaultName=${azurerm_key_vault.kv.name};SecretName=OedAdmin--MaskinportenSettings--EncodedJwk)"
+    "AltinnSettings__PlatformUrl"                = "@Microsoft.KeyVault(VaultName=${azurerm_key_vault.kv.name};SecretName=OedAdmin--AltinnSettings--PlatformUrl)"
   }
 
   tags = {
