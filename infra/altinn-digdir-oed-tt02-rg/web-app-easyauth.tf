@@ -7,7 +7,9 @@ resource "azurerm_linux_web_app" "easyauth_app" {
   lifecycle {
     ignore_changes = [
       app_settings["MICROSOFT_PROVIDER_AUTHENTICATION_SECRET"],
-      app_settings["WEBSITE_AUTH_AAD_ALLOWED_TENANTS"]
+      app_settings["WEBSITE_AUTH_AAD_ALLOWED_TENANTS"],
+      site_config[0].ip_restriction_default_action,
+      site_config[0].scm_ip_restriction_default_action,
     ]
   }
   name                                           = "dd-${var.environment}-easyauth-app"
@@ -17,6 +19,13 @@ resource "azurerm_linux_web_app" "easyauth_app" {
   https_only                                     = true
   ftp_publish_basic_authentication_enabled       = false
   webdeploy_publish_basic_authentication_enabled = false
+
+  sticky_settings {
+    app_setting_names       = [
+      "MICROSOFT_PROVIDER_AUTHENTICATION_SECRET",
+      ]
+      connection_string_names = []
+  }
 
   site_config {
     always_on        = true
@@ -36,6 +45,7 @@ resource "azurerm_linux_web_app" "easyauth_app" {
     unauthenticated_action   = "RedirectToLoginPage"
     active_directory_v2 {
       allowed_applications        = ["cdf0585d-b7b4-4d6d-8192-42af06e2745f"]
+      allowed_audiences           = ["api://cdf0585d-b7b4-4d6d-8192-42af06e2745f"]
       client_id                   = "cdf0585d-b7b4-4d6d-8192-42af06e2745f"
       client_secret_setting_name  = "MICROSOFT_PROVIDER_AUTHENTICATION_SECRET"
       tenant_auth_endpoint        = "https://sts.windows.net/cd0026d8-283b-4a55-9bfa-d0ef4a8ba21c/v2.0"
