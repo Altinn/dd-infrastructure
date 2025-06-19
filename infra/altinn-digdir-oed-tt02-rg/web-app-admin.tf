@@ -5,7 +5,7 @@ locals {
 resource "azuread_application" "admin_app_reg" {
   display_name            = "dd-${var.environment}-admin-app"
   owners                  = [data.azurerm_client_config.current.object_id]
-  group_membership_claims = ["All"] # Include group membership claims in the token
+  group_membership_claims = ["SecurityGroup"] # Include group membership claims in the token
   # This is required to allow the app to read group memberships of users
   required_resource_access {
     resource_app_id = "00000003-0000-0000-c000-000000000000" # Microsoft Graph

@@ -1,6 +1,39 @@
 import {
-  to = azurerm_linux_web_app.easyauth_app
-  id = "/subscriptions/7b6f8f15-3a3e-43a2-b6ac-8eb6c06ad103/resourceGroups/altinn-digdir-oed-tt02-rg/providers/Microsoft.Web/sites/dd-test-easyauth-app"
+  to = azuread_application.easyauth_app
+  id = "cdf0585d-b7b4-4d6d-8192-42af06e2745f"
+}
+
+resource "azuread_application" "easyauth_app_reg" {
+  display_name            = "dd-${var.environment}-easyauth-app"
+  owners                  = [data.azurerm_client_config.current.object_id]
+  group_membership_claims = ["SecurityGroup"] # Include group membership claims in the token
+  # This is required to allow the app to read group memberships of users
+  required_resource_access {
+    resource_app_id = "00000003-0000-0000-c000-000000000000" # Microsoft Graph
+    resource_access {
+      id   = "5b567255-7703-4780-807c-7be8301ae99b" # GroupMember.Read.All
+      type = "Scope"
+    }
+  }
+  web {
+    redirect_uris = [
+      "https://${azurerm_linux_web_app.easyauth_app.default_hostname}/.auth/login/aad/callback"
+    ]
+    implicit_grant {
+      access_token_issuance_enabled = true
+      id_token_issuance_enabled     = true
+    }
+  }
+}
+
+resource "azuread_service_principal" "easyauth_app_sp" {
+  client_id = azuread_application.easyauth_app_reg.client_id
+  owners    = [data.azurerm_client_config.current.object_id]
+}
+
+resource "azuread_application_password" "easyauth_app_secret_V2" {
+  application_id = azuread_application.easyauth_app_reg.id
+  display_name   = azuread_application.easyauth_app_reg.display_name
 }
 
 resource "azurerm_linux_web_app" "easyauth_app" {
@@ -44,11 +77,11 @@ resource "azurerm_linux_web_app" "easyauth_app" {
     runtime_version          = "~1"
     unauthenticated_action   = "RedirectToLoginPage"
     active_directory_v2 {
-      allowed_applications        = ["cdf0585d-b7b4-4d6d-8192-42af06e2745f"]
-      allowed_audiences           = ["api://cdf0585d-b7b4-4d6d-8192-42af06e2745f"]
-      client_id                   = "cdf0585d-b7b4-4d6d-8192-42af06e2745f"
+      allowed_applications        = [azuread_application.easyauth_app_reg.client_id]
+      allowed_audiences           = ["api://${azuread_application.easyauth_app_reg.client_id}"]
+      client_id                   = azuread_application.easyauth_app_reg.client_id
       client_secret_setting_name  = "MICROSOFT_PROVIDER_AUTHENTICATION_SECRET"
-      tenant_auth_endpoint        = "https://sts.windows.net/cd0026d8-283b-4a55-9bfa-d0ef4a8ba21c/v2.0"
+      tenant_auth_endpoint        = "https://sts.windows.net/${var.tenant_id}/v2.0"
       www_authentication_disabled = false
     }
     login {
