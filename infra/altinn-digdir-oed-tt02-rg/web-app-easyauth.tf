@@ -29,6 +29,7 @@ resource "azurerm_linux_web_app" "easyauth_app" {
   site_config {
     always_on        = true
     app_command_line = "dotnet dd-test-easyauth-app.dll"
+    ftps_state = "FtpsOnly"
     application_stack {
       dotnet_version = "8.0"
     }
