@@ -1,6 +1,5 @@
-import {
-  to = azuread_application.easyauth_app
-  id = "cdf0585d-b7b4-4d6d-8192-42af06e2745f"
+locals {
+  app_hostname = "dd-test-easyauth-app-cggdg2ekf9agf8fk.norwayeast-01.azurewebsites.net"
 }
 
 resource "azuread_application" "easyauth_app_reg" {
@@ -17,7 +16,7 @@ resource "azuread_application" "easyauth_app_reg" {
   }
   web {
     redirect_uris = [
-      "https://${azurerm_linux_web_app.easyauth_app.default_hostname}/.auth/login/aad/callback"
+      "https://${local.app_hostname}/.auth/login/aad/callback"
     ]
     implicit_grant {
       access_token_issuance_enabled = true
