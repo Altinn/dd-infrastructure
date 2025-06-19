@@ -21,9 +21,9 @@ resource "azurerm_linux_web_app" "easyauth_app" {
   webdeploy_publish_basic_authentication_enabled = false
 
   sticky_settings {
-    app_setting_names       = [
+    app_setting_names = [
       "MICROSOFT_PROVIDER_AUTHENTICATION_SECRET",
-      ]
+    ]
   }
 
   site_config {
