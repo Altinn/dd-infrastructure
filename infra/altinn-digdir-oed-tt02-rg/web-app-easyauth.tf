@@ -5,7 +5,7 @@ import {
 
 resource "azurerm_windows_web_app" "easyauth_app" {
   name                = "dd-${var.environment}-easyauth-app"
-  service_plan_id     = azurerm_service_plan.authz.id
+  service_plan_id     = azurerm_service_plan.admin_asp.id
   resource_group_name = azurerm_resource_group.rg.name
   location            = azurerm_resource_group.rg.location
   https_only          = true
