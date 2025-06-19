@@ -1,5 +1,5 @@
 import {
-  to = azurerm_windows_web_app.easyauth_app
+  to = azurerm_linux_web_app.easyauth_app
   id = "/subscriptions/7b6f8f15-3a3e-43a2-b6ac-8eb6c06ad103/resourceGroups/altinn-digdir-oed-tt02-rg/providers/Microsoft.Web/sites/dd-test-easyauth-app"
 }
 
