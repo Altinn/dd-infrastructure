@@ -24,7 +24,6 @@ resource "azurerm_linux_web_app" "easyauth_app" {
     app_setting_names       = [
       "MICROSOFT_PROVIDER_AUTHENTICATION_SECRET",
       ]
-      connection_string_names = []
   }
 
   site_config {
@@ -52,7 +51,6 @@ resource "azurerm_linux_web_app" "easyauth_app" {
       www_authentication_disabled = false
     }
     login {
-      allowed_external_redirect_urls    = []
       cookie_expiration_convention      = "FixedTime"
       cookie_expiration_time            = "08:00:00"
       logout_endpoint                   = "/.auth/logout"
