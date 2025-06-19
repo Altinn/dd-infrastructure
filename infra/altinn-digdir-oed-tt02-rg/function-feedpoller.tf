@@ -1,4 +1,9 @@
 resource "azurerm_windows_function_app" "feedpoller" {
+  lifecycle {
+    ignore_changes = [
+      app_settings["FUNCTIONS_EXTENSION_VERSION"] # Setting som tf ikke fanger opp er lik
+    ]
+  }
   app_settings = {
     "AzureWebJobs.FeedPoller.Disabled"       = "0"
     "ConnectionStrings:Redis"                = "@Microsoft.KeyVault(VaultName=${azurerm_key_vault.kv.name};SecretName=ConnectionStrings--Redis)"
