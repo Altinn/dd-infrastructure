@@ -16,8 +16,8 @@ resource "azurerm_windows_web_app" "easyauth_app" {
       dotnet_version = "v9.0"
       node_version   = "~16"
     }
- }
- identity {
-   type = SystemAssigned
- }
+  }
+  identity {
+    type = SystemAssigned
+  }
 }
