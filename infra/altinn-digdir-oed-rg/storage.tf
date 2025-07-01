@@ -18,6 +18,25 @@ resource "azurerm_storage_account" "sa" {
   }
 }
 
+resource "azurerm_storage_management_policy" "sa_version_cleanup_smp" {
+  storage_account_id = azurerm_storage_account.sa.id
+  rule {
+    name    = "delete-old-blob-versions"
+    enabled = true
+
+    filters {
+      blob_types   = ["blockBlob"]
+      prefix_match = [""]
+    }
+
+    actions {
+      version {
+        delete_after_days_since_creation = 7
+      }
+    }
+  }
+}
+
 resource "random_password" "psql_oedpgadmin" {
   length           = 32
   special          = true
