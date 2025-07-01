@@ -6,7 +6,7 @@ resource "azurerm_storage_account" "sa" {
   account_tier             = "Standard"
   account_kind             = "Storage"
   blob_properties {
-    versioning_enabled = false
+    versioning_enabled = true
   }
   #network_rules {
   #default_action             = "Deny"
@@ -18,6 +18,26 @@ resource "azurerm_storage_account" "sa" {
     solution   = "apps"
   }
 }
+
+resource "azurerm_storage_management_policy" "sa_version_cleanup_smp" {
+  storage_account_id = azurerm_storage_account.sa.id
+  rule {
+    name    = "delete-old-blob-versions"
+    enabled = true
+
+    filters {
+      blob_types   = ["blockBlob"]
+      prefix_match = [""]
+    }
+
+    actions {
+      version {
+        delete_after_days_since_creation = 1
+      }
+    }
+  }
+}
+
 
 resource "azurerm_postgresql_flexible_server" "psql" {
   lifecycle {
