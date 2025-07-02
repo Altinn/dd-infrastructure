@@ -47,7 +47,7 @@ resource "azurerm_windows_function_app" "feedpoller" {
     vnet_route_all_enabled                 = true
     use_32_bit_worker                      = false
     application_stack {
-      dotnet_version = "v6.0"
+      dotnet_version = "v8.0"
     }
     cors {
       allowed_origins     = ["https://portal.azure.com"]
