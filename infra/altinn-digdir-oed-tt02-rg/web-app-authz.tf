@@ -65,6 +65,29 @@ resource "azurerm_windows_web_app" "authz" {
       current_stack  = "dotnet"
       dotnet_version = "v8.0"
     }
+    ip_restriction {
+      name        = "AllowFrontDoorOnly"
+      priority    = 100
+      action      = "Allow"
+      service_tag = "AzureFrontDoor.Backend"
+    }
+    # legg inn de andre kildene
+    dynamic "ip_restriction" {
+      for_each = local.whitelist_array
+      content {
+        name       = "Allow-${replace(ip_restriction.value, "/", "-")}"
+        priority   = 200 + index(local.whitelist_array, ip_restriction.value)
+        action     = "Allow"
+        ip_address = ip_restriction.value
+      }
+    }
+
+    ip_restriction {
+      name       = "DenyAllOthers"
+      priority   = 1000
+      action     = "Deny"
+      ip_address = "0.0.0.0/0"
+    }
   }
   sticky_settings {
     app_setting_names = [
