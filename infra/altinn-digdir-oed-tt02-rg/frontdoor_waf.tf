@@ -31,7 +31,7 @@ resource "azurerm_cdn_frontdoor_firewall_policy" "waf_policy" {
     action   = "Allow"
 
     match_condition {
-      match_variable = "RemoteGeo"
+      match_variable = "RemoteAddr"
       operator       = "GeoMatch"
       match_values = [
         # EU-land (27)
