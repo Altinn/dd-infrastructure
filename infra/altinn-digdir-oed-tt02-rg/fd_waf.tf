@@ -15,12 +15,12 @@ resource "azurerm_cdn_frontdoor_firewall_policy" "waf_policy" {
 
   managed_rule {
     action  = "Block"
-    type    = Microsoft_DefaultRuleSet
+    type    = "Microsoft_DefaultRuleSet"
     version = "2.1"
   }
   managed_rule {
     action  = "Block"
-    type    = Microsoft_BotManagerRuleSet
+    type    = "Microsoft_BotManagerRuleSet"
     version = "1.1"
   }
 
