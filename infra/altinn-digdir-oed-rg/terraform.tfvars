@@ -28,3 +28,4 @@ static_whitelist = [
   }
 ]
 a3_sp_app_name = "digdir-prod-kv-sp"
+fd_sku_name    = "Premium_AzureFrontDoor"
