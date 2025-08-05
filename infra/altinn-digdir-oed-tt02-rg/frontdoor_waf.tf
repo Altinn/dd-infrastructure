@@ -40,7 +40,7 @@ resource "azurerm_cdn_frontdoor_firewall_policy" "waf_policy" {
 
         # EØS-land (3)
         "IS", "LI", "NO",
-        
+
         #Andre
         "CH"
       ]
