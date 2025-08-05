@@ -7,7 +7,7 @@ resource "azurerm_cdn_frontdoor_profile" "fd_profile" {
 
 # 2. WAF-policy med IP whitelist
 resource "azurerm_cdn_frontdoor_firewall_policy" "waf_policy" {
-  name                = "oedwafpolicy-${var.environment}"
+  name                = "oedwafpolicy${var.environment}"
   resource_group_name = azurerm_resource_group.rg.name
   sku_name            = azurerm_cdn_frontdoor_profile.fd_profile.sku_name
   enabled             = true
