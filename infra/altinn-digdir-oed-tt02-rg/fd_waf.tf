@@ -1,13 +1,13 @@
 # 1. Front Door Premium
 resource "azurerm_cdn_frontdoor_profile" "fd_profile" {
-  name                = "oed-fd-profile"
+  name                = "oed-fd-profile-${var.environment}"
   resource_group_name = azurerm_resource_group.rg.name
   sku_name            = "Premium_AzureFrontDoor"
 }
 
 # 2. WAF-policy med IP whitelist
 resource "azurerm_cdn_frontdoor_firewall_policy" "waf_policy" {
-  name                = "oed-waf-policy"
+  name                = "oedwafpolicy-${var.environment}"
   resource_group_name = azurerm_resource_group.rg.name
   sku_name            = azurerm_cdn_frontdoor_profile.fd_profile.sku_name
   enabled             = true
@@ -53,7 +53,7 @@ resource "azurerm_cdn_frontdoor_firewall_policy" "waf_policy" {
 
 # 3. Origin group (App Service backend)
 resource "azurerm_cdn_frontdoor_origin_group" "origin_group" {
-  name                     = "oed-origin-group"
+  name                     = "oed-origin-group-${var.environment}"
   cdn_frontdoor_profile_id = azurerm_cdn_frontdoor_profile.fd_profile.id
 
   health_probe {
@@ -67,7 +67,7 @@ resource "azurerm_cdn_frontdoor_origin_group" "origin_group" {
 }
 
 resource "azurerm_cdn_frontdoor_origin" "app_origin" {
-  name                           = "oed-appservice-origin"
+  name                           = "oed-appservice-origin-${var.environment}"
   certificate_name_check_enabled = true
   cdn_frontdoor_origin_group_id  = azurerm_cdn_frontdoor_origin_group.origin_group.id
   host_name                      = "oed-test-authz-app.azurewebsites.net"
@@ -79,13 +79,13 @@ resource "azurerm_cdn_frontdoor_origin" "app_origin" {
 
 # 4. Front Door Endpoint
 resource "azurerm_cdn_frontdoor_endpoint" "endpoint" {
-  name                     = "oed-fd-endpoint"
+  name                     = "oed-fd-endpoint-${var.environment}"
   cdn_frontdoor_profile_id = azurerm_cdn_frontdoor_profile.fd_profile.id
 }
 
 # 5. Route + WAF-link
 resource "azurerm_cdn_frontdoor_route" "route" {
-  name                          = "default-route"
+  name                          = "default-route-${var.environment}"
   cdn_frontdoor_endpoint_id     = azurerm_cdn_frontdoor_endpoint.endpoint.id
   cdn_frontdoor_origin_group_id = azurerm_cdn_frontdoor_origin.app_origin.id
   cdn_frontdoor_origin_ids      = [azurerm_cdn_frontdoor_origin_group.origin_group.id]
