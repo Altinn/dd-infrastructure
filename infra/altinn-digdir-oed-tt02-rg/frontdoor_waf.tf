@@ -25,15 +25,25 @@ resource "azurerm_cdn_frontdoor_firewall_policy" "waf_policy" {
   }
 
   custom_rule {
-    type     = "MatchRule"
-    name     = "AllowOnlyTrustedIP"
+    name     = "Allow-EU-EØS"
     priority = 1
+    type     = "MatchRule"
     action   = "Allow"
 
     match_condition {
-      match_variable = "RemoteAddr"
-      operator       = "IPMatch"
-      match_values   = local.whitelist_array
+      match_variable = "RemoteGeo"
+      operator       = "GeoMatch"
+      match_values = [
+        # EU-land (27)
+        "AT", "BE", "BG", "HR", "CY", "CZ", "DK", "EE", "FI", "FR", "DE", "GR",
+        "HU", "IE", "IT", "LV", "LT", "LU", "MT", "NL", "PL", "PT", "RO", "SK", "SI", "ES", "SE",
+
+        # EØS-land (3)
+        "IS", "LI", "NO",
+        
+        #Andre
+        "CH"
+      ]
     }
   }
 
@@ -42,6 +52,7 @@ resource "azurerm_cdn_frontdoor_firewall_policy" "waf_policy" {
     priority = 100
     type     = "MatchRule"
     action   = "Block"
+    enabled  = false
 
     match_condition {
       match_variable = "RemoteAddr"
@@ -55,13 +66,6 @@ resource "azurerm_cdn_frontdoor_firewall_policy" "waf_policy" {
 resource "azurerm_cdn_frontdoor_origin_group" "origin_group" {
   name                     = "oed-origin-group-${var.environment}"
   cdn_frontdoor_profile_id = azurerm_cdn_frontdoor_profile.fd_profile.id
-
-  health_probe {
-    interval_in_seconds = 240
-    path                = "/health"
-    protocol            = "Https"
-    request_type        = "GET"
-  }
 
   load_balancing {}
 }
