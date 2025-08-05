@@ -70,16 +70,16 @@ resource "azurerm_cdn_frontdoor_origin" "app_origin" {
   name                           = "oed-appservice-origin-${var.environment}"
   certificate_name_check_enabled = true
   cdn_frontdoor_origin_group_id  = azurerm_cdn_frontdoor_origin_group.origin_group.id
-  host_name                      = "oed-test-authz-app.azurewebsites.net"
+  host_name                      = azurerm_windows_web_app.authz.default_hostname
   http_port                      = 80
   https_port                     = 443
   enabled                        = true
-  origin_host_header             = "oed-test-authz-app.azurewebsites.net"
+  origin_host_header             = azurerm_windows_web_app.authz.default_hostname
 }
 
 # 4. Front Door Endpoint
 resource "azurerm_cdn_frontdoor_endpoint" "endpoint" {
-  name                     = "oed-fd-endpoint-${var.environment}"
+  name                     = "digdir-dd-${var.environment}-authz" #første del av url med fdurl : med "azurefd.net" som postfix
   cdn_frontdoor_profile_id = azurerm_cdn_frontdoor_profile.fd_profile.id
 }
 
