@@ -1,3 +1,7 @@
+locals {
+  authz_custom_hostname = "test-digitaltdodsbo.altinn.no" #TODO: endre denne i prod
+}
+
 # 1. Front Door Premium
 resource "azurerm_cdn_frontdoor_profile" "fd_profile" {
   name                = "oed-fd-profile-${var.environment}"
@@ -150,10 +154,6 @@ resource "azurerm_cdn_frontdoor_route" "route" {
   https_redirect_enabled          = true
 }
 
-locals {
-  authz_custom_hostname = "test-digitaltdodsbo.altinn.no" #TODO: endre denne i prod
-}
-
 # 6. Custom doamin test-digitaltdodsbo.altinn.no
 resource "azurerm_dns_zone" "authz_dz" {
   name                = locals.authz_custom_hostname
@@ -171,9 +171,14 @@ resource "azurerm_cdn_frontdoor_custom_domain" "authz_domain" {
   }
 }
 
-resource "azurerm_cdn_frontdoor_custom_https_configuration" "authz_https" {
-  custom_domain_id = azurerm_cdn_frontdoor_custom_domain.authz_domain.id
-  certificate_type = "ManagedCertificate"
+resource "azurerm_dns_txt_record" "authz_txt" {
+  name                = join(".", ["_dnsauth", locals.authz_custom_hostname])
+  zone_name           = azurerm_dns_zone.authz_dz.name
+  resource_group_name = azurerm_resource_group.rg.name
+  ttl                 = 60 #TODO: endre til 3600 senere
+  record {
+    value = azurerm_cdn_frontdoor_custom_domain.authz_domain.validation_token
+  }
 }
 
 resource "azurerm_dns_cname_record" "authz_cname" {
