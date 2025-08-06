@@ -94,6 +94,24 @@ resource "azurerm_cdn_frontdoor_firewall_policy" "waf_policy" {
   }
 }
 
+resource "azurerm_cdn_frontdoor_security_policy" "waf_security_policy" {
+  name                     = "oed-fd-security-policy-${var.environment}"
+  cdn_frontdoor_profile_id = azurerm_cdn_frontdoor_profile.fd_profile.id
+
+  security_policies {
+    firewall {
+      cdn_frontdoor_firewall_policy_id = azurerm_cdn_frontdoor_firewall_policy.waf_policy.id
+
+      association {
+        domain {
+          cdn_frontdoor_domain_id = azurerm_cdn_frontdoor_endpoint.endpoint.id
+        }
+        patterns_to_match = ["/*"]
+      }
+    }
+  }
+}
+
 # 3. Origin group (App Service backend)
 resource "azurerm_cdn_frontdoor_origin_group" "origin_group" {
   name                     = "oed-origin-group-${var.environment}"
