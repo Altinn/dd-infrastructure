@@ -93,7 +93,6 @@ resource "azurerm_cdn_frontdoor_firewall_policy" "waf_policy" {
     }
   }
 }
-
 resource "azurerm_cdn_frontdoor_security_policy" "waf_security_policy" {
   name                     = "oed-fd-security-policy-${var.environment}"
   cdn_frontdoor_profile_id = azurerm_cdn_frontdoor_profile.fd_profile.id
@@ -104,7 +103,7 @@ resource "azurerm_cdn_frontdoor_security_policy" "waf_security_policy" {
 
       association {
         domain {
-          cdn_frontdoor_domain_id = azurerm_cdn_frontdoor_endpoint.endpoint.id
+          cdn_frontdoor_domain_id = azurerm_cdn_frontdoor_custom_domain.authz_domain.id #azurerm_cdn_frontdoor_endpoint.endpoint.id
         }
         patterns_to_match = ["/*"]
       }
@@ -139,14 +138,50 @@ resource "azurerm_cdn_frontdoor_endpoint" "endpoint" {
 
 # 5. Route + WAF-link
 resource "azurerm_cdn_frontdoor_route" "route" {
-  name                          = "default-route-${var.environment}"
-  cdn_frontdoor_endpoint_id     = azurerm_cdn_frontdoor_endpoint.endpoint.id
-  cdn_frontdoor_origin_group_id = azurerm_cdn_frontdoor_origin_group.origin_group.id
-  cdn_frontdoor_origin_ids      = [azurerm_cdn_frontdoor_origin.app_origin.id]
-  supported_protocols           = ["Https", "Http"]
-  patterns_to_match             = ["/*"]
-  forwarding_protocol           = "HttpsOnly"
-  link_to_default_domain        = true
-  https_redirect_enabled        = true
+  name                            = "default-route-${var.environment}"
+  cdn_frontdoor_endpoint_id       = azurerm_cdn_frontdoor_endpoint.endpoint.id
+  cdn_frontdoor_origin_group_id   = azurerm_cdn_frontdoor_origin_group.origin_group.id
+  cdn_frontdoor_origin_ids        = [azurerm_cdn_frontdoor_origin.app_origin.id]
+  cdn_frontdoor_custom_domain_ids = [azurerm_cdn_frontdoor_custom_domain.authz_domain.id]
+  supported_protocols             = ["Https", "Http"]
+  patterns_to_match               = ["/*"]
+  forwarding_protocol             = "HttpsOnly"
+  link_to_default_domain          = true
+  https_redirect_enabled          = true
+}
 
+locals {
+  authz_custom_hostname = "test-digitaltdodsbo.altinn.no" #TODO: endre denne i prod
+}
+
+# 6. Custom doamin test-digitaltdodsbo.altinn.no
+resource "azurerm_dns_zone" "authz_dz" {
+  name                = locals.authz_custom_hostname
+  resource_group_name = azurerm_resource_group.rg.name
+}
+
+resource "azurerm_cdn_frontdoor_custom_domain" "authz_domain" {
+  name                     = "authz_custom_domain_${var.environment}"
+  cdn_frontdoor_profile_id = azurerm_cdn_frontdoor_profile.fd_profile.id
+  dns_zone_id              = azurerm_dns_zone.authz_dz.id
+  host_name                = locals.authz_custom_domain
+
+  tls {
+    certificate_type = "ManagedCertificate"
+  }
+}
+
+resource "azurerm_cdn_frontdoor_custom_https_configuration" "authz_https" {
+  custom_domain_id = azurerm_cdn_frontdoor_custom_domain.authz_domain.id
+  certificate_type = "ManagedCertificate"
+}
+
+resource "azurerm_dns_cname_record" "authz_cname" {
+  depends_on = [azurerm_cdn_frontdoor_route.route, azurerm_cdn_frontdoor_security_policy.waf_security_policy]
+
+  name                = "authz_custom_domain_cname_${var.environment}"
+  zone_name           = azurerm_dns_zone.authz_dz.name
+  resource_group_name = azurerm_resource_group.rg.name
+  ttl                 = 60 #TODO: endre til 3600 senere
+  record              = azurerm_cdn_frontdoor_endpoint.endpoint.host_name
 }
