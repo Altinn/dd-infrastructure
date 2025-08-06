@@ -5,11 +5,11 @@ resource "azurerm_cdn_frontdoor_profile" "fd_profile" {
   sku_name            = "Premium_AzureFrontDoor"
 }
 
-# 2. WAF-policy med IP whitelist
+# 2. WAF-policy med Geomatch
 resource "azurerm_cdn_frontdoor_firewall_policy" "waf_policy" {
   name                = "oedwafpolicy${var.environment}"
   resource_group_name = azurerm_resource_group.rg.name
-  sku_name            = azurerm_cdn_frontdoor_profile.fd_profile.sku_name
+  sku_name            = azurerm_cdn_frontdoor_profile.fd_profile.sku_name  
   enabled             = true
   mode                = "Prevention"
 
@@ -25,10 +25,11 @@ resource "azurerm_cdn_frontdoor_firewall_policy" "waf_policy" {
   }
 
   custom_rule {
-    name     = "Allow-EU-EØS"
+    name     = "AllowEUEØS"
     priority = 1
     type     = "MatchRule"
     action   = "Allow"
+    enabled  = true
 
     match_condition {
       match_variable = "RemoteAddr"
@@ -52,7 +53,7 @@ resource "azurerm_cdn_frontdoor_firewall_policy" "waf_policy" {
     priority = 100
     type     = "MatchRule"
     action   = "Block"
-    enabled  = false
+    enabled  = true
 
     match_condition {
       match_variable = "RemoteAddr"
@@ -98,4 +99,5 @@ resource "azurerm_cdn_frontdoor_route" "route" {
   forwarding_protocol           = "MatchRequest"
   link_to_default_domain        = true
   https_redirect_enabled        = true
+  
 }
