@@ -25,7 +25,7 @@ resource "azurerm_cdn_frontdoor_firewall_policy" "waf_policy" {
   }
 
   custom_rule {
-    name     = "AllowEUEOS"
+    name     = "AllowEUEOS1"
     priority = 1
     type     = "MatchRule"
     action   = "Allow"
@@ -35,15 +35,46 @@ resource "azurerm_cdn_frontdoor_firewall_policy" "waf_policy" {
       match_variable = "RemoteAddr"
       operator       = "GeoMatch"
       match_values = [
-        # EU-land (27)
-        "AT", "BE", "BG", "HR", "CY", "CZ", "DK", "EE", "FI", "FR", "DE", "GR",
-        "HU", "IE", "IT", "LV", "LT", "LU", "MT", "NL", "PL", "PT", "RO", "SK", "SI", "ES", "SE",
-
         # EØS-land (3)
         "IS", "LI", "NO",
-
         #Andre
-        "CH"
+        "CH", "LI",
+        #EU-Land
+        "SE", "DK", "FI", "EE", "LV"
+      ]
+    }
+  }
+
+  custom_rule {
+    name     = "AllowEUEOS2"
+    priority = 2
+    type     = "MatchRule"
+    action   = "Allow"
+    enabled  = true
+
+    match_condition {
+      match_variable = "RemoteAddr"
+      operator       = "GeoMatch"
+      match_values = [
+        # EU-land (27)
+        "HU", "IE", "IT", "LU", "MT", "NL", "PL", "PT", "RO", "SK"
+      ]
+    }
+  }
+
+  custom_rule {
+    name     = "AllowEUEOS3"
+    priority = 3
+    type     = "MatchRule"
+    action   = "Allow"
+    enabled  = true
+
+    match_condition {
+      match_variable = "RemoteAddr"
+      operator       = "GeoMatch"
+      match_values = [
+        # EU-land (27)
+        "SI", "ES"
       ]
     }
   }
