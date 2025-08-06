@@ -25,7 +25,7 @@ resource "azurerm_cdn_frontdoor_firewall_policy" "waf_policy" {
   }
 
   custom_rule {
-    name     = "AllowEUEØS"
+    name     = "AllowEUEOS"
     priority = 1
     type     = "MatchRule"
     action   = "Allow"
@@ -96,7 +96,7 @@ resource "azurerm_cdn_frontdoor_route" "route" {
   cdn_frontdoor_origin_ids      = [azurerm_cdn_frontdoor_origin.app_origin.id]
   supported_protocols           = ["Https", "Http"]
   patterns_to_match             = ["/*"]
-  forwarding_protocol           = "MatchRequest"
+  forwarding_protocol           = "HttpsOnly"
   link_to_default_domain        = true
   https_redirect_enabled        = true
 
