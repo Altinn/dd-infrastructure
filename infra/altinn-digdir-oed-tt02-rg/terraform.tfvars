@@ -28,5 +28,6 @@ static_whitelist = [
     end_ip   = "51.13.16.143"
   }
 ]
-a3_sp_app_name = "digdir-tt02-kv-sp"
-fd_sku_name    = "Standard_AzureFrontDoor"
+a3_sp_app_name      = "digdir-tt02-kv-sp"
+fd_sku_name         = "Premium_AzureFrontDoor"
+authz_custom_domain = "test-digitaltdodsbo.altinn.no"
