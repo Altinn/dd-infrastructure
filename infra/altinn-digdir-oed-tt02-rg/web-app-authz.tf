@@ -65,6 +65,29 @@ resource "azurerm_windows_web_app" "authz" {
       current_stack  = "dotnet"
       dotnet_version = "v8.0"
     }
+    ip_restriction {
+      description = "Allow-FrontDoor"
+      service_tag = "AzureFrontDoor.Backend"
+      action      = "Allow"
+      priority    = 100
+    }
+
+    # dynamic "ip_restriction" {
+    #   for_each = local.whitelist_map_pg
+    #   content {
+    #     description = ip_restriction.value.name
+    #     ip_address  = ip_restriction.value.start_ip
+    #     priority    = 100
+    #     action      = "Allow"
+    #   }
+    # }
+
+    # ip_restriction {
+    #   name       = "Deny-All"
+    #   ip_address = "0.0.0.0/0"
+    #   priority   = 900
+    #   action     = "Deny"
+    # }
   }
   sticky_settings {
     app_setting_names = [
@@ -83,6 +106,5 @@ resource "azurerm_windows_web_app" "authz" {
       "XDT_MicrosoftApplicationInsightsJava",
       "XDT_MicrosoftApplicationInsights_NodeJS",
     ]
-
   }
 }
