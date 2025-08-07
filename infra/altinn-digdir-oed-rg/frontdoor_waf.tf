@@ -38,7 +38,7 @@ resource "azurerm_cdn_frontdoor_firewall_policy" "waf_policy" {
         # EØS-land (3)
         "IS", "LI", "NO",
         #Andre
-        "CH", 
+        "CH",
         #EU-Land
         "SE", "DK", "FI", "EE", "LV"
       ]
@@ -139,16 +139,16 @@ resource "azurerm_cdn_frontdoor_endpoint" "endpoint" {
 
 # 5. Route + WAF-link
 resource "azurerm_cdn_frontdoor_route" "route" {
-  name                            = "default-route-${var.environment}"
-  cdn_frontdoor_endpoint_id       = azurerm_cdn_frontdoor_endpoint.endpoint.id
-  cdn_frontdoor_origin_group_id   = azurerm_cdn_frontdoor_origin_group.origin_group.id
-  cdn_frontdoor_origin_ids        = [azurerm_cdn_frontdoor_origin.app_origin.id]
-  cdn_frontdoor_custom_domain_ids = [azurerm_cdn_frontdoor_custom_domain.authz_domain.id]
-  supported_protocols             = ["Https", "Http"]
-  patterns_to_match               = ["/*"]
-  forwarding_protocol             = "HttpsOnly"
-  link_to_default_domain          = true
-  https_redirect_enabled          = true
+  name                          = "default-route-${var.environment}"
+  cdn_frontdoor_endpoint_id     = azurerm_cdn_frontdoor_endpoint.endpoint.id
+  cdn_frontdoor_origin_group_id = azurerm_cdn_frontdoor_origin_group.origin_group.id
+  cdn_frontdoor_origin_ids      = [azurerm_cdn_frontdoor_origin.app_origin.id]
+  #cdn_frontdoor_custom_domain_ids = [azurerm_cdn_frontdoor_custom_domain.authz_domain.id]
+  supported_protocols    = ["Https", "Http"]
+  patterns_to_match      = ["/*"]
+  forwarding_protocol    = "HttpsOnly"
+  link_to_default_domain = true
+  https_redirect_enabled = true
 }
 
 # 6. Custom doamin test-digitaltdodsbo.altinn.no
