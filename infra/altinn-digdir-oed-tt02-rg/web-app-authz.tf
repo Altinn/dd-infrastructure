@@ -67,7 +67,7 @@ resource "azurerm_windows_web_app" "authz" {
     }
     ip_restriction {
       description = "Allow-FrontDoor"
-      ip_address  = "AzureFrontDoor.Backend"
+      service_tag = "AzureFrontDoor.Backend"
       action      = "Allow"
       priority    = 100
     }
