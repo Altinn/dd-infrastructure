@@ -5,6 +5,22 @@ resource "azurerm_cdn_frontdoor_profile" "fd_profile" {
   sku_name            = var.fd_sku_name
 }
 
+resource "azurerm_monitor_diagnostic_setting" "fd_logs" {
+  name                       = "frontdoor-logs"
+  target_resource_id         = azurerm_cdn_frontdoor_profile.fd_profile.id
+  log_analytics_workspace_id = azurerm_log_analytics_workspace.law.id
+
+  enabled_log {
+    category = "FrontdoorAccessLog"
+  }
+  enabled_log {
+    category = "FrontdoorWebApplicationFirewallLog"
+  }
+  enabled_metric {
+    category = "AllMetrics"
+  }
+}
+
 # 2. WAF-policy med Geomatch
 resource "azurerm_cdn_frontdoor_firewall_policy" "waf_policy" {
   name                = "oedwafpolicy${var.environment}"
