@@ -59,15 +59,15 @@ resource "azurerm_windows_web_app" "authz" {
       priority    = 100
     }
 
-    dynamic "ip_restriction" {
-      for_each = local.whitelist_map_pg
-      content {
-        description = ip_restriction.value.name
-        ip_address  = ip_restriction.value.start_ip
-        priority    = 100
-        action      = "Allow"
-      }
-    }
+    # dynamic "ip_restriction" {
+    #   for_each = local.whitelist_map_pg
+    #   content {
+    #     description = ip_restriction.value.name
+    #     ip_address  = ip_restriction.value.start_ip
+    #     priority    = 100
+    #     action      = "Allow"
+    #   }
+    # }
 
     # ip_restriction {
     #   name       = "Deny-All"
