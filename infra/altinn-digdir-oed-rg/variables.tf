@@ -65,3 +65,7 @@ variable "fd_sku_name" {
   description = "Front door and WAF sku level"
   type        = string
 }
+variable "authz_custom_domain" {
+  description = "custom domene for authz"
+  type        = string
+}

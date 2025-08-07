@@ -153,7 +153,7 @@ resource "azurerm_cdn_frontdoor_route" "route" {
 
 # 6. Custom doamin test-digitaltdodsbo.altinn.no
 # resource "azurerm_dns_zone" "authz_dz" {
-#   name                = var.authz_custom_domain
+#   name                = locals.authz_custom_hostname
 #   resource_group_name = azurerm_resource_group.rg.name
 # }
 
@@ -161,7 +161,7 @@ resource "azurerm_cdn_frontdoor_route" "route" {
 #   name                     = "authz_custom_domain_${var.environment}"
 #   cdn_frontdoor_profile_id = azurerm_cdn_frontdoor_profile.fd_profile.id
 #   dns_zone_id              = azurerm_dns_zone.authz_dz.id
-#   host_name                = localsvar.authz_custom_domain
+#   host_name                = locals.authz_custom_domain
 
 #   tls {
 #     certificate_type = "ManagedCertificate"
@@ -169,7 +169,7 @@ resource "azurerm_cdn_frontdoor_route" "route" {
 # }
 
 # resource "azurerm_dns_txt_record" "authz_txt" {
-#   name                = join(".", ["_dnsauth", var.authz_custom_domain])
+#   name                = join(".", ["_dnsauth", locals.authz_custom_hostname])
 #   zone_name           = azurerm_dns_zone.authz_dz.name
 #   resource_group_name = azurerm_resource_group.rg.name
 #   ttl                 = 60 #TODO: endre til 3600 senere
