@@ -1,4 +1,4 @@
-# 1. Front Door Premium
+# 1. Front Door
 resource "azurerm_cdn_frontdoor_profile" "fd_profile" {
   name                = "oed-fd-profile-${var.environment}"
   resource_group_name = azurerm_resource_group.rg.name
@@ -154,53 +154,46 @@ resource "azurerm_cdn_frontdoor_endpoint" "endpoint" {
   cdn_frontdoor_profile_id = azurerm_cdn_frontdoor_profile.fd_profile.id
 }
 
-# 5. Route + WAF-link
+# 5. Custom domain
+resource "azurerm_cdn_frontdoor_custom_domain" "authz_domain" {
+  name                     = "authzdigitaltdodsbo${var.environment}"
+  cdn_frontdoor_profile_id = azurerm_cdn_frontdoor_profile.fd_profile.id
+  host_name                = var.authz_custom_domain
+
+  tls {
+    certificate_type = "ManagedCertificate"
+  }
+}
+
+output "frontdoor_dns_validation_txt_name" {
+  value = "_dnsauth.${var.authz_custom_domain}"
+}
+
+output "frontdoor_dns_validation_txt_value" {
+  value       = azurerm_cdn_frontdoor_custom_domain.authz_domain.validation_token
+  description = "Opprett TXT-record på _dnsauth.var.authz_custom_domain med denne verdien for å validere domene hos Front Door."
+}
+# TODO: legg inn dette når dns er oppdatert og sertifikat ser ok ut i frontdoor
+# digitaltdodsbo.altinn.no CNAME -> ${azurerm_cdn_frontdoor_endpoint.endpoint.host_name}
+output "frontdoor_cname_target" {
+  value       = azurerm_cdn_frontdoor_endpoint.endpoint.host_name
+  description = "Sett CNAME for test-digitaltdodsbo.altinn.no til denne verdien for cutover."
+}
+
+# 6. Route + WAF-link
 resource "azurerm_cdn_frontdoor_route" "route" {
   name                          = "default-route-${var.environment}"
   cdn_frontdoor_endpoint_id     = azurerm_cdn_frontdoor_endpoint.endpoint.id
   cdn_frontdoor_origin_group_id = azurerm_cdn_frontdoor_origin_group.origin_group.id
   cdn_frontdoor_origin_ids      = [azurerm_cdn_frontdoor_origin.app_origin.id]
-  #cdn_frontdoor_custom_domain_ids = [azurerm_cdn_frontdoor_custom_domain.authz_domain.id]
+
+  # TODO: leg inn dette når dns er oppdatert
+  # cdn_frontdoor_custom_domain_ids = [
+  #   azurerm_cdn_frontdoor_custom_domain.authz_domain.id
+  # ]
   supported_protocols    = ["Https", "Http"]
   patterns_to_match      = ["/*"]
   forwarding_protocol    = "HttpsOnly"
   link_to_default_domain = true
   https_redirect_enabled = true
 }
-
-# 6. Custom doamin test-digitaltdodsbo.altinn.no
-# resource "azurerm_dns_zone" "authz_dz" {
-#   name                = var.authz_custom_domain
-#   resource_group_name = azurerm_resource_group.rg.name
-# }
-
-# resource "azurerm_cdn_frontdoor_custom_domain" "authz_domain" {
-#   name                     = "authz_custom_domain_${var.environment}"
-#   cdn_frontdoor_profile_id = azurerm_cdn_frontdoor_profile.fd_profile.id
-#   dns_zone_id              = azurerm_dns_zone.authz_dz.id
-#   host_name                = localsvar.authz_custom_domain
-
-#   tls {
-#     certificate_type = "ManagedCertificate"
-#   }
-# }
-
-# resource "azurerm_dns_txt_record" "authz_txt" {
-#   name                = join(".", ["_dnsauth", var.authz_custom_domain])
-#   zone_name           = azurerm_dns_zone.authz_dz.name
-#   resource_group_name = azurerm_resource_group.rg.name
-#   ttl                 = 60 #TODO: endre til 3600 senere
-#   record {
-#     value = azurerm_cdn_frontdoor_custom_domain.authz_domain.validation_token
-#   }
-# }
-
-# resource "azurerm_dns_cname_record" "authz_cname" {
-#   depends_on = [azurerm_cdn_frontdoor_route.route, azurerm_cdn_frontdoor_security_policy.waf_security_policy]
-
-#   name                = "authz_custom_domain_cname_${var.environment}"
-#   zone_name           = azurerm_dns_zone.authz_dz.name
-#   resource_group_name = azurerm_resource_group.rg.name
-#   ttl                 = 60 #TODO: endre til 3600 senere
-#   record              = azurerm_cdn_frontdoor_endpoint.endpoint.host_name
-# }
