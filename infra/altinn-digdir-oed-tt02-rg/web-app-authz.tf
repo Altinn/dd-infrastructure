@@ -44,7 +44,7 @@ resource "azurerm_windows_web_app" "authz" {
     identity_ids = ["/subscriptions/7b6f8f15-3a3e-43a2-b6ac-8eb6c06ad103/resourceGroups/altinn-digdir-oed-tt02-rg/providers/Microsoft.ManagedIdentity/userAssignedIdentities/oed-kv-principal"]
   }
   logs {
-    detailed_error_messages = true
+    detailed_error_messages = false
     failed_request_tracing  = true
     http_logs {
       file_system {
@@ -54,6 +54,7 @@ resource "azurerm_windows_web_app" "authz" {
     }
   }
   site_config {
+    always_on                         = true
     health_check_eviction_time_in_min = 10
     health_check_path                 = "/health"
     http2_enabled                     = true
