@@ -1,4 +1,4 @@
-# 1. Front Door Premium
+# 1. Front Door
 resource "azurerm_cdn_frontdoor_profile" "fd_profile" {
   name                = "oed-fd-profile-${var.environment}"
   resource_group_name = azurerm_resource_group.rg.name
@@ -109,6 +109,7 @@ resource "azurerm_cdn_frontdoor_firewall_policy" "waf_policy" {
     }
   }
 }
+
 resource "azurerm_cdn_frontdoor_security_policy" "waf_security_policy" {
   name                     = "oed-fd-security-policy-${var.environment}"
   cdn_frontdoor_profile_id = azurerm_cdn_frontdoor_profile.fd_profile.id
@@ -155,7 +156,7 @@ resource "azurerm_cdn_frontdoor_endpoint" "endpoint" {
 
 # 5. Custom domain
 resource "azurerm_cdn_frontdoor_custom_domain" "authz_domain" {
-  name                     = "authz_digitaltdodsbo_${var.environment}"
+  name                     = "authzdigitaltdodsbo${var.environment}"
   cdn_frontdoor_profile_id = azurerm_cdn_frontdoor_profile.fd_profile.id
   host_name                = var.authz_custom_domain
 

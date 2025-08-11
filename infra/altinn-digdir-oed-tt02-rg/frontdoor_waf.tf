@@ -156,7 +156,7 @@ resource "azurerm_cdn_frontdoor_endpoint" "endpoint" {
 
 # 5. Custom domain
 resource "azurerm_cdn_frontdoor_custom_domain" "authz_domain" {
-  name                     = "authz_digitaltdodsbo_${var.environment}"
+  name                     = "authzdigitaltdodsbo${var.environment}"
   cdn_frontdoor_profile_id = azurerm_cdn_frontdoor_profile.fd_profile.id
   host_name                = var.authz_custom_domain
 
