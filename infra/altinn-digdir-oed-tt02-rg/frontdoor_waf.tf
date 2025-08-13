@@ -124,10 +124,10 @@ resource "azurerm_cdn_frontdoor_security_policy" "waf_security_policy" {
     firewall {
       cdn_frontdoor_firewall_policy_id = azurerm_cdn_frontdoor_firewall_policy.waf_policy.id
 
-      dynamic association {
+      dynamic "association" {
         for_each = local.fd_domain_ids
         content {
-          domain {          
+          domain {
             cdn_frontdoor_domain_id = association.value
           }
           patterns_to_match = ["/*"]
@@ -198,7 +198,7 @@ resource "azurerm_cdn_frontdoor_route" "route" {
   # TODO: leg inn dette når dns er oppdatert
   cdn_frontdoor_custom_domain_ids = [
     azurerm_cdn_frontdoor_custom_domain.authz_domain.id, #vårt custom domain
-    azurerm_cdn_frontdoor_endpoint.endpoint.id # FD eget domain
+    azurerm_cdn_frontdoor_endpoint.endpoint.id           # FD eget domain
   ]
   supported_protocols    = ["Https", "Http"]
   patterns_to_match      = ["/*"]
