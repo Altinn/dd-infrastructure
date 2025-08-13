@@ -110,6 +110,12 @@ resource "azurerm_cdn_frontdoor_firewall_policy" "waf_policy" {
   }
 }
 
+locals {
+  fd_domain_ids = [
+    azurerm_cdn_frontdoor_endpoint.endpoint.id,
+    azurerm_cdn_frontdoor_custom_domain.authz_domain.id
+  ]
+}
 resource "azurerm_cdn_frontdoor_security_policy" "waf_security_policy" {
   name                     = "oed-fd-security-policy-${var.environment}"
   cdn_frontdoor_profile_id = azurerm_cdn_frontdoor_profile.fd_profile.id
@@ -118,12 +124,14 @@ resource "azurerm_cdn_frontdoor_security_policy" "waf_security_policy" {
     firewall {
       cdn_frontdoor_firewall_policy_id = azurerm_cdn_frontdoor_firewall_policy.waf_policy.id
 
-      association {
-        domain {
-          #cdn_frontdoor_domain_id = azurerm_cdn_frontdoor_custom_domain.authz_domain.id #azurerm_cdn_frontdoor_endpoint.endpoint.id
-          cdn_frontdoor_domain_id = azurerm_cdn_frontdoor_endpoint.endpoint.id
+      dynamic association {
+        for_each = local.fd_domain_ids
+        content {
+          domain {          
+            cdn_frontdoor_domain_id = association.value
+          }
+          patterns_to_match = ["/*"]
         }
-        patterns_to_match = ["/*"]
       }
     }
   }
@@ -188,9 +196,10 @@ resource "azurerm_cdn_frontdoor_route" "route" {
   cdn_frontdoor_origin_ids      = [azurerm_cdn_frontdoor_origin.app_origin.id]
 
   # TODO: leg inn dette når dns er oppdatert
-  # cdn_frontdoor_custom_domain_ids = [
-  #   azurerm_cdn_frontdoor_custom_domain.authz_domain.id
-  # ]
+  cdn_frontdoor_custom_domain_ids = [
+    azurerm_cdn_frontdoor_custom_domain.authz_domain.id, #vårt custom domain
+    azurerm_cdn_frontdoor_endpoint.endpoint.id # FD eget domain
+  ]
   supported_protocols    = ["Https", "Http"]
   patterns_to_match      = ["/*"]
   forwarding_protocol    = "HttpsOnly"
