@@ -124,14 +124,14 @@ resource "azurerm_cdn_frontdoor_security_policy" "waf_security_policy" {
     firewall {
       cdn_frontdoor_firewall_policy_id = azurerm_cdn_frontdoor_firewall_policy.waf_policy.id
 
-      dynamic "association" {
-        for_each = local.fd_domain_ids
-        content {
-          domain {
-            cdn_frontdoor_domain_id = association.value
+      association {
+        dynamic "domain" {
+          for_each = local.fd_domain_ids
+          content {
+            cdn_frontdoor_domain_id = domain.value
           }
-          patterns_to_match = ["/*"]
         }
+        patterns_to_match = ["/*"]
       }
     }
   }
