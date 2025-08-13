@@ -46,7 +46,7 @@ resource "azurerm_cdn_frontdoor_firewall_policy" "waf_policy" {
     priority = 10
     type     = "MatchRule"
     action   = "Block"
-    enabled  = false
+    enabled  = true
 
     match_condition {
       match_variable = "RemoteAddr"
