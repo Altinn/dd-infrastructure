@@ -110,12 +110,6 @@ resource "azurerm_cdn_frontdoor_firewall_policy" "waf_policy" {
   }
 }
 
-locals {
-  fd_domain_ids = [
-    azurerm_cdn_frontdoor_endpoint.endpoint.id,
-    azurerm_cdn_frontdoor_custom_domain.authz_domain.id
-  ]
-}
 resource "azurerm_cdn_frontdoor_security_policy" "waf_security_policy" {
   name                     = "oed-fd-security-policy-${var.environment}"
   cdn_frontdoor_profile_id = azurerm_cdn_frontdoor_profile.fd_profile.id
@@ -125,11 +119,11 @@ resource "azurerm_cdn_frontdoor_security_policy" "waf_security_policy" {
       cdn_frontdoor_firewall_policy_id = azurerm_cdn_frontdoor_firewall_policy.waf_policy.id
 
       association {
-        dynamic "domain" {
-          for_each = local.fd_domain_ids
-          content {
-            cdn_frontdoor_domain_id = domain.value
-          }
+        domain {
+          cdn_frontdoor_domain_id = azurerm_cdn_frontdoor_custom_domain.authz_domain.id
+        }
+        domain {
+          cdn_frontdoor_domain_id = azurerm_cdn_frontdoor_endpoint.endpoint.id
         }
         patterns_to_match = ["/*"]
       }
