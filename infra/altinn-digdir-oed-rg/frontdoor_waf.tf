@@ -40,9 +40,25 @@ resource "azurerm_cdn_frontdoor_firewall_policy" "waf_policy" {
     version = "1.1"
   }
 
+  #Spesifikk blokking fra EU/EUS må ligge først
+  custom_rule {
+    name     = "BlockTestIP"
+    priority = 10
+    type     = "MatchRule"
+    action   = "Block"
+    enabled  = false
+
+    match_condition {
+      match_variable = "RemoteAddr"
+      operator       = "IPMatch"
+      match_values   = ["82.164.55.142"] # ← erstatt med IP-adressen du vil blokkere
+    }
+  }
+
+  #GEO open
   custom_rule {
     name     = "AllowEUEOS1"
-    priority = 1
+    priority = 21
     type     = "MatchRule"
     action   = "Allow"
     enabled  = true
@@ -63,7 +79,7 @@ resource "azurerm_cdn_frontdoor_firewall_policy" "waf_policy" {
 
   custom_rule {
     name     = "AllowEUEOS2"
-    priority = 2
+    priority = 22
     type     = "MatchRule"
     action   = "Allow"
     enabled  = true
@@ -80,7 +96,7 @@ resource "azurerm_cdn_frontdoor_firewall_policy" "waf_policy" {
 
   custom_rule {
     name     = "AllowEUEOS3"
-    priority = 3
+    priority = 23
     type     = "MatchRule"
     action   = "Allow"
     enabled  = true
