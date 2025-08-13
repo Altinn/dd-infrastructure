@@ -120,7 +120,9 @@ resource "azurerm_cdn_frontdoor_security_policy" "waf_security_policy" {
 
       association {
         domain {
-          #cdn_frontdoor_domain_id = azurerm_cdn_frontdoor_custom_domain.authz_domain.id #azurerm_cdn_frontdoor_endpoint.endpoint.id
+          cdn_frontdoor_domain_id = azurerm_cdn_frontdoor_custom_domain.authz_domain.id
+        }
+        domain {
           cdn_frontdoor_domain_id = azurerm_cdn_frontdoor_endpoint.endpoint.id
         }
         patterns_to_match = ["/*"]
@@ -188,9 +190,9 @@ resource "azurerm_cdn_frontdoor_route" "route" {
   cdn_frontdoor_origin_ids      = [azurerm_cdn_frontdoor_origin.app_origin.id]
 
   # TODO: leg inn dette når dns er oppdatert
-  # cdn_frontdoor_custom_domain_ids = [
-  #   azurerm_cdn_frontdoor_custom_domain.authz_domain.id
-  # ]
+  cdn_frontdoor_custom_domain_ids = [
+    azurerm_cdn_frontdoor_custom_domain.authz_domain.id
+  ]
   supported_protocols    = ["Https", "Http"]
   patterns_to_match      = ["/*"]
   forwarding_protocol    = "HttpsOnly"

@@ -96,6 +96,20 @@ resource "azurerm_cdn_frontdoor_firewall_policy" "waf_policy" {
   }
 
   custom_rule {
+    name     = "BlockTestIP"
+    priority = 10
+    type     = "MatchRule"
+    action   = "Block"
+    enabled  = true
+
+    match_condition {
+      match_variable = "RemoteAddr"
+      operator       = "IPMatch"
+      match_values   = ["82.164.55.142"] # ← erstatt med IP-adressen du vil blokkere
+    }
+  }
+
+  custom_rule {
     name     = "DenyAllOthers"
     priority = 100
     type     = "MatchRule"
