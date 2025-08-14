@@ -1,5 +1,3 @@
-
-
 locals {
   # splitter "outbound_ip_addresses" (komma-separert streng) til liste
   authz_ips      = split(",", azurerm_windows_web_app.authz.outbound_ip_addresses)
@@ -32,5 +30,16 @@ locals {
   whitelist_map_pg = { for rule in local.all_whitelist : rule.name => rule }
 
   # eks. ["10.0.0.1","10.0.0.1",.....]
-  whitelist_array = [for rule in local.all_whitelist : rule.start_ip]
+  whitelist_array = flatten([
+    for rule in local.all_whitelist : (
+      rule.start_ip != rule.end_ip && rule.end_ip != null ?
+      [rule.start_ip, rule.end_ip] :
+      [rule.start_ip]
+    )
+  ])
+}
+
+output "whitelist_ips" {
+  description = "Alle IP-adresser som blir whitelistet (inkludert end_ip hvis forskjellig)"
+  value       = local.whitelist_array
 }

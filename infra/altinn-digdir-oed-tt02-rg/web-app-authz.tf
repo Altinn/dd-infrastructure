@@ -66,28 +66,36 @@ resource "azurerm_windows_web_app" "authz" {
       current_stack  = "dotnet"
       dotnet_version = "v8.0"
     }
+
     ip_restriction {
       description = "Allow-FrontDoor"
       service_tag = "AzureFrontDoor.Backend"
       action      = "Allow"
-      priority    = 100
+      priority    = 10
     }
 
-    # dynamic "ip_restriction" {
-    #   for_each = local.whitelist_map_pg
-    #   content {
-    #     description = ip_restriction.value.name
-    #     ip_address  = ip_restriction.value.start_ip
-    #     priority    = 100
-    #     action      = "Allow"
-    #   }
-    # }
+    dynamic "ip_restriction" {
+      # Lag et map med indeksen som nøkkel, så vi kan bruke den til priority
+      for_each = { for idx, r in local.all_whitelist : tostring(idx) => r }
+
+      content {
+        # Navn fra lista, fallback hvis tomt
+        name       = coalesce(try(ip_restriction.value.name, null), "WL-${ip_restriction.key}")
+        ip_address = ip_restriction.value.start_ip
+
+        # Prioritet basert på indeks: 100, 101, 102, ...
+        priority = 100 + tonumber(ip_restriction.key)
+
+        action = "Allow"
+      }
+    }
 
     # ip_restriction {
     #   name       = "Deny-All"
     #   ip_address = "0.0.0.0/0"
     #   priority   = 900
     #   action     = "Deny"
+
     # }
   }
   sticky_settings {
