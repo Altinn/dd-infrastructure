@@ -26,6 +26,16 @@ static_whitelist = [
     name     = "aks"
     start_ip = "51.13.16.142"
     end_ip   = "51.13.16.143"
+  },
+  {
+    name     = "A3Auth1"
+    start_ip = "20.100.48.120"
+    end_ip   = "20.100.48.120"  
+  },
+  {
+    name     = "A3Auth2"
+    start_ip = "20.100.48.118"
+    end_ip   = "20.100.48.118"  
   }
 ]
 a3_sp_app_name      = "digdir-tt02-kv-sp"

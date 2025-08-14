@@ -54,7 +54,7 @@ resource "azurerm_windows_web_app" "authz" {
     }
   }
   site_config {
-    always_on                         = true
+    always_on                         = false
     health_check_eviction_time_in_min = 10
     health_check_path                 = "/health"
     http2_enabled                     = true
