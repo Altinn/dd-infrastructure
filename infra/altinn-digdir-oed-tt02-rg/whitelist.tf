@@ -37,7 +37,7 @@ locals {
   ])
 
   # kombiner statisk + dynamisk
-  all_whitelist = concat(var.static_whitelist, local.dynamic_non_authz_whitelist, local.dynamic_authz_whitelist)
+  all_whitelist = distinct(concat(var.static_whitelist, local.dynamic_non_authz_whitelist, local.dynamic_authz_whitelist))
 
   # lag map for for_each
   whitelist_map_pg = { for rule in local.all_whitelist : rule.name => rule }
