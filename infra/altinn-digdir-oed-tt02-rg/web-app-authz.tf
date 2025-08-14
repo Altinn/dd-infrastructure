@@ -75,16 +75,16 @@ resource "azurerm_windows_web_app" "authz" {
     }
 
     dynamic "ip_restriction" {
-    # Bygg et map { "0" = "1.2.3.4", "1" = "5.6.7.8", ... } for å få indeks til priority
-    for_each = { for idx, ip in local.whitelist_non_authz_array : tostring(idx) => ip }
+      # Bygg et map { "0" = "1.2.3.4", "1" = "5.6.7.8", ... } for å få indeks til priority
+      for_each = { for idx, ip in local.whitelist_non_authz_array : tostring(idx) => ip }
 
-    content {
-      name       = "WL-${ip_restriction.value}"   # f.eks. WL-1.2.3.4
-      ip_address = ip_restriction.value           # IP eller CIDR
-      priority   = 100 + tonumber(ip_restriction.key)  # 100, 101, 102, ...
-      action     = "Allow"
+      content {
+        name       = "WL-${ip_restriction.value}"       # f.eks. WL-1.2.3.4
+        ip_address = ip_restriction.value               # IP eller CIDR
+        priority   = 100 + tonumber(ip_restriction.key) # 100, 101, 102, ...
+        action     = "Allow"
+      }
     }
-  }
 
     # ip_restriction {
     #   name       = "Deny-All"
