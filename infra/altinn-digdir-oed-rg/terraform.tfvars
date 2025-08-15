@@ -29,12 +29,12 @@ static_whitelist = [
   {
     name     = "A3Auth1"
     start_ip = "51.13.20.210"
-    end_ip   = "51.13.20.210"  
+    end_ip   = "51.13.20.210"
   },
   {
     name     = "A3Auth2"
     start_ip = "51.13.20.208"
-    end_ip   = "51.13.20.208"  
+    end_ip   = "51.13.20.208"
   }
 ]
 a3_sp_app_name      = "digdir-prod-kv-sp"

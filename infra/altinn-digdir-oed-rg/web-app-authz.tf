@@ -52,7 +52,7 @@ resource "azurerm_windows_web_app" "authz" {
       current_stack  = "dotnet"
       dotnet_version = "v8.0"
     }
-    
+
     ip_restriction {
       description = "Allow-FrontDoor"
       service_tag = "AzureFrontDoor.Backend"
