@@ -66,7 +66,7 @@ resource "azurerm_windows_web_app" "authz" {
 
       content {
         name       = "WL-${ip_restriction.value}"       # f.eks. WL-1.2.3.4
-        ip_address = ip_restriction.value + "/32"       # IP eller CIDR
+        ip_address = "${ip_restriction.value}/32"       # IP eller CIDR
         priority   = 100 + tonumber(ip_restriction.key) # 100, 101, 102, ...
         action     = "Allow"
       }
