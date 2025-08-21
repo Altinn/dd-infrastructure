@@ -62,12 +62,12 @@ output "frontdoor_dns_validation_txt_name" {
 
 output "frontdoor_dns_validation_txt_value" {
   value       = azurerm_cdn_frontdoor_custom_domain.authz_domain.validation_token
-  description = "Opprett TXT-record på _dnsauth.${var.authz_custom_domain} med denne verdien for å validere domene hos Front Door."
+  description = "Opprett TXT-record på _dnsauth.digitaltdodsbo.tt02.altinn.no med denne verdien for å validere domene hos Front Door."
 }
 
 output "frontdoor_cname_target" {
   value       = azurerm_cdn_frontdoor_endpoint.endpoint.host_name
-  description = "Sett CNAME for test-digitaltdodsbo.altinn.no til denne verdien for cutover."
+  description = "Sett CNAME for digitaltdodsbo.tt02.altinn.no til denne verdien for cutover."
 }
 
 # 6. Route
