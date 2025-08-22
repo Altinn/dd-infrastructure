@@ -86,6 +86,7 @@ resource "azurerm_windows_web_app" "authz" {
       }
     }
 
+
     # ip_restriction {
     #   name       = "Deny-All"
     #   ip_address = "0.0.0.0/0"
