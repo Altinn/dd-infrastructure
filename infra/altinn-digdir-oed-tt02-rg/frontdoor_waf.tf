@@ -22,7 +22,7 @@ resource "azurerm_monitor_diagnostic_setting" "fd_logs" {
 
 # 3. Origin group (App Service backend)
 resource "azurerm_cdn_frontdoor_origin_group" "origin_group" {
-  name                     = "oed-origin-group2-${var.environment}"
+  name                     = "oed-origin-group-${var.environment}"
   cdn_frontdoor_profile_id = azurerm_cdn_frontdoor_profile.fd_profile.id
 
   load_balancing {}
@@ -47,7 +47,7 @@ resource "azurerm_cdn_frontdoor_endpoint" "endpoint" {
 
 # 5. Custom domain (managed TLS støttes også på Standard)
 resource "azurerm_cdn_frontdoor_custom_domain" "authz_domain" {
-  name                     = "authzdigitaltdodsbo2${var.environment}"
+  name                     = "authzdigitaltdodsbo${var.environment}"
   cdn_frontdoor_profile_id = azurerm_cdn_frontdoor_profile.fd_profile.id
   host_name                = var.authz_custom_domain
 
@@ -66,7 +66,7 @@ output "frontdoor_dns_validation_txt_value" {
 }
 
 output "frontdoor_cname_target" {
-  value       = azurerm_cdn_frontdoor_endpoint.endpoint2.host_name
+  value       = azurerm_cdn_frontdoor_endpoint.endpoint.host_name
   description = "Sett CNAME for digitaltdodsbo.tt02.altinn.no til denne verdien for cutover."
 }
 
