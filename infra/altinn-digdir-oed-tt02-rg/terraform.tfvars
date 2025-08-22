@@ -39,5 +39,5 @@ static_whitelist = [
   }
 ]
 a3_sp_app_name      = "digdir-tt02-kv-sp"
-fd_sku_name         = "Premium_AzureFrontDoor"
+fd_sku_name         = "Standard_AzureFrontDoor"
 authz_custom_domain = "digitaltdodsbo.tt02.altinn.no"
