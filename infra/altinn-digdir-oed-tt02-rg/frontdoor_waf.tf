@@ -1,14 +1,14 @@
 # 1. Front Door (STANDARD)
-resource "azurerm_cdn_frontdoor_profile" "fd_profile" {
+resource "azurerm_cdn_frontdoor_profile" "fd_profile2" {
   name                = "oed-fd-profile-${var.environment}"
   resource_group_name = azurerm_resource_group.rg.name
   sku_name            = var.fd_sku_name
 }
 
 # 2. Logging
-resource "azurerm_monitor_diagnostic_setting" "fd_logs" {
-  name                       = "frontdoor-logs"
-  target_resource_id         = azurerm_cdn_frontdoor_profile.fd_profile.id
+resource "azurerm_monitor_diagnostic_setting" "fd_logs2" {
+  name                       = "frontdoor-logs2"
+  target_resource_id         = azurerm_cdn_frontdoor_profile.fd_profile2.id
   log_analytics_workspace_id = azurerm_log_analytics_workspace.law.id
 
   enabled_log {
@@ -21,17 +21,17 @@ resource "azurerm_monitor_diagnostic_setting" "fd_logs" {
 }
 
 # 3. Origin group (App Service backend)
-resource "azurerm_cdn_frontdoor_origin_group" "origin_group" {
-  name                     = "oed-origin-group-${var.environment}"
-  cdn_frontdoor_profile_id = azurerm_cdn_frontdoor_profile.fd_profile.id
+resource "azurerm_cdn_frontdoor_origin_group" "origin_group2" {
+  name                     = "oed-origin-group2-${var.environment}"
+  cdn_frontdoor_profile_id = azurerm_cdn_frontdoor_profile.fd_profile2.id
 
   load_balancing {}
 }
 
-resource "azurerm_cdn_frontdoor_origin" "app_origin" {
-  name                           = "oed-appservice-origin-${var.environment}"
+resource "azurerm_cdn_frontdoor_origin" "app_origin2" {
+  name                           = "oed-appservice-origin2-${var.environment}"
   certificate_name_check_enabled = true
-  cdn_frontdoor_origin_group_id  = azurerm_cdn_frontdoor_origin_group.origin_group.id
+  cdn_frontdoor_origin_group_id  = azurerm_cdn_frontdoor_origin_group.origin_group2.id
   host_name                      = azurerm_windows_web_app.authz.default_hostname
   http_port                      = 80
   https_port                     = 443
@@ -40,15 +40,15 @@ resource "azurerm_cdn_frontdoor_origin" "app_origin" {
 }
 
 # 4. Endpoint
-resource "azurerm_cdn_frontdoor_endpoint" "endpoint" {
-  name                     = "digdir-dd-${var.environment}-authz"
-  cdn_frontdoor_profile_id = azurerm_cdn_frontdoor_profile.fd_profile.id
+resource "azurerm_cdn_frontdoor_endpoint" "endpoint2" {
+  name                     = "digdir-dd-${var.environment}-authz2"
+  cdn_frontdoor_profile_id = azurerm_cdn_frontdoor_profile.fd_profile2.id
 }
 
 # 5. Custom domain (managed TLS støttes også på Standard)
 resource "azurerm_cdn_frontdoor_custom_domain" "authz_domain" {
-  name                     = "authzdigitaltdodsbo${var.environment}"
-  cdn_frontdoor_profile_id = azurerm_cdn_frontdoor_profile.fd_profile.id
+  name                     = "authzdigitaltdodsbo2${var.environment}"
+  cdn_frontdoor_profile_id = azurerm_cdn_frontdoor_profile.fd_profile2.id
   host_name                = var.authz_custom_domain
 
   tls {
@@ -66,16 +66,16 @@ output "frontdoor_dns_validation_txt_value" {
 }
 
 output "frontdoor_cname_target" {
-  value       = azurerm_cdn_frontdoor_endpoint.endpoint.host_name
+  value       = azurerm_cdn_frontdoor_endpoint.endpoint2.host_name
   description = "Sett CNAME for digitaltdodsbo.tt02.altinn.no til denne verdien for cutover."
 }
 
 # 6. Route
 resource "azurerm_cdn_frontdoor_route" "route" {
-  name                          = "default-route-${var.environment}"
-  cdn_frontdoor_endpoint_id     = azurerm_cdn_frontdoor_endpoint.endpoint.id
-  cdn_frontdoor_origin_group_id = azurerm_cdn_frontdoor_origin_group.origin_group.id
-  cdn_frontdoor_origin_ids      = [azurerm_cdn_frontdoor_origin.app_origin.id]
+  name                          = "default-route2-${var.environment}"
+  cdn_frontdoor_endpoint_id     = azurerm_cdn_frontdoor_endpoint.endpoint2.id
+  cdn_frontdoor_origin_group_id = azurerm_cdn_frontdoor_origin_group.origin_group2.id
+  cdn_frontdoor_origin_ids      = [azurerm_cdn_frontdoor_origin.app_origin2.id]
 
   cdn_frontdoor_custom_domain_ids = [
     azurerm_cdn_frontdoor_custom_domain.authz_domain.id
