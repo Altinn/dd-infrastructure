@@ -52,7 +52,7 @@ resource "azurerm_postgresql_flexible_server" "psql" {
   name                          = "oed-${var.environment}-authz-pg"
   public_network_access_enabled = true
   resource_group_name           = azurerm_resource_group.rg.name
-  sku_name                      = "Standard_D2s_v3"
+  sku_name                      = "B_Standard_B1ms"
   version                       = "16"
 
   authentication {
