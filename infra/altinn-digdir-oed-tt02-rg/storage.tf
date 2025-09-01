@@ -57,7 +57,7 @@ resource "azurerm_postgresql_flexible_server" "psql" {
   public_network_access_enabled = true
   resource_group_name           = azurerm_resource_group.rg.name
   sku_name                      = "B_Standard_B1ms"
-  version                       = "14"
+  version                       = "17"
 
   authentication {
     active_directory_auth_enabled = true
@@ -76,6 +76,13 @@ import {
 }
 
 resource "azurerm_postgresql_flexible_server_database" "oedauthz" {
+  lifecycle {
+    ignore_changes = [
+      name,
+      collation,
+      charset
+    ]
+  }
   name      = "oedauthz"
   server_id = azurerm_postgresql_flexible_server.psql.id
   collation = "en_US.utf8"
