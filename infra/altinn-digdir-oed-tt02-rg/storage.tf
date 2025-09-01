@@ -66,11 +66,6 @@ resource "azurerm_postgresql_flexible_server" "psql" {
   }
 }
 
-import {
-  to = azurerm_postgresql_flexible_server_database.oedauthz
-  id = "/subscriptions/7b6f8f15-3a3e-43a2-b6ac-8eb6c06ad103/resourceGroups/altinn-digdir-oed-tt02-rg/providers/Microsoft.DBforPostgreSQL/flexibleServers/oed-test-authz-pg/databases/oedauthz"
-}
-
 # resource "azurerm_postgresql_flexible_server_database" "oedauthz" {
 #   lifecycle {
 #     ignore_changes = all
