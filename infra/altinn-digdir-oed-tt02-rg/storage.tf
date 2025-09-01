@@ -41,11 +41,7 @@ resource "azurerm_storage_management_policy" "sa_version_cleanup_smp" {
 
 resource "azurerm_postgresql_flexible_server" "psql" {
   lifecycle {
-    ignore_changes = [
-      zone,
-      high_availability,
-      administrator_password
-    ]
+    ignore_changes  = all
     prevent_destroy = true
   }
   administrator_login = "oed${var.environment}pgadmin"
