@@ -53,6 +53,11 @@ jobs:
         run: terraform fmt -recursive
         working-directory: ${{ env.TF_PROJECT }}
 
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v3
+        with:
+          terraform_version: 1.10.5
+
       - name: Terraform Plan
         uses: altinn/altinn-platform/actions/terraform/plan@main
         with:
