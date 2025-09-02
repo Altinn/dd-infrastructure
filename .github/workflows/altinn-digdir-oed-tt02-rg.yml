@@ -49,15 +49,6 @@ jobs:
       - name: Checkout Repository
         uses: actions/checkout@v4
 
-      - name: Setup Terraform
-        uses: hashicorp/setup-terraform@v3
-        with:
-          terraform_version: 1.10.5
-        
-      - name: Terraform Format
-        run: terraform fmt -recursive
-        working-directory: ${{ env.TF_PROJECT }}
-
       - name: Terraform Plan
         uses: altinn/altinn-platform/actions/terraform/plan@main
         with:
@@ -79,15 +70,6 @@ jobs:
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v4
-
-      - name: Setup Terraform
-        uses: hashicorp/setup-terraform@v3
-        with:
-          terraform_version: 1.10.5
-      
-      - name: Terraform Format
-        run: terraform fmt -recursive
-        working-directory: ${{ env.TF_PROJECT }}
 
       - name: Terraform Apply
         uses: altinn/altinn-platform/actions/terraform/apply@main
