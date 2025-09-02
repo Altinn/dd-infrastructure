@@ -33,6 +33,7 @@ env:
   TF_PROJECT: ./infra/altinn-digdir-oed-tt02-rg
   ARM_CLIENT_ID: ${{ vars.TF_AZURE_CLIENT_ID }}
   ARM_SUBSCRIPTION_ID: 7b6f8f15-3a3e-43a2-b6ac-8eb6c06ad103
+  TF_LOG: ${{ github.event.inputs.log_level || 'INFO' }}
 
 permissions:
   id-token: write
@@ -47,6 +48,10 @@ jobs:
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v4
+        
+      - name: Terraform Format
+        run: terraform fmt -recursive
+        working-directory: ${{ env.TF_PROJECT }}
 
       - name: Terraform Plan
         uses: altinn/altinn-platform/actions/terraform/plan@main
@@ -69,6 +74,10 @@ jobs:
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v4
+      
+      - name: Terraform Format
+        run: terraform fmt -recursive
+        working-directory: ${{ env.TF_PROJECT }}
 
       - name: Terraform Apply
         uses: altinn/altinn-platform/actions/terraform/apply@main
