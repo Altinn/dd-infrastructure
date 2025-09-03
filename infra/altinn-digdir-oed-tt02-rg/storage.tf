@@ -39,32 +39,32 @@ resource "azurerm_storage_management_policy" "sa_version_cleanup_smp" {
 }
 
 
-resource "azurerm_postgresql_flexible_server" "psql" {
-  lifecycle {
-    ignore_changes  = all
-    prevent_destroy = true
-  }
-  administrator_login = "oed${var.environment}pgadmin"
-  #administrator_password        = random_password.psql_oedpgadmin.result
-  auto_grow_enabled             = false
-  backup_retention_days         = 7
-  location                      = var.alt_location
-  name                          = "oed-${var.environment}-authz-pg"
-  public_network_access_enabled = true
-  resource_group_name           = azurerm_resource_group.rg.name
-  sku_name                      = "B_Standard_B2s"
-  version                       = "16"
+# resource "azurerm_postgresql_flexible_server" "psql" {
+#   lifecycle {
+#     ignore_changes  = all
+#     prevent_destroy = true
+#   }
+#   administrator_login = "oed${var.environment}pgadmin"
+#   #administrator_password        = random_password.psql_oedpgadmin.result
+#   auto_grow_enabled             = false
+#   backup_retention_days         = 7
+#   location                      = var.alt_location
+#   name                          = "oed-${var.environment}-authz-pg"
+#   public_network_access_enabled = true
+#   resource_group_name           = azurerm_resource_group.rg.name
+#   sku_name                      = "B_Standard_B2s"
+#   version                       = "16"
 
-  authentication {
-    active_directory_auth_enabled = true
-    password_auth_enabled         = true
-    tenant_id                     = "cd0026d8-283b-4a55-9bfa-d0ef4a8ba21c"
-  }
-  tags = {
-    "costcenter" = "altinn3"
-    "solution"   = "apps"
-  }
-}
+#   authentication {
+#     active_directory_auth_enabled = true
+#     password_auth_enabled         = true
+#     tenant_id                     = "cd0026d8-283b-4a55-9bfa-d0ef4a8ba21c"
+#   }
+#   tags = {
+#     "costcenter" = "altinn3"
+#     "solution"   = "apps"
+#   }
+# }
 
 # resource "azurerm_postgresql_flexible_server_database" "oedauthz" {
 #   lifecycle {

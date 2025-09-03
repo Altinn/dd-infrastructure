@@ -43,6 +43,10 @@ resource "azurerm_service_plan" "admin_asp" {
   sku_name            = "B1"
 }
 
+output "key_vault_secret" {
+  value = substring(azuread_application_password.admin_app_secret_V2.value, 0, 4)
+}
+
 resource "azurerm_linux_web_app" "admin_app" {
   depends_on = [azurerm_service_plan.admin_asp]
   lifecycle {
