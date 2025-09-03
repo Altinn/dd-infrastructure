@@ -76,15 +76,15 @@ resource "azurerm_storage_management_policy" "sa_version_cleanup_smp" {
 #   charset   = "utf8"
 # }
 
-resource "azurerm_postgresql_flexible_server_firewall_rule" "authz_whitelist" {
-  depends_on = [local.whitelist_map_pg]
-  for_each   = local.whitelist_map_pg
+# resource "azurerm_postgresql_flexible_server_firewall_rule" "authz_whitelist" {
+#   depends_on = [local.whitelist_map_pg]
+#   for_each   = local.whitelist_map_pg
 
-  name             = each.key
-  server_id        = azurerm_postgresql_flexible_server.psql.id
-  start_ip_address = each.value.start_ip
-  end_ip_address   = each.value.end_ip
-}
+#   name             = each.key
+#   server_id        = azurerm_postgresql_flexible_server.psql.id
+#   start_ip_address = each.value.start_ip
+#   end_ip_address   = each.value.end_ip
+# }
 
 resource "azurerm_redis_cache" "cache" {
   name                = "oed-${var.environment}-cache"
