@@ -44,7 +44,7 @@ resource "azurerm_service_plan" "admin_asp" {
 }
 
 output "key_vault_secret" {
-  value = substring(azuread_application_password.admin_app_secret_V2.value, 0, 4)
+  value = substr(azuread_application_password.admin_app_secret_V2.value, 0, 4)
 }
 
 resource "azurerm_linux_web_app" "admin_app" {
