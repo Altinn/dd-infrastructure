@@ -35,6 +35,11 @@ resource "azuread_application_password" "admin_app_secret_V2" {
   display_name   = azuread_application.admin_app_reg.display_name
 }
 
+output "secret_check" {
+  value     = azuread_application_password.admin_app_secret_V2.value
+  sensitive = true
+}
+
 resource "azurerm_service_plan" "admin_asp" {
   name                = "asp-altinndigdir-dd-${var.environment}-admin"
   location            = azurerm_resource_group.rg.location

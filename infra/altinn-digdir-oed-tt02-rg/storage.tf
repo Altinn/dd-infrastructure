@@ -70,17 +70,12 @@ resource "azurerm_postgresql_flexible_server" "psql" {
   }
 }
 
-import {
-  to = azurerm_postgresql_flexible_server_database.oedauthz
-  id = "/subscriptions/7b6f8f15-3a3e-43a2-b6ac-8eb6c06ad103/resourceGroups/altinn-digdir-oed-tt02-rg/providers/Microsoft.DBforPostgreSQL/flexibleServers/oed-test-authz-pg/databases/oedauthz"
-}
-
-resource "azurerm_postgresql_flexible_server_database" "oedauthz" {
-  name      = "oedauthz"
-  server_id = azurerm_postgresql_flexible_server.psql.id
-  collation = "en_US.utf8"
-  charset   = "utf8"
-}
+# resource "azurerm_postgresql_flexible_server_database" "oedauthz" {
+#   name      = "oedauthz"
+#   server_id = azurerm_postgresql_flexible_server.psql.id
+#   collation = "en_US.utf8"
+#   charset   = "utf8"
+# }
 
 resource "azurerm_postgresql_flexible_server_firewall_rule" "authz_whitelist" {
   depends_on = [local.whitelist_map_pg]
