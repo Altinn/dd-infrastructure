@@ -38,12 +38,12 @@ resource "azurerm_postgresql_flexible_server" "pg" {
   }
 }
 
-resource "azurerm_postgresql_flexible_server_database" "oed_db" {
-  name      = "dd-oed-${var.environment}-pg-db"
-  server_id = azurerm_postgresql_flexible_server.pg.id
-  charset   = "UTF8"
-  collation = "en_US.utf8"
-}
+# resource "azurerm_postgresql_flexible_server_database" "oed_db" {
+#   name      = "dd-oed-${var.environment}-pg-db"
+#   server_id = azurerm_postgresql_flexible_server.pg.id
+#   charset   = "UTF8"
+#   collation = "en_US.utf8"
+# }
 
 locals {
   app_user = {
