@@ -39,6 +39,12 @@ resource "azurerm_postgresql_flexible_server" "pg" {
 }
 
 resource "azurerm_postgresql_flexible_server_database" "oed_db" {
+  lifecycle {
+    ignore_changes = [
+      zone
+    ]
+    prevent_destroy = true
+  }
   name      = "dd-oed-${var.environment}-pg-db"
   server_id = azurerm_postgresql_flexible_server.pg.id
   charset   = "UTF8"
