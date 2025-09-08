@@ -11,7 +11,7 @@ resource "random_password" "dd_user_password" {
 resource "azurerm_postgresql_flexible_server" "pg" {
   lifecycle {
     ignore_changes = [
-      zone
+      all
     ]
     prevent_destroy = true
   }
@@ -41,7 +41,7 @@ resource "azurerm_postgresql_flexible_server" "pg" {
 resource "azurerm_postgresql_flexible_server_database" "oed_db" {
   lifecycle {
     ignore_changes = [
-      zone
+      all
     ]
     prevent_destroy = true
   }
