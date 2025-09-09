@@ -112,10 +112,6 @@ resource "azurerm_linux_web_app" "admin_app" {
   }
 }
 
-output "admin_app_url" {
-  value = "https://${azurerm_linux_web_app.admin_app.default_hostname}"
-}
-
 resource "azurerm_key_vault_access_policy" "dd_admin_read_secrets" {
   depends_on   = [azurerm_linux_web_app.admin_app]
   key_vault_id = azurerm_key_vault.kv.id
@@ -133,7 +129,7 @@ resource "azurerm_key_vault_secret" "admin_app_client_secret" {
   depends_on      = [azuread_application_password.admin_app_secret_V2]
   name            = "dd-admin-app-client-secret"
   value           = azuread_application_password.admin_app_secret_V2.value
-  expiration_date = azuread_application_password.admin_app_secret_V2.end_date
-  not_before_date = azuread_application_password.admin_app_secret_V2.start_date
+  expiration_date = formatdate("YYYY-MM-DD'T'hh:mm:ss'Z'", azuread_application_password.admin_app_secret_V2.end_date)
+  not_before_date = formatdate("YYYY-MM-DD'T'hh:mm:ss'Z'", azuread_application_password.admin_app_secret_V2.start_date)
   key_vault_id    = azurerm_key_vault.kv.id
 }
