@@ -84,7 +84,7 @@ resource "azurerm_postgresql_flexible_server" "psql" {
   lifecycle {
     prevent_destroy = true
   }
-  administrator_login = "oed${var.environment}pgadmin"
+  administrator_login           = "oed${var.environment}pgadmin"
   auto_grow_enabled             = false
   backup_retention_days         = 7
   location                      = var.alt_location
