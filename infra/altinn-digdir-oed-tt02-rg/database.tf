@@ -93,6 +93,7 @@ resource "azurerm_postgresql_flexible_server" "psql" {
   resource_group_name           = azurerm_resource_group.rg.name
   sku_name                      = "B_Standard_B4ms"
   version                       = "14"
+  zone                          = "1"
 
   authentication {
     active_directory_auth_enabled = true
