@@ -76,7 +76,7 @@ resource "azurerm_postgresql_flexible_server_firewall_rule" "whitelist" {
 }
 
 import {
-  id = ""
+  id = "/subscriptions/7b6f8f15-3a3e-43a2-b6ac-8eb6c06ad103/resourceGroups/altinn-digdir-oed-tt02-rg/providers/Microsoft.DBforPostgreSQL/flexibleServers/oed-test-authz-pg"
   to = azurerm_postgresql_flexible_server.psql
 }
 
