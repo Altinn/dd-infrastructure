@@ -48,7 +48,7 @@ jobs:
     steps:
       - name: Print TF_LOG
         run: echo "TF_LOG=$TF_LOG"
-        
+
       - name: Checkout Repository
         uses: actions/checkout@v4
 
@@ -72,6 +72,7 @@ jobs:
           tf_state_name: ${{ env.TF_STATE_NAME }}
           gh_token: ${{ secrets.GITHUB_TOKEN }}
           tf_version: 1.10.5
+          tf_log_level: ${{ github.event.inputs.log_level || 'INFO' }}
 
   deploy:
     name: Deploy
@@ -80,9 +81,6 @@ jobs:
     needs: plan
     runs-on: ubuntu-latest
     steps:
-      - name: Print TF_LOG
-        run: echo "TF_LOG=$TF_LOG"
-
       - name: Checkout Repository
         uses: actions/checkout@v4
 
