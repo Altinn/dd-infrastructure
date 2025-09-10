@@ -61,14 +61,6 @@ resource "azurerm_windows_web_app" "authz" {
       priority    = 10
     }
 
-    ip_restriction {
-      name        = "A3-Eventsystem"
-      description = "A3 eventsystem"
-      ip_address  = "20.100.46.139/32"
-      action      = "Allow"
-      priority    = 15
-    }
-
     dynamic "ip_restriction" {
       # Bygg et map { "0" = "1.2.3.4", "1" = "5.6.7.8", ... } for å få indeks til priority
       for_each = { for idx, ip in sort(local.whitelist_non_authz_array) : tostring(idx) => ip }

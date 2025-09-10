@@ -35,6 +35,11 @@ static_whitelist = [
     name     = "A3Auth2"
     start_ip = "51.13.20.208"
     end_ip   = "51.13.20.208"
+  },
+  {
+    name     = "A3-Eventystem"
+    start_ip = "20.100.46.139"
+    end_ip   = "20.100.46.139"
   }
 ]
 a3_sp_app_name      = "digdir-prod-kv-sp"
