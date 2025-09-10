@@ -77,6 +77,12 @@ jobs:
     needs: plan
     runs-on: ubuntu-latest
     steps:
+      - name: Print TF_LOG
+        run: echo "TF_LOG=$TF_LOG"
+
+      - name: Print TF_LOG
+        run: echo "TF_LOG=$TF_LOG"
+
       - name: Checkout Repository
         uses: actions/checkout@v4
 
