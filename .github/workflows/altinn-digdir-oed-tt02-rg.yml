@@ -53,14 +53,10 @@ jobs:
         uses: hashicorp/setup-terraform@v3
         with:
           terraform_version: 1.10.5
-        env:
-          TF_LOG: ${{ github.event.inputs.log_level || 'INFO' }}
 
       - name: Terraform Format
         run: terraform fmt -recursive
         working-directory: ${{ env.TF_PROJECT }}
-        env:
-          TF_LOG: ${{ github.event.inputs.log_level || 'INFO' }}
 
       - name: Terraform Plan
         uses: altinn/altinn-platform/actions/terraform/plan@main
@@ -73,8 +69,6 @@ jobs:
           tf_state_name: ${{ env.TF_STATE_NAME }}
           gh_token: ${{ secrets.GITHUB_TOKEN }}
           tf_version: 1.10.5
-        env:
-          TF_LOG: ${{ github.event.inputs.log_level || 'INFO' }}
 
   deploy:
     name: Deploy
@@ -90,14 +84,10 @@ jobs:
         uses: hashicorp/setup-terraform@v3
         with:
           terraform_version: 1.10.5
-        env:
-          TF_LOG: ${{ github.event.inputs.log_level || 'INFO' }}
 
       - name: Terraform Format
         run: terraform fmt -recursive
         working-directory: ${{ env.TF_PROJECT }}
-        env:
-          TF_LOG: ${{ github.event.inputs.log_level || 'INFO' }}
 
       - name: Terraform Apply
         uses: altinn/altinn-platform/actions/terraform/apply@main
