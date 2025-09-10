@@ -46,9 +46,6 @@ jobs:
     environment: test
     runs-on: ubuntu-latest
     steps:
-      - name: Print TF_LOG
-        run: echo "TF_LOG=$TF_LOG"
-
       - name: Checkout Repository
         uses: actions/checkout@v4
 
@@ -103,5 +100,4 @@ jobs:
           arm_subscription_id: ${{ env.ARM_SUBSCRIPTION_ID }}
           tf_state_name: ${{ env.TF_STATE_NAME }}
           tf_version: 1.10.5
-        env:
-          TF_LOG: ${{ github.event.inputs.log_level || 'INFO' }}
+          tf_log_level: ${{ github.event.inputs.log_level || 'INFO' }}
