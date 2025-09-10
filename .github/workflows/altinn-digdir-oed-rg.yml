@@ -49,7 +49,6 @@ jobs:
       - name: Checkout Repository
         uses: actions/checkout@v4
 
-
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@v3
         with:
@@ -58,7 +57,7 @@ jobs:
       - name: Terraform Format
         run: terraform fmt -recursive
         working-directory: ${{ env.TF_PROJECT }}
-        
+
       - name: Terraform Plan
         uses: altinn/altinn-platform/actions/terraform/plan@main
         with:
@@ -70,6 +69,7 @@ jobs:
           tf_state_name: ${{ env.TF_STATE_NAME }}
           gh_token: ${{ secrets.GITHUB_TOKEN }}
           tf_version: 1.10.5
+          tf_log_level: ${{ github.event.inputs.log_level || 'INFO' }}
 
   deploy:
     name: Deploy
@@ -80,7 +80,7 @@ jobs:
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v4
-        
+
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@v3
         with:
@@ -89,7 +89,7 @@ jobs:
       - name: Terraform Format
         run: terraform fmt -recursive
         working-directory: ${{ env.TF_PROJECT }}
-        
+
       - name: Terraform Apply
         uses: altinn/altinn-platform/actions/terraform/apply@main
         with:
@@ -100,3 +100,4 @@ jobs:
           arm_subscription_id: ${{ env.ARM_SUBSCRIPTION_ID }}
           tf_state_name: ${{ env.TF_STATE_NAME }}
           tf_version: 1.10.5
+          tf_log_level: ${{ github.event.inputs.log_level || 'INFO' }}

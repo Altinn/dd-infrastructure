@@ -69,6 +69,7 @@ jobs:
           tf_state_name: ${{ env.TF_STATE_NAME }}
           gh_token: ${{ secrets.GITHUB_TOKEN }}
           tf_version: 1.10.5
+          tf_log_level: ${{ github.event.inputs.log_level || 'INFO' }}
 
   deploy:
     name: Deploy
@@ -99,3 +100,4 @@ jobs:
           arm_subscription_id: ${{ env.ARM_SUBSCRIPTION_ID }}
           tf_state_name: ${{ env.TF_STATE_NAME }}
           tf_version: 1.10.5
+          tf_log_level: ${{ github.event.inputs.log_level || 'INFO' }}
