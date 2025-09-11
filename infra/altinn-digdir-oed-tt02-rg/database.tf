@@ -68,3 +68,54 @@ resource "azurerm_postgresql_flexible_server_firewall_rule" "whitelist" {
   start_ip_address = each.value.start_ip
   end_ip_address   = each.value.end_ip
 }
+
+import {
+  id = "/subscriptions/7b6f8f15-3a3e-43a2-b6ac-8eb6c06ad103/resourceGroups/altinn-digdir-oed-tt02-rg/providers/Microsoft.DBforPostgreSQL/flexibleServers/oed-test-authz-pg"
+  to = azurerm_postgresql_flexible_server.psql
+}
+
+resource "azurerm_postgresql_flexible_server" "psql" {
+  lifecycle {
+    prevent_destroy = true
+  }
+  administrator_login           = "oed${var.environment}pgadmin"
+  auto_grow_enabled             = false
+  backup_retention_days         = 7
+  location                      = var.alt_location
+  name                          = "oed-${var.environment}-authz-pg"
+  public_network_access_enabled = true
+  resource_group_name           = azurerm_resource_group.rg.name
+  sku_name                      = "B_Standard_B4ms"
+  version                       = "14"
+  zone                          = "1"
+
+  authentication {
+    active_directory_auth_enabled = true
+    password_auth_enabled         = true
+    tenant_id                     = "cd0026d8-283b-4a55-9bfa-d0ef4a8ba21c"
+  }
+  tags = {
+    "costcenter" = "altinn3"
+    "solution"   = "apps"
+  }
+}
+
+resource "azurerm_postgresql_flexible_server_database" "oedauthz" {
+  lifecycle {
+    prevent_destroy = true
+  }
+  name      = "oedauthz"
+  server_id = azurerm_postgresql_flexible_server.psql.id
+  collation = "en_US.utf8"
+  charset   = "utf8"
+}
+
+resource "azurerm_postgresql_flexible_server_firewall_rule" "authz_whitelist" {
+  depends_on = [local.whitelist_map_pg]
+  for_each   = local.whitelist_map_pg
+
+  name             = each.key
+  server_id        = azurerm_postgresql_flexible_server.psql.id
+  start_ip_address = each.value.start_ip
+  end_ip_address   = each.value.end_ip
+}

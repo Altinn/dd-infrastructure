@@ -191,7 +191,7 @@ output "frontdoor_dns_validation_txt_value" {
   value       = azurerm_cdn_frontdoor_custom_domain.authz_domain.validation_token
   description = "Opprett TXT-record på _dnsauth.var.authz_custom_domain med denne verdien for å validere domene hos Front Door."
 }
-# TODO: legg inn dette når dns er oppdatert og sertifikat ser ok ut i frontdoor
+
 # digitaltdodsbo.altinn.no CNAME -> ${azurerm_cdn_frontdoor_endpoint.endpoint.host_name}
 output "frontdoor_cname_target" {
   value       = azurerm_cdn_frontdoor_endpoint.endpoint.host_name
@@ -205,7 +205,6 @@ resource "azurerm_cdn_frontdoor_route" "route" {
   cdn_frontdoor_origin_group_id = azurerm_cdn_frontdoor_origin_group.origin_group.id
   cdn_frontdoor_origin_ids      = [azurerm_cdn_frontdoor_origin.app_origin.id]
 
-  # TODO: leg inn dette når dns er oppdatert
   cdn_frontdoor_custom_domain_ids = [
     azurerm_cdn_frontdoor_custom_domain.authz_domain.id
   ]

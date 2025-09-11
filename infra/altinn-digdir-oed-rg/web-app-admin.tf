@@ -118,10 +118,6 @@ resource "azurerm_linux_web_app" "admin_app" {
   }
 }
 
-output "admin_app_url" {
-  value = "https://${azurerm_linux_web_app.admin_app.default_hostname}"
-}
-
 resource "azurerm_key_vault_access_policy" "dd_admin_read_secrets" {
   depends_on   = [azurerm_linux_web_app.admin_app]
   key_vault_id = azurerm_key_vault.kv.id

@@ -60,28 +60,23 @@ resource "azurerm_windows_web_app" "authz" {
     }
 
     ip_restriction {
+      name        = "Allow-FrontDoor"
       description = "Allow-FrontDoor"
       service_tag = "AzureFrontDoor.Backend"
       action      = "Allow"
       priority    = 10
     }
 
-    ip_restriction {
-      description = "A3 eventsystem"
-      ip_address  = "20.100.46.139/32"
-      action      = "Allow"
-      priority    = 15
-    }
-
     dynamic "ip_restriction" {
       # Bygg et map { "0" = "1.2.3.4", "1" = "5.6.7.8", ... } for å få indeks til priority
-      for_each = { for idx, ip in local.whitelist_non_authz_array : tostring(idx) => ip }
+      for_each = { for idx, ip in sort(local.whitelist_non_authz_array) : tostring(idx) => ip }
 
       content {
-        name       = "WL-${ip_restriction.value}"       # f.eks. WL-1.2.3.4
-        ip_address = "${ip_restriction.value}/32"       # IP eller CIDR
-        priority   = 100 + tonumber(ip_restriction.key) # 100, 101, 102, ...
-        action     = "Allow"
+        name        = "WL-${ip_restriction.value}" # f.eks. WL-1.2.3.4
+        description = "Whitelist ${ip_restriction.value}"
+        ip_address  = "${ip_restriction.value}/32"       # IP eller CIDR
+        priority    = 100 + tonumber(ip_restriction.key) # 100, 101, 102, ...
+        action      = "Allow"
       }
     }
 
