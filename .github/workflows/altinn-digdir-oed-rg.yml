@@ -52,7 +52,8 @@ jobs:
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@v3
         with:
-          terraform_version: 1.10.5
+          terraform_wrapper: false
+          terraform_version: latest
 
       - name: Terraform Format
         run: terraform fmt -recursive
@@ -68,8 +69,8 @@ jobs:
           arm_subscription_id: ${{ env.ARM_SUBSCRIPTION_ID }}
           tf_state_name: ${{ env.TF_STATE_NAME }}
           gh_token: ${{ secrets.GITHUB_TOKEN }}
-          tf_version: 1.10.5
           tf_log_level: ${{ github.event.inputs.log_level || 'INFO' }}
+          tf_version: latest
 
   deploy:
     name: Deploy
@@ -84,7 +85,8 @@ jobs:
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@v3
         with:
-          terraform_version: 1.10.5
+          terraform_wrapper: false
+          terraform_version: latest
 
       - name: Terraform Format
         run: terraform fmt -recursive
@@ -99,5 +101,5 @@ jobs:
           arm_client_id: ${{ env.ARM_CLIENT_ID }}
           arm_subscription_id: ${{ env.ARM_SUBSCRIPTION_ID }}
           tf_state_name: ${{ env.TF_STATE_NAME }}
-          tf_version: 1.10.5
           tf_log_level: ${{ github.event.inputs.log_level || 'INFO' }}
+          tf_version: latest
