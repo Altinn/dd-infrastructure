@@ -35,9 +35,10 @@ resource "azuread_application_password" "admin_app_secret_V2" {
   display_name   = azuread_application.admin_app_reg.display_name
 }
 
-output "secret_check" {
-  value     = azuread_application_password.admin_app_secret_V2.value
-  sensitive = true
+resource "azurerm_key_vault_secret" "aad_secret" {
+  name         = "OedAdmin--MicrosoftProviderAuthSecret"
+  value        = azuread_application_password.admin_app_secret_V2.value
+  key_vault_id = azurerm_key_vault.kv.id
 }
 
 resource "azurerm_service_plan" "admin_asp" {
@@ -70,7 +71,7 @@ resource "azurerm_linux_web_app" "admin_app" {
     "APPLICATIONINSIGHTS_CONNECTION_STRING"      = azurerm_application_insights.adminapp_ai.connection_string
     "ApplicationInsightsAgent_EXTENSION_VERSION" = "~3"
     "WEBSITE_AUTH_AAD_ALLOWED_TENANTS"           = var.tenant_id
-    "MICROSOFT_PROVIDER_AUTHENTICATION_SECRET"   = azuread_application_password.admin_app_secret_V2.value
+    "MICROSOFT_PROVIDER_AUTHENTICATION_SECRET"   = "@Microsoft.KeyVault(VaultName=${azurerm_key_vault.kv.name};SecretName=${azurerm_key_vault_secret.aad_secret.name})"
     "MaskinportenSettings__ClientId"             = "@Microsoft.KeyVault(VaultName=${azurerm_key_vault.kv.name};SecretName=OedAdmin--MaskinportenSettings--ClientId)"
     "MaskinportenSettings__Environment"          = "@Microsoft.KeyVault(VaultName=${azurerm_key_vault.kv.name};SecretName=OedAdmin--MaskinportenSettings--Environment)"
     "MaskinportenSettings__EncodedJwk"           = "@Microsoft.KeyVault(VaultName=${azurerm_key_vault.kv.name};SecretName=OedAdmin--MaskinportenSettings--EncodedJwk)"
