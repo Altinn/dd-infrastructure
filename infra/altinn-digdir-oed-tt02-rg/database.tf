@@ -20,6 +20,7 @@ resource "azurerm_postgresql_flexible_server" "pg" {
   backup_retention_days         = 7
   auto_grow_enabled             = false
   public_network_access_enabled = true
+  zone                          = "1"
 
   authentication {
     active_directory_auth_enabled = true
@@ -67,11 +68,6 @@ resource "azurerm_postgresql_flexible_server_firewall_rule" "whitelist" {
   server_id        = azurerm_postgresql_flexible_server.pg.id
   start_ip_address = each.value.start_ip
   end_ip_address   = each.value.end_ip
-}
-
-import {
-  id = "/subscriptions/7b6f8f15-3a3e-43a2-b6ac-8eb6c06ad103/resourceGroups/altinn-digdir-oed-tt02-rg/providers/Microsoft.DBforPostgreSQL/flexibleServers/oed-test-authz-pg"
-  to = azurerm_postgresql_flexible_server.psql
 }
 
 resource "azurerm_postgresql_flexible_server" "psql" {
