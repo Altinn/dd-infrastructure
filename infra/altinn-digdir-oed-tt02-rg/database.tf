@@ -82,7 +82,7 @@ resource "azurerm_postgresql_flexible_server" "psql" {
   public_network_access_enabled = true
   resource_group_name           = azurerm_resource_group.rg.name
   sku_name                      = "B_Standard_B4ms"
-  version                       = "14"
+  version                       = "16"
   zone                          = "1"
 
   authentication {
