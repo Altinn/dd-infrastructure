@@ -1,4 +1,10 @@
 resource "azurerm_windows_web_app" "authz" {
+  depends_on = [azurerm_service_plan.admin_asp]
+  lifecycle {
+    ignore_changes = [
+      tags["hidden-link: /app-insights-resource-id"]
+    ]
+  }
   app_settings = {
     APPINSIGHTS_INSTRUMENTATIONKEY                                 = azurerm_application_insights.authz_ai.instrumentation_key
     APPINSIGHTS_PROFILERFEATURE_VERSION                            = "1.0.0"
