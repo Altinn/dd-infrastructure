@@ -87,7 +87,7 @@ resource "azurerm_postgresql_flexible_server" "psql" {
 
   authentication {
     active_directory_auth_enabled = true
-    password_auth_enabled         = false
+    password_auth_enabled         = true
     tenant_id                     = "cd0026d8-283b-4a55-9bfa-d0ef4a8ba21c"
   }
   tags = {
