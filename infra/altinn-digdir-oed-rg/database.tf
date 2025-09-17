@@ -1,3 +1,4 @@
+# PostgreSQL for OED
 resource "random_password" "dd_admin_password" {
   length  = 16
   special = true
@@ -80,6 +81,7 @@ resource "azurerm_postgresql_flexible_server_firewall_rule" "whitelist" {
   end_ip_address   = each.value.end_ip
 }
 
+# PostgreSQL for OED Authz
 resource "random_password" "psql_oedpgadmin" {
   length           = 32
   special          = true
