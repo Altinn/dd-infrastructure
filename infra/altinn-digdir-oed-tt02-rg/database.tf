@@ -1,3 +1,4 @@
+# PostgreSQL for OED
 resource "random_password" "dd_admin_password" {
   length  = 16
   special = true
@@ -70,11 +71,25 @@ resource "azurerm_postgresql_flexible_server_firewall_rule" "whitelist" {
   end_ip_address   = each.value.end_ip
 }
 
+# Authz db
+# Hent connection string fra Key Vault
+# For å feks. oppgrade db versjon, så må en ha admin rettigheter på serveren
+data "azurerm_key_vault_secret" "pg_connstr" {
+  name         = "Secrets--PostgreSqlAdminConnectionString"
+  key_vault_id = azurerm_key_vault.kv.id
+}
+
+locals {
+  pg_password = regex("Password=([^;]+);", data.azurerm_key_vault_secret.pg_connstr.value)[0]
+}
+
+
 resource "azurerm_postgresql_flexible_server" "psql" {
   lifecycle {
     prevent_destroy = true
   }
   administrator_login           = "oed${var.environment}pgadmin"
+  administrator_password        = local.pg_password
   auto_grow_enabled             = false
   backup_retention_days         = 7
   location                      = var.alt_location
