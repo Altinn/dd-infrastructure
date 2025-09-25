@@ -141,12 +141,12 @@ resource "azurerm_key_vault_secret" "admin_app_client_secret" {
 }
 
 #Access til systembruker for å lese secrets direkte fra a3 keyvault
-resource "azurerm_key_vault_access_policy" "admin_app_system_user_a3_kvap" {
-  depends_on              = [data.azurerm_key_vault.a3_kv]
-  key_vault_id            = data.azurerm_key_vault.a3_kv.id
-  tenant_id               = data.azurerm_client_config.current.tenant_id
-  object_id               = azurerm_linux_web_app.admin_app.identity[0].principal_id
-  key_permissions         = ["Get", "List"]
-  secret_permissions      = ["Get", "List"]
-  certificate_permissions = ["Get", "List"]
-}
+# resource "azurerm_key_vault_access_policy" "admin_app_system_user_a3_kvap" {
+#   depends_on              = [data.azurerm_key_vault.a3_kv]
+#   key_vault_id            = data.azurerm_key_vault.a3_kv.id
+#   tenant_id               = data.azurerm_client_config.current.tenant_id
+#   object_id               = azurerm_linux_web_app.admin_app.identity[0].principal_id
+#   key_permissions         = ["Get", "List"]
+#   secret_permissions      = ["Get", "List"]
+#   certificate_permissions = ["Get", "List"]
+# }
