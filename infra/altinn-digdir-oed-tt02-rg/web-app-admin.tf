@@ -118,16 +118,16 @@ resource "azurerm_linux_web_app" "admin_app" {
   }
 }
 
+#Access til systembruker for å lese secrets direkte fra oed keyvault
 resource "azurerm_key_vault_access_policy" "dd_admin_read_secrets" {
   depends_on   = [azurerm_linux_web_app.admin_app]
   key_vault_id = azurerm_key_vault.kv.id
   tenant_id    = azurerm_linux_web_app.admin_app.identity[0].tenant_id
   object_id    = azurerm_linux_web_app.admin_app.identity[0].principal_id
 
-  secret_permissions = [
-    "Get",
-    "List"
-  ]
+  key_permissions         = ["Get", "List"]
+  secret_permissions      = ["Get", "List"]
+  certificate_permissions = ["Get", "List"]
 }
 
 # Legger client secret som har utløpsdato i keyvault slik at vi kan følge opp.
@@ -139,3 +139,15 @@ resource "azurerm_key_vault_secret" "admin_app_client_secret" {
   not_before_date = formatdate("YYYY-MM-DD'T'hh:mm:ss'Z'", azuread_application_password.admin_app_secret_V2.start_date)
   key_vault_id    = azurerm_key_vault.kv.id
 }
+
+# Ingen tilgang til github action bruker
+# Access til systembruker for å lese secrets direkte fra a3 keyvault
+# resource "azurerm_key_vault_access_policy" "admin_app_system_user_a3_kvap" {
+#   depends_on              = [data.azurerm_key_vault.a3_kv]
+#   key_vault_id            = data.azurerm_key_vault.a3_kv.id
+#   tenant_id               = data.azurerm_client_config.current.tenant_id
+#   object_id               = azurerm_linux_web_app.admin_app.identity[0].principal_id
+#   key_permissions         = ["Get", "List"]
+#   secret_permissions      = ["Get", "List"]
+#   certificate_permissions = ["Get", "List"]
+# }
