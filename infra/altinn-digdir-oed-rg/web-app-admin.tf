@@ -140,7 +140,8 @@ resource "azurerm_key_vault_secret" "admin_app_client_secret" {
   key_vault_id    = azurerm_key_vault.kv.id
 }
 
-#Access til systembruker for å lese secrets direkte fra a3 keyvault
+# Ingen tilgang til github action bruker
+# Access til systembruker for å lese secrets direkte fra a3 keyvault
 # resource "azurerm_key_vault_access_policy" "admin_app_system_user_a3_kvap" {
 #   depends_on              = [data.azurerm_key_vault.a3_kv]
 #   key_vault_id            = data.azurerm_key_vault.a3_kv.id

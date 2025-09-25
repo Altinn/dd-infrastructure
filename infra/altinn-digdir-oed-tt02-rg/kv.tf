@@ -11,6 +11,7 @@ resource "azurerm_key_vault" "kv" {
   }
 }
 
+# Ingen tilgang til github action bruker
 # data "azurerm_key_vault" "a3_kv" {
 #   name                = var.altinn_apps_digdir_kv_name
 #   resource_group_name = var.altinn_apps_digdir_rg_name
