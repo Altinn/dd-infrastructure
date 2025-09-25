@@ -6,10 +6,10 @@ resource "azurerm_key_vault" "kv" {
   tenant_id           = var.tenant_id
 }
 
-data "azurerm_key_vault" "a3_kv" {
-  name                = var.altinn_apps_digdir_kv_name
-  resource_group_name = var.altinn_apps_digdir_rg_name
-}
+# data "azurerm_key_vault" "a3_kv" {
+#   name                = var.altinn_apps_digdir_kv_name
+#   resource_group_name = var.altinn_apps_digdir_rg_name
+# }
 
 resource "azurerm_key_vault_access_policy" "digdir_kv_sp" {
   depends_on              = [azurerm_key_vault.kv]
