@@ -1,3 +1,5 @@
+# Should be deleted? The file is still here because its a resource that was imported into terraform
+# Should atleast change the email address to the another one
 resource "azurerm_monitor_action_group" "res-0" {
   name                = "DD-email-notification-ag"
   resource_group_name = "altinn-digdir-oed-tt02-rg"
@@ -20,8 +22,10 @@ resource "azurerm_monitor_scheduled_query_rules_alert_v2" "res-1" {
   action {
     action_groups = ["/subscriptions/7B6F8F15-3A3E-43A2-B6AC-8EB6C06AD103/resourceGroups/altinn-digdir-oed-tt02-rg/providers/microsoft.insights/actionGroups/DD-email-notification-ag"]
   }
+
   criteria {
     operator                = "GreaterThan"
+    threshold               = 0
     query                   = "AppTraces\n| where AppRoleName startswith \"oed\"\n| where SeverityLevel == 3\n| where Properties.EventId == 4003\n\n"
     time_aggregation_method = "Count"
     failing_periods {

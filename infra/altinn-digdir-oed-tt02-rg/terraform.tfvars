@@ -46,3 +46,14 @@ static_whitelist = [
 a3_sp_app_name      = "digdir-tt02-kv-sp"
 fd_sku_name         = "Standard_AzureFrontDoor"
 authz_custom_domain = "digitaltdodsbo.tt02.altinn.no"
+
+# Entra ID Configuration - Replace with your actual group object IDs
+entraid_admin_group_object_id = "YOUR_ADMIN_GROUP_OBJECT_ID_HERE"
+entraid_read_group_object_id  = "YOUR_READ_GROUP_OBJECT_ID_HERE"
+entraid_app_name_suffix       = "adminapp"
+entraid_app_name_prefix       = "digdir-dd"
+entraid_app_description       = "Digital estate management application with Admin and Read roles"
+
+# SPA Authentication Configuration
+entraid_spa_redirect_uri_localhost   = "http://localhost:3000/redirect"
+entraid_spa_redirect_uri_production  = "https://digdir-dd-test-adminapp.azurewebsites.net/redirect"
