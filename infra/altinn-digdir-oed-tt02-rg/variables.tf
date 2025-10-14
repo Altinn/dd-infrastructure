@@ -72,3 +72,36 @@ variable "authz_custom_domain" {
   description = "custom domene for authz"
   type        = string
 }
+variable "entraid_admin_group_object_id" {
+  description = "Object ID of the existing admin group in Entra ID"
+  type        = string
+}
+variable "entraid_read_group_object_id" {
+  description = "Object ID of the existing read group in Entra ID"
+  type        = string
+}
+variable "entraid_app_name_suffix" {
+  description = "Suffix for the Entra ID app name (will be prefixed with prefix-dd-{environment}-)"
+  type        = string
+  default     = "entraid-app"
+}
+variable "entraid_app_name_prefix" {
+  description = "Prefix for the Entra ID app name"
+  type        = string
+  default     = "digdir-dd"
+}
+variable "entraid_app_description" {
+  description = "Description for the Entra ID application"
+  type        = string
+  default     = "Application with Admin and Read roles for digital estate management"
+}
+variable "entraid_spa_redirect_uri_localhost" {
+  description = "Localhost redirect URI for SPA authentication (development)"
+  type        = string
+  default     = "http://localhost:3000/redirect"
+}
+variable "entraid_spa_redirect_uri_production" {
+  description = "Production redirect URI for SPA authentication"
+  type        = string
+  default     = "https://your-app-domain.com/redirect"
+}
