@@ -13,7 +13,7 @@ resource "random_uuid" "read_role_id" {}
 resource "random_uuid" "access_token_scope_id" {}
 
 # Entra ID Application with App Roles and API Scope
-resource "azuread_application" "admin_app2" {
+resource "azuread_application" "admin_ad_app" {
   display_name            = "${var.entraid_app_name_prefix}-${var.environment}-${var.entraid_app_name_suffix}"
   description             = var.entraid_app_description
   owners                  = [data.azurerm_client_config.current.object_id]
@@ -77,8 +77,8 @@ resource "azuread_application" "admin_app2" {
 }
 
 # Service Principal (Enterprise App)
-resource "azuread_service_principal" "admin_app2_sp" {
-  client_id                    = azuread_application.admin_app2.client_id
+resource "azuread_service_principal" "admin_ad_app_sp" {
+  client_id                    = azuread_application.admin_ad_app.client_id
   app_role_assignment_required = true
   owners                       = [data.azurerm_client_config.current.object_id]
 
@@ -89,12 +89,12 @@ resource "azuread_service_principal" "admin_app2_sp" {
 resource "azuread_app_role_assignment" "admin_group_to_admin_role" {
   app_role_id         = random_uuid.admin_role_id.result
   principal_object_id = data.azuread_group.admin_group.object_id
-  resource_object_id  = azuread_service_principal.admin_app2_sp.object_id
+  resource_object_id  = azuread_service_principal.admin_ad_app_sp.object_id
 }
 
 # App Role Assignments - Read Group to Read Role
 resource "azuread_app_role_assignment" "read_group_to_read_role" {
   app_role_id         = random_uuid.read_role_id.result
   principal_object_id = data.azuread_group.read_group.object_id
-  resource_object_id  = azuread_service_principal.admin_app2_sp.object_id
+  resource_object_id  = azuread_service_principal.admin_ad_app_sp.object_id
 }
