@@ -55,5 +55,5 @@ entraid_app_name_prefix       = "digdir-dd"
 entraid_app_description       = "Digital estate management application with Admin and Read roles"
 
 # SPA Authentication Configuration
-entraid_spa_redirect_uri_localhost   = "http://localhost:3000/redirect"
+entraid_spa_redirect_uri_localhost   = "https://localhost:60475/redirect"
 entraid_spa_redirect_uri_production  = "https://digdir-dd-test-adminapp.azurewebsites.net/redirect"
