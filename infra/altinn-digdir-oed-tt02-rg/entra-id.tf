@@ -19,7 +19,6 @@ resource "azuread_application" "admin_ad_app" {
   owners                  = [data.azurerm_client_config.current.object_id]
   group_membership_claims = ["None"]
   sign_in_audience        = "AzureADMyOrg"
-  identifier_uris         = ["api://${azuread_application.admin_ad_app.client_id}"]
 
   # App Roles
   app_role {
@@ -98,4 +97,9 @@ resource "azuread_app_role_assignment" "read_group_to_read_role" {
   app_role_id         = random_uuid.read_role_id.result
   principal_object_id = data.azuread_group.read_group.object_id
   resource_object_id  = azuread_service_principal.admin_ad_app_sp.object_id
+}
+
+resource "azuread_application_identifier_uri" "admin_ad_app_identifier_uri" {
+  application_id = azuread_application.admin_ad_app.id
+  identifier_uri = "api://${azuread_application.admin_ad_app.client_id}"
 }
