@@ -19,6 +19,7 @@ resource "azuread_application" "admin_ad_app" {
   owners                  = [data.azurerm_client_config.current.object_id]
   group_membership_claims = ["None"]
   sign_in_audience        = "AzureADMyOrg"
+  identifier_uris         = ["api://${azuread_application.admin_ad_app.client_id}"]
 
   # App Roles
   app_role {
