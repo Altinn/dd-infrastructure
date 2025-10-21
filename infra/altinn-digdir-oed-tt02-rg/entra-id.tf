@@ -17,7 +17,7 @@ resource "azuread_application" "admin_ad_app" {
   display_name            = "${var.entraid_app_name_prefix}-${var.environment}-${var.entraid_app_name_suffix}"
   description             = var.entraid_app_description
   owners                  = [data.azurerm_client_config.current.object_id]
-  #group_membership_claims = ["All"]
+  group_membership_claims = ["None"]
   sign_in_audience        = "AzureADMyOrg"
 
   # App Roles
