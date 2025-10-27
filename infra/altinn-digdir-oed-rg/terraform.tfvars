@@ -45,3 +45,13 @@ static_whitelist = [
 a3_sp_app_name      = "digdir-prod-kv-sp"
 fd_sku_name         = "Premium_AzureFrontDoor"
 authz_custom_domain = "digitaltdodsbo.altinn.no"
+
+# Entra ID Configuration - Replace with your actual group object IDs
+entraid_admin_group_object_id = "c98a0265-fbf9-4890-8a71-50df4623582d"
+entraid_read_group_object_id  = "87f6e50d-7423-4368-8d24-991146bfdfd6"
+entraid_app_name_suffix       = "adminapp"
+entraid_app_name_prefix       = "digdir-dd"
+entraid_app_description       = "Digital estate management application with Admin and Read roles"
+
+# SPA Authentication Configuration
+entraid_spa_redirect_uri_production  = "https://dd-prod-admin-app.azurewebsites.net/redirect"

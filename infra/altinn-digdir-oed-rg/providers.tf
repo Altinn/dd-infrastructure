@@ -4,6 +4,10 @@ terraform {
       source  = "hashicorp/azurerm"
       version = "~> 4.0"
     }
+    azuread = {
+      source  = "hashicorp/azuread"
+      version = "~> 3.6.0"
+    }
     random = {
       source  = "hashicorp/random"
       version = "~> 3.0"
@@ -23,5 +27,8 @@ provider "azurerm" {
     "Microsoft.Dashboard",
     "Microsoft.KubernetesConfiguration"
   ]
+}
+provider "azuread" {
+  tenant_id = var.tenant_id
 }
 provider "random" {}
