@@ -20,6 +20,13 @@ resource "azuread_application" "admin_ad_app" {
   group_membership_claims = ["None"]
   sign_in_audience        = "AzureADMyOrg"
 
+  # Ignore changes to identifier_uris to prevent recreation
+  lifecycle {
+    ignore_changes = [
+      identifier_uris,
+    ]
+  }
+
   # App Roles
   app_role {
     allowed_member_types = ["User"]
