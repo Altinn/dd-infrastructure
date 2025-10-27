@@ -38,6 +38,30 @@ resource "azurerm_storage_management_policy" "sa_version_cleanup_smp" {
   }
 }
 
+resource "azurerm_storage_account" "sa_admin_app" {
+  name                     = "${var.environment}adminapp"
+  resource_group_name      = azurerm_resource_group.rg.name
+  location                 = azurerm_resource_group.rg.location
+  account_tier             = "Standard"
+  account_replication_type = "LRS"
+}
+
+resource "azurerm_storage_table" "st_audit_user" {
+  name                 = "audituser"
+  storage_account_name = azurerm_storage_account.sa_admin_app.name
+}
+
+resource "azurerm_storage_table" "st_audit_estate" {
+  name                 = "auditestate"
+  storage_account_name = azurerm_storage_account.sa_admin_app.name
+}
+
+resource "azurerm_role_assignment" "ra_storage_contributor_admin_app" {
+  scope                = azurerm_storage_account.sa_admin_app.id
+  role_definition_name = "Storage Table Data Contributor"
+  principal_id         =  azurerm_linux_web_app.admin_app.identity[0].principal_id
+}
+
 resource "azurerm_redis_cache" "cache" {
   name                = "oed-${var.environment}-cache"
   location            = var.alt_location
