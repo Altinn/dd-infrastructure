@@ -56,4 +56,4 @@ entraid_app_description       = "Digital estate management application with Admi
 
 # SPA Authentication Configuration
 entraid_spa_redirect_uri_localhost   = "https://localhost:60475/redirect"
-entraid_spa_redirect_uri_production  = "https://digdir-dd-test-adminapp.azurewebsites.net/redirect"
+entraid_spa_redirect_uri_production  = "https://dd-test-admin-app.azurewebsites.net/redirect"
