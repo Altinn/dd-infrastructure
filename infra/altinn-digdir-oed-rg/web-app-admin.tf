@@ -71,6 +71,7 @@ resource "azurerm_linux_web_app" "admin_app" {
     "APPLICATIONINSIGHTS_CONNECTION_STRING"      = azurerm_application_insights.adminapp_ai.connection_string
     "ApplicationInsightsAgent_EXTENSION_VERSION" = "~3"
     "WEBSITE_AUTH_AAD_ALLOWED_TENANTS"           = var.tenant_id
+    "AzureEntraId__ClientId"                     = azuread_application.admin_ad_app.client_id
     "MICROSOFT_PROVIDER_AUTHENTICATION_SECRET"   = "@Microsoft.KeyVault(VaultName=${azurerm_key_vault.kv.name};SecretName=${azurerm_key_vault_secret.aad_secret.name})"
     "MaskinportenSettings__ClientId"             = "@Microsoft.KeyVault(VaultName=${azurerm_key_vault.kv.name};SecretName=OedAdmin--MaskinportenSettings--ClientId)"
     "MaskinportenSettings__Environment"          = "@Microsoft.KeyVault(VaultName=${azurerm_key_vault.kv.name};SecretName=OedAdmin--MaskinportenSettings--Environment)"
