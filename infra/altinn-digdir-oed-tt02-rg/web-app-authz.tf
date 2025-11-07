@@ -143,9 +143,9 @@ resource "azurerm_linux_web_app" "authz_linux" {
     health_check_eviction_time_in_min = 10
     health_check_path                 = "/health"
     http2_enabled                     = true
-    linux_fx_version                  = "DOTNET|8.0"
+    
     application_stack {
-      node_version = "22-lts"
+      dotnet_version = "8.0"
     }
   }
 }
