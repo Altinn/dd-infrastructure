@@ -124,6 +124,28 @@ resource "azurerm_linux_web_app" "authz_linux" {
   service_plan_id       = azurerm_service_plan.authz_linux.id
   depends_on            = [azurerm_service_plan.authz_linux]
   https_only            = true
+  app_settings = {
+    //WEBSITE_DAAS_STORAGE_CONNECTIONSTRING                          = "DefaultEndpointsProtocol=https;AccountName=oedteson39ei;EndpointSuffix=core.windows.net"
+    APPINSIGHTS_INSTRUMENTATIONKEY                                 = azurerm_application_insights.authz_ai.instrumentation_key
+    APPINSIGHTS_PROFILERFEATURE_VERSION                            = "1.0.0"
+    APPINSIGHTS_SNAPSHOTFEATURE_VERSION                            = "1.0.0"
+    APPLICATIONINSIGHTS_CONNECTION_STRING                          = azurerm_application_insights.authz_ai.connection_string
+    ApplicationInsightsAgent_EXTENSION_VERSION                     = "~2"
+    DiagnosticServices_EXTENSION_VERSION                           = "~3"
+    InstrumentationEngine_EXTENSION_VERSION                        = "disabled"
+    "GeneralSettings:MaskinportenAuxillaryOauth2WellKnownEndpoint" = "https://${var.maskinporten_fqdn}/.well-known/oauth-authorization-server/"
+    "GeneralSettings:MaskinportenOauth2WellKnownEndpoint"          = "https://${var.platform_fqdn}/authentication/api/v1/openid/.well-known/openid-configuration/"
+    "GeneralSettings:OedEventAuthQueryParameter"                   = "auth"
+    "Secrets:OedEventAuthKey"                                      = "@Microsoft.KeyVault(VaultName=${azurerm_key_vault.kv.name};SecretName=Secrets--OedEventAuthKey)"
+    "Secrets:PostgreSqlAdminConnectionString"                      = "@Microsoft.KeyVault(VaultName=${azurerm_key_vault.kv.name};SecretName=Secrets--PostgreSqlAdminConnectionString)"
+    "Secrets:PostgreSqlUserConnectionString"                       = "@Microsoft.KeyVault(VaultName=${azurerm_key_vault.kv.name};SecretName=Secrets--PostgreSqlUserConnectionString)"
+    SnapshotDebugger_EXTENSION_VERSION                             = "disabled"
+    XDT_MicrosoftApplicationInsights_BaseExtensions                = "disabled"
+    XDT_MicrosoftApplicationInsights_Java                          = "1"
+    XDT_MicrosoftApplicationInsights_Mode                          = "recommended"
+    XDT_MicrosoftApplicationInsights_NodeJS                        = "1"
+    XDT_MicrosoftApplicationInsights_PreemptSdk                    = "disabled"
+  }
   tags = {
     "costcenter"                                     = "altinn3"
     "hidden-link: /app-insights-conn-string"         = azurerm_application_insights.authz_ai.connection_string
