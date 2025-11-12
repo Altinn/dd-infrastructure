@@ -17,7 +17,7 @@ resource "azurerm_service_plan" "authz" {
 }
 
 resource "azurerm_service_plan" "authz_linux" {
-  name                = "ASP-altinndigdiroedtt02rg-linux"
+  name                = "ASP-altinndigdiroed-authz-linux"
   location            = azurerm_resource_group.rg.location
   resource_group_name = azurerm_resource_group.rg.name
   os_type             = "Linux"
