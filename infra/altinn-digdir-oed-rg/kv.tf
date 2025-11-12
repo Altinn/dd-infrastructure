@@ -22,6 +22,14 @@ resource "azurerm_key_vault_access_policy" "digdir_kv_sp" {
   certificate_permissions = ["Get", "List"]
 }
 
+resource "azurerm_key_vault_access_policy" "authz_linux" {
+  depends_on              = [azurerm_key_vault.kv]
+  key_vault_id            = azurerm_key_vault.kv.id
+  tenant_id               = data.azurerm_client_config.current.tenant_id
+  object_id               = azurerm_linux_web_app.authz_linux.identity[0].principal_id
+  secret_permissions      = ["Get"]
+}
+
 #access til github action brukeren for dd-infrastructure
 resource "azurerm_key_vault_access_policy" "github_access" {
   depends_on              = [azurerm_key_vault.kv]
