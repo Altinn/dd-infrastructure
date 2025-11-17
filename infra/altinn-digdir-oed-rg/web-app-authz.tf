@@ -165,7 +165,7 @@ resource "azurerm_linux_web_app" "authz_linux" {
     health_check_path                 = "/health"
     http2_enabled                     = true
     ip_restriction_default_action     = "Deny"
-    
+
     application_stack {
       dotnet_version = "8.0"
     }
@@ -180,14 +180,5 @@ resource "azurerm_linux_web_app" "authz_linux" {
       }
       priority    = 10
     }
-
-    ip_restriction {
-      name       = "Deny-All"
-      ip_address = "0.0.0.0/0"
-      priority   = 900
-      action     = "Deny"
-    }
-
   }
-
 }
