@@ -164,9 +164,30 @@ resource "azurerm_linux_web_app" "authz_linux" {
     health_check_eviction_time_in_min = 10
     health_check_path                 = "/health"
     http2_enabled                     = true
+    ip_restriction_default_action     = "Deny"
+    
     application_stack {
       dotnet_version = "8.0"
     }
+
+    ip_restriction {
+      name        = "Allow-FrontDoor"
+      description = "Allow-FrontDoor"
+      service_tag = "AzureFrontDoor.Backend"
+      action      = "Allow"
+      headers {
+        x_azure_fdid = ["${azurerm_cdn_frontdoor_profile.fd_profile.resource_guid}"]
+      }
+      priority    = 10
+    }
+
+    ip_restriction {
+      name       = "Deny-All"
+      ip_address = "0.0.0.0/0"
+      priority   = 900
+      action     = "Deny"
+    }
+
   }
 
 }
