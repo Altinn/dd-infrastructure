@@ -13,7 +13,7 @@ resource "azurerm_linux_web_app" "testapp-linux" {
 
   lifecycle {
     ignore_changes = [
-      app_settings["AuthSettings:CloudEventSecret"],
+      app_settings["AuthSettings__CloudEventSecret"],
     ]
   }
 
