@@ -4,12 +4,12 @@ import {
 }
 
 resource "azurerm_linux_web_app" "testapp-linux" {
-  name                = "oed-testapp-app-linux"
-  location            = var.alt_location
-  resource_group_name = azurerm_resource_group.rg.name
-  service_plan_id     = azurerm_service_plan.authz_linux.id
-  https_only          = true
-  client_affinity_enabled = true
+  name                  = "oed-testapp-app-linux"
+  location              = var.alt_location
+  resource_group_name   = azurerm_resource_group.rg.name
+  service_plan_id       = azurerm_service_plan.authz_linux.id
+  depends_on            = [azurerm_service_plan.authz_linux]
+  https_only            = true
 
   lifecycle {
     ignore_changes = [
@@ -54,17 +54,6 @@ resource "azurerm_linux_web_app" "testapp-linux" {
   identity {
     type         = "SystemAssigned, UserAssigned"
     identity_ids = ["/subscriptions/7b6f8f15-3a3e-43a2-b6ac-8eb6c06ad103/resourceGroups/altinn-digdir-oed-tt02-rg/providers/Microsoft.ManagedIdentity/userAssignedIdentities/oed-kv-principal"]
-  }
-
-  logs {
-    detailed_error_messages = true
-    failed_request_tracing  = false
-    http_logs {
-      file_system {
-        retention_in_days = 5
-        retention_in_mb   = 35
-      }
-    }
   }
 
   site_config {
