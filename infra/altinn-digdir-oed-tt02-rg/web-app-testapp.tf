@@ -75,7 +75,7 @@ resource "azurerm_linux_web_app" "testapp-linux" {
     http2_enabled                     = true
 
     application_stack {
-      dotnet_version = "8.0"
+      dotnet_version = "9.0"
     }
   }
 }
