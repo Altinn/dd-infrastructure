@@ -26,7 +26,7 @@ locals {
     )
   ])
 
-  authz_ips = split(",", azurerm_windows_web_app.authz.outbound_ip_addresses)
+  authz_ips = split(",", azurerm_linux_web_app.authz_linux.outbound_ip_addresses)
 
   dynamic_authz_whitelist = flatten([
     [for ip in local.feedpoller_ips : {
