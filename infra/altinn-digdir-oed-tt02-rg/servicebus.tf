@@ -15,6 +15,29 @@ resource "azurerm_servicebus_namespace" "dd_sb_ns" {
   }
 }
 
+resource "azurerm_servicebus_topic" "dd_estate" {
+  name         = "dd_estate"
+  namespace_id = azurerm_servicebus_namespace.dd_sb_ns.id
+
+  partitioning_enabled = true
+}
+
+resource "azurerm_servicebus_subscription" "oed_estate_subscription" {
+  name               = "oed_estate_subscription"
+  topic_id           = azurerm_servicebus_topic.dd_estate.id
+  max_delivery_count = 10
+  dead_lettering_on_filter_evaluation_error = true
+  dead_lettering_on_message_expiration = true
+}
+
+resource "azurerm_servicebus_subscription" "authz_estate_subscription" {
+  name               = "authz_estate_subscription"
+  topic_id           = azurerm_servicebus_topic.dd_estate.id
+  max_delivery_count = 10
+  dead_lettering_on_filter_evaluation_error = true
+  dead_lettering_on_message_expiration = true
+}
+
 # Gi full topic/subscription access til authz
 resource "azurerm_role_assignment" "sb_authz_ra" {
   scope                = azurerm_servicebus_namespace.dd_sb_ns.id
