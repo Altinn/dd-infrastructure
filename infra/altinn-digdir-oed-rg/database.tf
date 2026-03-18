@@ -44,6 +44,12 @@ resource "azurerm_postgresql_flexible_server" "pg" {
   }
 }
 
+resource "azurerm_postgresql_flexible_server_configuration" "max_connections" {
+  name      = "max_connections"
+  server_id = azurerm_postgresql_flexible_server.pg.id
+  value     = "859"
+}
+
 resource "azurerm_postgresql_flexible_server_database" "oed_db" {
   name      = "dd-oed-${var.environment}-pg-db"
   server_id = azurerm_postgresql_flexible_server.pg.id
