@@ -77,7 +77,7 @@ resource "azurerm_linux_web_app" "admin_app" {
     "MaskinportenSettings__Environment"          = "@Microsoft.KeyVault(VaultName=${azurerm_key_vault.kv.name};SecretName=OedAdmin--MaskinportenSettings--Environment)"
     "MaskinportenSettings__EncodedJwk"           = "@Microsoft.KeyVault(VaultName=${azurerm_key_vault.kv.name};SecretName=OedAdmin--MaskinportenSettings--EncodedJwk)"
     "AltinnSettings__PlatformUrl"                = "@Microsoft.KeyVault(VaultName=${azurerm_key_vault.kv.name};SecretName=OedAdmin--AltinnSettings--PlatformUrl)"
-    "FeedPoller--HostKey"                        = "@Microsoft.KeyVault(VaultName=${azurerm_key_vault.kv.name};SecretName=OedAdmin--FeedPoller--HostKey)"
+    "FeedPoller__HostKey"                        = "@Microsoft.KeyVault(VaultName=${azurerm_key_vault.kv.name};SecretName=OedAdmin--FeedPoller--HostKey)"
   }
 
   tags = {
