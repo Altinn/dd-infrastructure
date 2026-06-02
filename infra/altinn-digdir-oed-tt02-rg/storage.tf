@@ -38,22 +38,6 @@ resource "azurerm_storage_management_policy" "sa_version_cleanup_smp" {
   }
 }
 
-resource "azurerm_storage_account" "qa" {
-  name                     = "oedqa"
-  resource_group_name      = azurerm_resource_group.rg.name
-  location                 = azurerm_resource_group.rg.location
-  account_replication_type = "LRS"
-  account_tier             = "Standard"
-  blob_properties {
-    versioning_enabled = true
-  }
-}
-
-resource "azurerm_storage_account_static_website" "qastatic" {
-  storage_account_id = azurerm_storage_account.qa.id
-  index_document     = "index.html"
-}
-
 resource "azurerm_storage_account" "sa_admin_app" {
   name                     = "${var.environment}adminapp"
   resource_group_name      = azurerm_resource_group.rg.name
