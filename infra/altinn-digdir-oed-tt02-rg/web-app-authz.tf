@@ -7,6 +7,7 @@ resource "azurerm_linux_web_app" "authz_linux" {
   https_only            = true
   app_settings = {
     //WEBSITE_DAAS_STORAGE_CONNECTIONSTRING                          = "DefaultEndpointsProtocol=https;AccountName=oedteson39ei;EndpointSuffix=core.windows.net"
+    ASPNETCORE_ENVIRONMENT                                         = "Staging"
     APPINSIGHTS_INSTRUMENTATIONKEY                                 = azurerm_application_insights.authz_ai.instrumentation_key
     APPINSIGHTS_PROFILERFEATURE_VERSION                            = "1.0.0"
     APPINSIGHTS_SNAPSHOTFEATURE_VERSION                            = "1.0.0"
