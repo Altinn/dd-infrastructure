@@ -49,17 +49,21 @@ resource "azurerm_storage_account" "qa" {
   }
 }
 
-resource "azurerm_storage_account_static_website" "qastatic" {
-  storage_account_id = azurerm_storage_account.qa.id
-  index_document     = "index.html"
-}
-
 # The admin app renders the QA dashboard natively by reading the snapshot JSON from the oedqa
 # "reports" container. Grant its managed identity read access to the blob data.
 resource "azurerm_role_assignment" "ra_qa_blob_reader_admin_app" {
   scope                = azurerm_storage_account.qa.id
   role_definition_name = "Storage Blob Data Reader"
   principal_id         = azurerm_linux_web_app.admin_app.identity[0].principal_id
+}
+
+# dd-prod-admin-app (subscription 0f05e9d4-…) also renders the QA dashboard and reads
+# oedqa/reports. Cross-subscription but same tenant; the principal id is hardcoded because that
+# app lives in a different subscription/state (a live reference would need a provider alias).
+resource "azurerm_role_assignment" "ra_qa_blob_reader_prod_admin_app" {
+  scope                = azurerm_storage_account.qa.id
+  role_definition_name = "Storage Blob Data Reader"
+  principal_id         = "47561a5a-938a-4031-b4a2-4e629efe941a" # dd-prod-admin-app managed identity
 }
 
 resource "azurerm_storage_account" "sa_admin_app" {
