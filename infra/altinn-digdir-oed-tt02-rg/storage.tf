@@ -54,6 +54,14 @@ resource "azurerm_storage_account_static_website" "qastatic" {
   index_document     = "index.html"
 }
 
+# The admin app renders the QA dashboard natively by reading the snapshot JSON from the oedqa
+# "reports" container. Grant its managed identity read access to the blob data.
+resource "azurerm_role_assignment" "ra_qa_blob_reader_admin_app" {
+  scope                = azurerm_storage_account.qa.id
+  role_definition_name = "Storage Blob Data Reader"
+  principal_id         = azurerm_linux_web_app.admin_app.identity[0].principal_id
+}
+
 resource "azurerm_storage_account" "sa_admin_app" {
   name                     = "${var.environment}adminapp"
   resource_group_name      = azurerm_resource_group.rg.name
