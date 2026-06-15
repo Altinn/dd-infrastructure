@@ -5,19 +5,21 @@ resource "azurerm_windows_function_app" "feedpoller" {
     ]
   }
   app_settings = {
-    "AzureWebJobs.FeedPoller.Disabled"       = "0"
-    "ConnectionStrings:Redis"                = "@Microsoft.KeyVault(VaultName=${azurerm_key_vault.kv.name};SecretName=ConnectionStrings--Redis)"
-    "DaSettings:ProxyHostEndpointMatch"      = "domstol.no$|brreg.no$|pipedream.net$"
-    "MaskinportenSettings:ClientId"          = "@Microsoft.KeyVault(VaultName=${azurerm_key_vault.kv.name};SecretName=OedEventsConfig--MaskinportenSettings--ClientId)"
-    "MaskinportenSettings:EncodedJwk"        = "@Microsoft.KeyVault(VaultName=${azurerm_key_vault.kv.name};SecretName=OedEventsConfig--MaskinportenSettings--EncodedJwk)"
-    "MaskinportenSettings:Environment"       = "${var.environment}"
-    "MaskinportenSettings:Scope"             = "domstol:forvaltningssaker:doedsfall.read altinn:serviceowner/events altinn:dd:internalevents"
-    "MaskinportenSettings:DaResource"        = "https://${var.domstol_fqdn}/api"
-    "MaskinportenSettings:OedEventsResource" = "https://digdir.apps.altinn.no/digdir/oed-events/da-events/api/v1"
-    "OedSettings:DaProxyHostEndpointMatch"   = "domstol.no$|brreg.no$|pipedream.net$|${var.cluster_fqdn}$"
-    "OedSettings:OedEventsBaseUrl"           = "https://${var.cluster_fqdn}/digdir/oed-events/da-events/api/v1/"
-    "FUNCTIONS_WORKER_RUNTIME"               = "dotnet-isolated"
-    "FUNCTIONS_EXTENSION_VERSION"            = "~4"
+    "AzureWebJobs.FeedPoller.Disabled"           = "0"
+    "ConnectionStrings:Redis"                    = "@Microsoft.KeyVault(VaultName=${azurerm_key_vault.kv.name};SecretName=ConnectionStrings--Redis)"
+    "DaSettings:ProxyHostEndpointMatch"          = "domstol.no$|brreg.no$|pipedream.net$"
+    "MaskinportenSettings:ClientId"              = "@Microsoft.KeyVault(VaultName=${azurerm_key_vault.kv.name};SecretName=OedEventsConfig--MaskinportenSettings--ClientId)"
+    "MaskinportenSettings:EncodedJwk"            = "@Microsoft.KeyVault(VaultName=${azurerm_key_vault.kv.name};SecretName=OedEventsConfig--MaskinportenSettings--EncodedJwk)"
+    "MaskinportenSettings:Environment"           = "${var.environment}"
+    "MaskinportenSettings:Scope"                 = "domstol:forvaltningssaker:doedsfall.read altinn:serviceowner/events altinn:dd:internalevents"
+    "MaskinportenSettings:DaResource"            = "https://${var.domstol_fqdn}/api"
+    "MaskinportenSettings:OedEventsResource"     = "https://digdir.apps.altinn.no/digdir/oed-events/da-events/api/v1"
+    "MaskinportenSettings:OedEventsFregResource" = "https://digdir.apps.altinn.no/digdir/oed-events/freg-events/api/v1"
+    "OedSettings:DaProxyHostEndpointMatch"       = "domstol.no$|brreg.no$|pipedream.net$|${var.cluster_fqdn}$"
+    "OedSettings:OedEventsBaseUrl"               = "https://${var.cluster_fqdn}/digdir/oed-events/da-events/api/v1/"
+    "OedSettings:OedEventsFregBaseUrl"           = "https://${var.cluster_fqdn}/digdir/oed-events/freg-events/api/v1/"
+    "FUNCTIONS_WORKER_RUNTIME"                   = "dotnet-isolated"
+    "FUNCTIONS_EXTENSION_VERSION"                = "~4"
   }
   https_only                 = true
   builtin_logging_enabled    = false
