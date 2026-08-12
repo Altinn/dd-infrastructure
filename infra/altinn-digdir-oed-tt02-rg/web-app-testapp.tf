@@ -13,6 +13,7 @@ resource "azurerm_linux_web_app" "testapp-linux" {
   }
 
   app_settings = {
+    AUTO_APPROVE_SUBMITTED_DECLARATIONS             = "true"
     APPINSIGHTS_INSTRUMENTATIONKEY                  = azurerm_application_insights.testapp_ai.instrumentation_key
     APPINSIGHTS_PROFILERFEATURE_VERSION             = "1.0.0"
     APPINSIGHTS_SNAPSHOTFEATURE_VERSION             = "1.0.0"
