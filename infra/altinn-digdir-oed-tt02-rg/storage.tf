@@ -49,6 +49,21 @@ resource "azurerm_storage_account" "qa" {
   }
 }
 
+# One-off QA documents (codebase reviews, audit write-ups) that are shared with people rather than
+# rendered by the admin app. Kept out of the "reports" container because SonarGate's BlobArchiver
+# and the admin app's dashboard both enumerate "reports" by the {projectKey}/history/ prefix, and a
+# loose HTML blob there shows up in that listing.
+#
+# Deliberately private: 919d140 removed this account's public static website, so the only intended
+# way to hand one of these to someone outside the reader role assignments below is a short-lived
+# read-only user-delegation SAS. Do not set container_access_type to "blob" or "container" — that
+# reinstates the anonymous access that commit took away.
+resource "azurerm_storage_container" "qa_reviews" {
+  name                  = "reviews"
+  storage_account_id    = azurerm_storage_account.qa.id
+  container_access_type = "private"
+}
+
 # The admin app renders the QA dashboard natively by reading the snapshot JSON from the oedqa
 # "reports" container. Grant its managed identity read access to the blob data.
 resource "azurerm_role_assignment" "ra_qa_blob_reader_admin_app" {
