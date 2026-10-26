@@ -21,6 +21,7 @@ resource "azurerm_windows_function_app" "feedpoller" {
     "OedSettings:OedEventsFregBaseUrl"           = "https://${var.cluster_fqdn}/digdir/oed-events/freg-events/api/v1/"
     "FUNCTIONS_WORKER_RUNTIME"                   = "dotnet-isolated"
     "FUNCTIONS_EXTENSION_VERSION"                = "~4"
+    "WEBSITE_RUN_FROM_PACKAGE"                   = "1"
   }
   https_only                 = true
   builtin_logging_enabled    = false
