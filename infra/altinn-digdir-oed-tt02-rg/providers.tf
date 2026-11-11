@@ -2,7 +2,7 @@ terraform {
   required_providers {
     azurerm = {
       source  = "hashicorp/azurerm"
-      version = "~> 4.0"
+      version = "4.81.0"
     }
     azuread = {
       source  = "hashicorp/azuread"
@@ -21,6 +21,8 @@ terraform {
 provider "azurerm" {
   subscription_id = var.subscription_id
   features {}
+  # Explicit because azurerm 5.0 changes the default from "legacy" to "none".
+  resource_provider_registrations = "legacy"
   resource_providers_to_register = [
     "Microsoft.Monitor",
     "Microsoft.AlertsManagement",

@@ -5,6 +5,8 @@ resource "azurerm_key_vault" "kv" {
   sku_name                 = "standard"
   tenant_id                = var.tenant_id
   purge_protection_enabled = true
+  # Required from azurerm 5.0. False because access is granted through the access policies below.
+  rbac_authorization_enabled = false
   tags = {
     "costcenter" = "altinn3"
     "solution"   = "apps"
