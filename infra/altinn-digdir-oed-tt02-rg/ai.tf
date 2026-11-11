@@ -21,7 +21,7 @@ resource "azurerm_application_insights" "feedpoller" {
   application_type    = "web"
   workspace_id        = azurerm_log_analytics_workspace.law.id
   sampling_percentage = 100
-  disable_ip_masking  = true
+  ip_masking_enabled  = false
   tags = {
     "costcenter" = "altinn3"
     "solution"   = "apps"
@@ -35,7 +35,7 @@ resource "azurerm_application_insights" "authz_ai" {
   application_type    = "web"
   workspace_id        = azurerm_log_analytics_workspace.law.id
   sampling_percentage = 100
-  disable_ip_masking  = true
+  ip_masking_enabled  = false
   tags = {
     "costcenter" = "altinn3"
     "solution"   = "apps"
@@ -54,7 +54,7 @@ resource "azurerm_application_insights" "testapp_ai" {
   application_type    = "web"
   workspace_id        = azurerm_log_analytics_workspace.law.id
   sampling_percentage = 100
-  disable_ip_masking  = true
+  ip_masking_enabled  = false
   tags = {
     "costcenter" = "altinn3"
     "solution"   = "apps"
@@ -68,7 +68,7 @@ resource "azurerm_application_insights" "adminapp_ai" {
   application_type    = "web"
   workspace_id        = azurerm_log_analytics_workspace.law.id
   sampling_percentage = 100
-  disable_ip_masking  = true
+  ip_masking_enabled  = false
   tags = {
     "costcenter" = "altinn3"
     "solution"   = "apps"
