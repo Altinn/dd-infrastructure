@@ -11,7 +11,7 @@ resource "azurerm_application_insights" "feedpoller" {
   resource_group_name = azurerm_resource_group.rg.name
   application_type    = "web"
   workspace_id        = azurerm_log_analytics_workspace.law.id
-  disable_ip_masking  = true
+  ip_masking_enabled  = false
 }
 
 resource "azurerm_application_insights" "authz_ai" {
@@ -20,7 +20,7 @@ resource "azurerm_application_insights" "authz_ai" {
   resource_group_name = azurerm_resource_group.rg.name
   application_type    = "web"
   workspace_id        = azurerm_log_analytics_workspace.law.id
-  disable_ip_masking  = true
+  ip_masking_enabled  = false
 }
 
 resource "azurerm_application_insights" "adminapp_ai" {
@@ -29,7 +29,7 @@ resource "azurerm_application_insights" "adminapp_ai" {
   resource_group_name = azurerm_resource_group.rg.name
   application_type    = "web"
   workspace_id        = azurerm_log_analytics_workspace.law.id
-  disable_ip_masking  = true
+  ip_masking_enabled  = false
   sampling_percentage = 100
   tags = {
     "costcenter" = "altinn3"

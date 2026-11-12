@@ -4,6 +4,8 @@ resource "azurerm_key_vault" "kv" {
   resource_group_name = azurerm_resource_group.rg.name
   sku_name            = "standard"
   tenant_id           = var.tenant_id
+  # Required from azurerm 5.0. False because access is granted through the access policies below.
+  rbac_authorization_enabled = false
 }
 
 # Ingen tilgang til github action bruker
