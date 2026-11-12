@@ -4,6 +4,8 @@ resource "azurerm_storage_account" "sa" {
   resource_group_name      = azurerm_resource_group.rg.name
   account_replication_type = "ZRS"
   account_tier             = "Standard"
+  # Explicit because azurerm 5.0 changes the default from true to false. True is the live value.
+  allow_nested_items_to_be_public = true
   blob_properties {
     versioning_enabled = true
   }
@@ -43,16 +45,26 @@ resource "azurerm_storage_account" "sa_admin_app" {
   location                 = azurerm_resource_group.rg.location
   account_tier             = "Standard"
   account_replication_type = "LRS"
+  # Explicit because azurerm 5.0 changes the default from true to false. True is the live value.
+  allow_nested_items_to_be_public = true
 }
 
 resource "azurerm_storage_table" "st_audit_user" {
-  name                 = "audituser"
-  storage_account_name = azurerm_storage_account.sa_admin_app.name
+  name               = "audituser"
+  storage_account_id = azurerm_storage_account.sa_admin_app.id
+  # Holds the admin app's audit log. Fail the plan rather than replace or delete the table.
+  lifecycle {
+    prevent_destroy = true
+  }
 }
 
 resource "azurerm_storage_table" "st_audit_estate" {
-  name                 = "auditestate"
-  storage_account_name = azurerm_storage_account.sa_admin_app.name
+  name               = "auditestate"
+  storage_account_id = azurerm_storage_account.sa_admin_app.id
+  # Holds the admin app's audit log. Fail the plan rather than replace or delete the table.
+  lifecycle {
+    prevent_destroy = true
+  }
 }
 
 resource "azurerm_role_assignment" "ra_storage_contributor_admin_app" {
