@@ -59,6 +59,15 @@ variable "static_whitelist" {
     start_ip = string
     end_ip   = string
   }))
+
+  validation {
+    condition = alltrue([
+      for rule in var.static_whitelist :
+      join(".", slice(split(".", rule.start_ip), 0, 3)) == join(".", slice(split(".", rule.end_ip), 0, 3)) &&
+      tonumber(split(".", rule.start_ip)[3]) <= tonumber(split(".", rule.end_ip)[3])
+    ])
+    error_message = "Each static_whitelist range must stay within one /24, with start_ip <= end_ip."
+  }
 }
 variable "a3_sp_app_name" {
   description = "Digdir A3 app principal object name"
