@@ -28,6 +28,13 @@ static_whitelist = [
     end_ip   = "51.13.16.143"
   },
   {
+    # New AKS egress after the move to Sweden Central (172.130.12.192/28).
+    # Keep the "aks" entry above until Digdir confirms the move is done.
+    name     = "aks-swedencentral"
+    start_ip = "172.130.12.192"
+    end_ip   = "172.130.12.207"
+  },
+  {
     name     = "A3Auth1"
     start_ip = "20.100.48.120"
     end_ip   = "20.100.48.120"

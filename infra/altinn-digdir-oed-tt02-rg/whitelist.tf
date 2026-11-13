@@ -42,14 +42,18 @@ locals {
   # lag map for for_each
   whitelist_map_pg = { for rule in local.all_whitelist : rule.name => rule }
 
-  # eks. ["10.0.0.1","10.0.0.1",.....]
-  whitelist_array = flatten([
-    for rule in local.all_whitelist : (
-      rule.start_ip != rule.end_ip && rule.end_ip != null ?
-      [rule.start_ip, rule.end_ip] :
-      [rule.start_ip]
-    )
-  ])
+  # eks. ["10.0.0.1","10.0.0.2",.....]
+  # Ranges are expanded to every address in them, since Service Bus ip_rules
+  # takes single IPs or CIDRs, not start/end ranges. A range must stay within
+  # one /24 (checked by the validation on var.static_whitelist).
+  whitelist_array = distinct(flatten([
+    for rule in local.all_whitelist : [
+      for i in range(
+        tonumber(split(".", rule.start_ip)[3]),
+        tonumber(split(".", rule.end_ip)[3]) + 1
+      ) : format("%s.%d", join(".", slice(split(".", rule.start_ip), 0, 3)), i)
+    ]
+  ]))
 }
 
 output "whitelist_ips" {
