@@ -118,12 +118,3 @@ resource "azurerm_role_assignment" "ra_storage_contributor_admin_app" {
   role_definition_name = "Storage Table Data Contributor"
   principal_id         =  azurerm_linux_web_app.admin_app.identity[0].principal_id
 }
-
-resource "azurerm_redis_cache" "cache" {
-  name                = "oed-${var.environment}-cache"
-  location            = var.alt_location
-  resource_group_name = azurerm_resource_group.rg.name
-  capacity            = 0
-  family              = "C"
-  sku_name            = "Basic"
-}

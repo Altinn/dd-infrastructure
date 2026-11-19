@@ -69,10 +69,6 @@ variable "static_whitelist" {
     error_message = "Each static_whitelist range must stay within one /24, with start_ip <= end_ip."
   }
 }
-variable "a3_sp_app_name" {
-  description = "Digdir A3 app principal object name"
-  type        = string
-}
 variable "fd_sku_name" {
   description = "Front door and WAF sku level"
   type        = string
