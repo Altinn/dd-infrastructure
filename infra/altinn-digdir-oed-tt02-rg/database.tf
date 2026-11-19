@@ -94,12 +94,12 @@ resource "azurerm_key_vault_secret" "psql_connect" {
 
 import {
   to = azurerm_key_vault_secret.psql_connect["Secrets--PostgreSqlAdminConnectionString"]
-  id = "TODO-versioned-secret-id"
+  id = "https://oed-kv.vault.azure.net/secrets/Secrets--PostgreSqlAdminConnectionString/a1fc0662aaf14c0a8c5cb4df9e97fad4"
 }
 
 import {
   to = azurerm_key_vault_secret.psql_connect["Secrets--PostgreSqlUserConnectionString"]
-  id = "TODO-versioned-secret-id"
+  id = "https://oed-kv.vault.azure.net/secrets/Secrets--PostgreSqlUserConnectionString/b7262268bee84449af99389439204fac"
 }
 
 
