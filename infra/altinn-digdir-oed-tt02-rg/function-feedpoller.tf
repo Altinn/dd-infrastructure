@@ -29,7 +29,7 @@ resource "azurerm_windows_function_app" "feedpoller" {
   name                       = "oed-${var.environment}-feedpoller-func"
   resource_group_name        = azurerm_resource_group.rg.name
   service_plan_id            = azurerm_service_plan.feedpoller.id
-  storage_account_access_key = azurerm_storage_account.sa.secondary_access_key
+  storage_account_access_key = azurerm_storage_account.sa.primary_access_key
   storage_account_name       = azurerm_storage_account.sa.name
   tags = {
     costcenter                                       = "altinn3"
