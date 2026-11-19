@@ -1,27 +1,30 @@
 # PostgreSQL for OED
-resource "random_password" "dd_admin_password" {
-  length  = 16
-  special = true
+# Passwords are ephemeral and only reach write-only arguments, so they never land in state or plan.
+# They are applied when var.secret_rotation_version changes.
+ephemeral "random_password" "dd_admin_password" {
+  length           = 32
+  override_special = "!#%*-_+"
 }
 
-resource "random_password" "dd_user_password" {
-  length  = 16
-  special = true
+ephemeral "random_password" "dd_user_password" {
+  length           = 32
+  override_special = "!#%*-_+"
 }
 
 resource "azurerm_postgresql_flexible_server" "pg" {
-  name                          = "dd-${var.environment}-pg"
-  location                      = azurerm_resource_group.rg.location
-  resource_group_name           = azurerm_resource_group.rg.name
-  administrator_login           = "pgadmin"
-  administrator_password        = random_password.dd_admin_password.result
-  version                       = "16"
-  sku_name                      = "B_Standard_B2ms"
-  storage_mb                    = 32768
-  backup_retention_days         = 7
-  auto_grow_enabled             = false
-  public_network_access_enabled = true
-  zone                          = "1"
+  name                              = "dd-${var.environment}-pg"
+  location                          = azurerm_resource_group.rg.location
+  resource_group_name               = azurerm_resource_group.rg.name
+  administrator_login               = "pgadmin"
+  administrator_password_wo         = ephemeral.random_password.dd_admin_password.result
+  administrator_password_wo_version = var.secret_rotation_version
+  version                           = "16"
+  sku_name                          = "B_Standard_B2ms"
+  storage_mb                        = 32768
+  backup_retention_days             = 7
+  auto_grow_enabled                 = false
+  public_network_access_enabled     = true
+  zone                              = "1"
 
   authentication {
     active_directory_auth_enabled = true
@@ -42,23 +45,24 @@ resource "azurerm_postgresql_flexible_server_database" "oed_db" {
 }
 
 locals {
-  app_user = {
-    name     = "appuser"
-    password = random_password.dd_user_password.result
-  }
+  app_user_name = "appuser"
 }
 
 #Har ikke tilgang til a3 aps kv, så connstringen legges i oed-kv og må flyttes manuelt
 resource "azurerm_key_vault_secret" "admin_conn_string" {
-  name         = "dd-pgadmin-connection-string"
-  value        = "Server=${azurerm_postgresql_flexible_server.pg.fqdn};Username=${azurerm_postgresql_flexible_server.pg.administrator_login};Database=${azurerm_postgresql_flexible_server_database.oed_db.name};Port=5432;Password='${random_password.dd_admin_password.result}';SSLMode=Prefer"
-  key_vault_id = azurerm_key_vault.kv.id
+  name             = "dd-pgadmin-connection-string"
+  value_wo         = "Server=${azurerm_postgresql_flexible_server.pg.fqdn};Username=${azurerm_postgresql_flexible_server.pg.administrator_login};Database=${azurerm_postgresql_flexible_server_database.oed_db.name};Port=5432;Password='${ephemeral.random_password.dd_admin_password.result}';SSLMode=Prefer"
+  value_wo_version = var.secret_rotation_version
+  key_vault_id     = azurerm_key_vault.kv.id
 }
 
+# The appuser role password is not managed by Terraform: after an apply that bumps
+# var.secret_rotation_version, set it with ALTER ROLE from this secret (runbook PostApply).
 resource "azurerm_key_vault_secret" "user_conn_string" {
-  name         = "OedConfig--Postgres--ConnectionString"
-  value        = "Server=${azurerm_postgresql_flexible_server.pg.fqdn};Username=${local.app_user.name};Database=${azurerm_postgresql_flexible_server_database.oed_db.name};Port=5432;Password='${local.app_user.password}';SSLMode=Prefer"
-  key_vault_id = azurerm_key_vault.kv.id
+  name             = "OedConfig--Postgres--ConnectionString"
+  value_wo         = "Server=${azurerm_postgresql_flexible_server.pg.fqdn};Username=${local.app_user_name};Database=${azurerm_postgresql_flexible_server_database.oed_db.name};Port=5432;Password='${ephemeral.random_password.dd_user_password.result}';SSLMode=Prefer"
+  value_wo_version = var.secret_rotation_version
+  key_vault_id     = azurerm_key_vault.kv.id
 }
 
 resource "azurerm_postgresql_flexible_server_firewall_rule" "whitelist" {
@@ -74,13 +78,28 @@ resource "azurerm_postgresql_flexible_server_firewall_rule" "whitelist" {
 # Authz db
 # Hent connection string fra Key Vault
 # For å feks. oppgrade db versjon, så må en ha admin rettigheter på serveren
-data "azurerm_key_vault_secret" "pg_connstr" {
-  name         = "Secrets--PostgreSqlAdminConnectionString"
-  key_vault_id = azurerm_key_vault.kv.id
+ephemeral "random_password" "psql_admin_password" {
+  length           = 32
+  override_special = "!#%*-_+"
 }
 
-locals {
-  pg_password = regex("Password=([^;]+);", data.azurerm_key_vault_secret.pg_connstr.value)[0]
+# Same as prod: both connection strings use the server admin login.
+resource "azurerm_key_vault_secret" "psql_connect" {
+  for_each         = toset(["Secrets--PostgreSqlAdminConnectionString", "Secrets--PostgreSqlUserConnectionString"])
+  name             = each.key
+  value_wo         = "Server=${azurerm_postgresql_flexible_server.psql.fqdn};Username=${azurerm_postgresql_flexible_server.psql.administrator_login};Database=oedauthz;Port=5432;Password=${ephemeral.random_password.psql_admin_password.result};SSLMode=Prefer"
+  value_wo_version = var.secret_rotation_version
+  key_vault_id     = azurerm_key_vault.kv.id
+}
+
+import {
+  to = azurerm_key_vault_secret.psql_connect["Secrets--PostgreSqlAdminConnectionString"]
+  id = "https://oed-kv.vault.azure.net/secrets/Secrets--PostgreSqlAdminConnectionString/a1fc0662aaf14c0a8c5cb4df9e97fad4"
+}
+
+import {
+  to = azurerm_key_vault_secret.psql_connect["Secrets--PostgreSqlUserConnectionString"]
+  id = "https://oed-kv.vault.azure.net/secrets/Secrets--PostgreSqlUserConnectionString/b7262268bee84449af99389439204fac"
 }
 
 
@@ -88,17 +107,18 @@ resource "azurerm_postgresql_flexible_server" "psql" {
   lifecycle {
     prevent_destroy = true
   }
-  administrator_login           = "oed${var.environment}pgadmin"
-  administrator_password        = local.pg_password
-  auto_grow_enabled             = false
-  backup_retention_days         = 7
-  location                      = var.alt_location
-  name                          = "oed-${var.environment}-authz-pg"
-  public_network_access_enabled = true
-  resource_group_name           = azurerm_resource_group.rg.name
-  sku_name                      = "B_Standard_B4ms"
-  version                       = "16"
-  zone                          = "1"
+  administrator_login               = "oed${var.environment}pgadmin"
+  administrator_password_wo         = ephemeral.random_password.psql_admin_password.result
+  administrator_password_wo_version = var.secret_rotation_version
+  auto_grow_enabled                 = false
+  backup_retention_days             = 7
+  location                          = var.alt_location
+  name                              = "oed-${var.environment}-authz-pg"
+  public_network_access_enabled     = true
+  resource_group_name               = azurerm_resource_group.rg.name
+  sku_name                          = "B_Standard_B4ms"
+  version                           = "16"
+  zone                              = "1"
 
   authentication {
     active_directory_auth_enabled = true

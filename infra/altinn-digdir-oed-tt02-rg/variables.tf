@@ -110,3 +110,8 @@ variable "entraid_spa_redirect_uri_production" {
   type        = string
   default     = "https://your-app-domain.com/redirect"
 }
+variable "secret_rotation_version" {
+  description = "Bump to generate and apply new Postgres passwords (write-only arguments)."
+  type        = number
+  default     = 1
+}
