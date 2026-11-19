@@ -48,6 +48,9 @@ resource "azurerm_linux_web_app" "authz_linux" {
     }
   }
 
+  # Keep FTP basic auth off; SCM stays on for publish-profile deploys.
+  ftp_publish_basic_authentication_enabled = false
+
   site_config {
     always_on                         = true
     minimum_tls_version               = "1.2"
