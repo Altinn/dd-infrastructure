@@ -41,6 +41,9 @@ resource "azurerm_linux_web_app" "authz_linux" {
     identity_ids = ["/subscriptions/7b6f8f15-3a3e-43a2-b6ac-8eb6c06ad103/resourceGroups/altinn-digdir-oed-tt02-rg/providers/Microsoft.ManagedIdentity/userAssignedIdentities/oed-kv-principal"]
   }
 
+  # Keep FTP basic auth off; SCM stays on for publish-profile deploys.
+  ftp_publish_basic_authentication_enabled = false
+
   site_config { 
     always_on                         = false
     minimum_tls_version               = "1.2"

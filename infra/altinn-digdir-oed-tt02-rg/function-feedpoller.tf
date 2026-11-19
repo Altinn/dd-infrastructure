@@ -42,6 +42,10 @@ resource "azurerm_windows_function_app" "feedpoller" {
   identity {
     type = "SystemAssigned"
   }
+
+  # Keep FTP basic auth off; SCM stays on for publish-profile deploys.
+  ftp_publish_basic_authentication_enabled = false
+
   site_config {
     application_insights_connection_string = azurerm_application_insights.feedpoller.connection_string
     application_insights_key               = azurerm_application_insights.feedpoller.instrumentation_key
