@@ -21,8 +21,6 @@ on:
         default: WARN
         type: choice
         options:
-          - TRACE
-          - DEBUG
           - INFO
           - WARN
           - ERROR
@@ -33,7 +31,7 @@ env:
   TF_PROJECT: ./infra/altinn-digdir-oed-tt02-rg
   ARM_CLIENT_ID: ${{ vars.TF_AZURE_CLIENT_ID }}
   ARM_SUBSCRIPTION_ID: 7b6f8f15-3a3e-43a2-b6ac-8eb6c06ad103
-  TF_LOG: ${{ github.event.inputs.log_level || 'INFO' }}
+  TF_LOG: ${{ github.event.inputs.log_level || 'WARN' }}
 
 permissions:
   id-token: write
@@ -69,7 +67,7 @@ jobs:
           arm_subscription_id: ${{ env.ARM_SUBSCRIPTION_ID }}
           tf_state_name: ${{ env.TF_STATE_NAME }}
           gh_token: ${{ secrets.GITHUB_TOKEN }}
-          tf_log_level: ${{ github.event.inputs.log_level || 'INFO' }}
+          tf_log_level: ${{ github.event.inputs.log_level || 'WARN' }}
           tf_version: latest
 
   deploy:
@@ -101,5 +99,5 @@ jobs:
           arm_client_id: ${{ env.ARM_CLIENT_ID }}
           arm_subscription_id: ${{ env.ARM_SUBSCRIPTION_ID }}
           tf_state_name: ${{ env.TF_STATE_NAME }}
-          tf_log_level: ${{ github.event.inputs.log_level || 'INFO' }}
+          tf_log_level: ${{ github.event.inputs.log_level || 'WARN' }}
           tf_version: latest
