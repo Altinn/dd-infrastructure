@@ -1,6 +1,9 @@
 # PostgreSQL for OED
 # Passwords are ephemeral and only reach write-only arguments, so they never land in state or plan.
 # They are applied when var.secret_rotation_version changes.
+# If an apply that bumps it fails partway, do not re-run it: each run generates new passwords, and
+# resources already at the new version are skipped, so servers and connection strings would differ.
+# Bump var.secret_rotation_version again, apply, then run PostApply.
 ephemeral "random_password" "dd_admin_password" {
   length           = 32
   override_special = "!#%*-_+"
