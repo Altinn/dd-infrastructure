@@ -18,18 +18,18 @@ resource "azurerm_postgresql_flexible_server" "pg" {
     ]
     prevent_destroy = true
   }
-  name                          = "dd-${var.environment}-pg"
-  location                      = azurerm_resource_group.rg.location
-  resource_group_name           = azurerm_resource_group.rg.name
+  name                              = "dd-${var.environment}-pg"
+  location                          = azurerm_resource_group.rg.location
+  resource_group_name               = azurerm_resource_group.rg.name
   administrator_login               = "pgadmin"
   administrator_password_wo         = ephemeral.random_password.dd_admin_password.result
   administrator_password_wo_version = var.secret_rotation_version
   version                           = "16"
-  sku_name                      = "GP_Standard_D2s_v3"
-  storage_mb                    = 32768
-  backup_retention_days         = 35
-  auto_grow_enabled             = true
-  public_network_access_enabled = true
+  sku_name                          = "GP_Standard_D2s_v3"
+  storage_mb                        = 32768
+  backup_retention_days             = 35
+  auto_grow_enabled                 = true
+  public_network_access_enabled     = true
 
   authentication {
     active_directory_auth_enabled = true
@@ -109,13 +109,13 @@ resource "azurerm_postgresql_flexible_server" "psql" {
   administrator_password_wo         = ephemeral.random_password.psql_admin_password.result
   administrator_password_wo_version = var.secret_rotation_version
   auto_grow_enabled                 = true
-  backup_retention_days         = 35
-  location                      = azurerm_resource_group.rg.location
-  name                          = "oed-authz-pg"
-  public_network_access_enabled = true
-  resource_group_name           = azurerm_resource_group.rg.name
-  sku_name                      = "GP_Standard_D2s_v3"
-  version                       = "16"
+  backup_retention_days             = 35
+  location                          = azurerm_resource_group.rg.location
+  name                              = "oed-authz-pg"
+  public_network_access_enabled     = true
+  resource_group_name               = azurerm_resource_group.rg.name
+  sku_name                          = "GP_Standard_D2s_v3"
+  version                           = "16"
 
   authentication {
     active_directory_auth_enabled = true
