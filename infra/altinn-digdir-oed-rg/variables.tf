@@ -57,10 +57,6 @@ variable "static_whitelist" {
     end_ip   = string
   }))
 }
-variable "a3_sp_app_name" {
-  description = "Digdir A3 app principal object name"
-  type        = string
-}
 variable "fd_sku_name" {
   description = "Front door and WAF sku level"
   type        = string
