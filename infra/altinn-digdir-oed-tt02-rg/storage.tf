@@ -53,6 +53,37 @@ resource "azurerm_storage_account" "qa" {
   }
 }
 
+# SonarGate saves SonarQube's database after every successful run, and keeps a backup of each one
+# under reports/sonar-db-backups/{projectKey}/{image}/ so a damaged database can be replaced by an
+# older one. The package never deletes them; this does. All projects share the one prefix, so new
+# projects and SonarQube image bumps need no change here. The latest copy each run restores lives
+# under reports/{projectKey}/sonar-db/ and is deliberately outside this prefix: a project with no
+# commits is never re-scanned, and expiring its latest copy would make its next run start empty.
+#
+# Versioning is on for this account, so deleting a backup leaves a previous version behind; the
+# version action removes those as well.
+resource "azurerm_storage_management_policy" "qa_sonar_db_backups_smp" {
+  storage_account_id = azurerm_storage_account.qa.id
+  rule {
+    name    = "expire-sonar-db-backups"
+    enabled = true
+
+    filters {
+      blob_types   = ["blockBlob"]
+      prefix_match = ["reports/sonar-db-backups/"]
+    }
+
+    actions {
+      base_blob {
+        delete_after_days_since_creation_greater_than = 30
+      }
+      version {
+        delete_after_days_since_creation = 1
+      }
+    }
+  }
+}
+
 # One-off QA documents (codebase reviews, audit write-ups) that are shared with people rather than
 # rendered by the admin app. Kept out of the "reports" container because SonarGate's BlobArchiver
 # and the admin app's dashboard both enumerate "reports" by the {projectKey}/history/ prefix, and a
