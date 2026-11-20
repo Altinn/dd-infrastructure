@@ -82,6 +82,28 @@ resource "azurerm_storage_management_policy" "qa_sonar_db_backups_smp" {
       }
     }
   }
+
+  # Every overwrite in "reports" leaves the old content behind as a previous version, and nothing
+  # removed those: SonarGate replaces each project's latest SonarQube database (tens of MB) after
+  # every successful run, and both gates rewrite their summary.md on every run. The latest copies
+  # sit under each project's folder, which no prefix without a wildcard can single out, so this
+  # covers the whole container. 30 days matches the backups above and still leaves a month to
+  # recover a history snapshot that was deleted or overwritten by mistake; after that it is gone.
+  rule {
+    name    = "expire-reports-previous-versions"
+    enabled = true
+
+    filters {
+      blob_types   = ["blockBlob"]
+      prefix_match = ["reports/"]
+    }
+
+    actions {
+      version {
+        delete_after_days_since_creation = 30
+      }
+    }
+  }
 }
 
 # One-off QA documents (codebase reviews, audit write-ups) that are shared with people rather than
