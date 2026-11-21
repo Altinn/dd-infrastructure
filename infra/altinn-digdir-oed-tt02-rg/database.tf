@@ -51,8 +51,7 @@ locals {
   app_user_name = "appuser"
 }
 
-# Admin connection string for the OED database. This is the only stored copy of the admin
-# password (ephemeral, write-only), used by the rotation runbook. Not copied to the A3 apps vault.
+# Admin connection string for the OED database.
 resource "azurerm_key_vault_secret" "admin_conn_string" {
   name             = "dd-pgadmin-connection-string"
   value_wo         = "Server=${azurerm_postgresql_flexible_server.pg.fqdn};Username=${azurerm_postgresql_flexible_server.pg.administrator_login};Database=${azurerm_postgresql_flexible_server_database.oed_db.name};Port=5432;Password='${ephemeral.random_password.dd_admin_password.result}';SSLMode=Prefer"
