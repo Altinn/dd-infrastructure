@@ -31,9 +31,6 @@ variable "maskinporten_fqdn" {
 variable "domstol_fqdn" {
   type = string
 }
-variable "digdir_kv_sp_object_id" {
-  type = string
-}
 variable "digdir_altinn3_law_id" {
   type = string
 }
