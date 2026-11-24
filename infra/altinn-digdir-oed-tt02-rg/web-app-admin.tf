@@ -49,7 +49,7 @@ resource "azurerm_linux_web_app" "admin_app" {
   site_config {
     minimum_tls_version = "1.3"
     application_stack {
-      dotnet_version = "10.0"
+      dotnet_version = "11.0"
     }
     always_on = true
   }
