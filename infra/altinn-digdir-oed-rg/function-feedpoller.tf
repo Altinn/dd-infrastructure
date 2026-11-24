@@ -1,7 +1,9 @@
 resource "azurerm_windows_function_app" "feedpoller" {
   lifecycle {
     ignore_changes = [
-      app_settings["FUNCTIONS_EXTENSION_VERSION"] # Setting som tf ikke fanger opp er lik
+      app_settings["FUNCTIONS_EXTENSION_VERSION"], # Setting som tf ikke fanger opp er lik
+      # Azure stores the provider namespace in lower case (microsoft.insights), so the tag drifts on every plan.
+      tags["hidden-link: /app-insights-resource-id"]
     ]
   }
   app_settings = {
