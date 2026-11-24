@@ -54,7 +54,7 @@ resource "azurerm_windows_function_app" "feedpoller" {
     vnet_route_all_enabled                 = true
     use_32_bit_worker                      = false
     application_stack {
-      dotnet_version              = "v10.0"
+      dotnet_version              = "v11.0"
       use_dotnet_isolated_runtime = true
     }
     cors {
