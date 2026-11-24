@@ -22,6 +22,12 @@ resource "azurerm_windows_function_app" "feedpoller" {
     "FUNCTIONS_EXTENSION_VERSION"                = "~4"
     "WEBSITE_RUN_FROM_PACKAGE"                   = "1"
   }
+  # Key rotation: storage_account_access_key below only reaches AzureWebJobsStorage. The app setting
+  # WEBSITE_CONTENTAZUREFILECONNECTIONSTRING (the content file share) is not managed by Terraform and is not
+  # updated when keys are regenerated. After switching storage_account_access_key, also set
+  # WEBSITE_CONTENTAZUREFILECONNECTIONSTRING to the same key's connection string before regenerating the old key.
+  # A dead key there goes unnoticed until the next restart or deploy, which then fails (Kudu 500 "The user name
+  # or password is incorrect"; the host cannot load the package).
   https_only                 = true
   builtin_logging_enabled    = false
   client_certificate_mode    = "Required"
