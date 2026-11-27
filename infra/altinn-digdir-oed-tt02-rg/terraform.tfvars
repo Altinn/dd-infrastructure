@@ -19,7 +19,7 @@ static_whitelist = [
   {
     name     = "Oekern_office"
     start_ip = "78.41.45.0"
-    end_ip   = "78.41.45.0"
+    end_ip   = "78.41.45.7"
   },
   {
     name     = "aks"
