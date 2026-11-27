@@ -69,8 +69,7 @@ resource "azurerm_key_vault_secret" "user_conn_string" {
 }
 
 resource "azurerm_postgresql_flexible_server_firewall_rule" "whitelist" {
-  depends_on = [local.whitelist_map_pg]
-  for_each   = local.whitelist_map_pg
+  for_each = local.dd_pg_whitelist_map
 
   name             = each.key
   server_id        = azurerm_postgresql_flexible_server.pg.id

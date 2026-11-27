@@ -45,7 +45,7 @@ resource "azurerm_postgresql_flexible_server_database" "oedauthz2" {
 }
 
 resource "azurerm_postgresql_flexible_server_firewall_rule" "authz2_whitelist" {
-  for_each = local.whitelist_map_pg
+  for_each = local.authz_pg_whitelist_map
 
   name             = each.key
   server_id        = azurerm_postgresql_flexible_server.psql2.id

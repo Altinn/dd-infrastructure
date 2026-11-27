@@ -55,6 +55,8 @@ variable "static_whitelist" {
     name     = string
     start_ip = string
     end_ip   = string
+    # true: only on the dd database, not the authz database
+    dd_only = optional(bool, false)
   }))
 
   validation {
