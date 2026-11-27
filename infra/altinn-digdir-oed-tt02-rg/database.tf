@@ -78,88 +78,14 @@ resource "azurerm_postgresql_flexible_server_firewall_rule" "whitelist" {
   end_ip_address   = each.value.end_ip
 }
 
-# Authz db
-# Hent connection string fra Key Vault
-# For å feks. oppgrade db versjon, så må en ha admin rettigheter på serveren
-ephemeral "random_password" "psql_admin_password" {
-  length           = 32
-  override_special = "!#%*-_+"
-}
-
-# Same as prod: both connection strings use the server admin login.
-resource "azurerm_key_vault_secret" "psql_connect" {
-  for_each         = toset(["Secrets--PostgreSqlAdminConnectionString", "Secrets--PostgreSqlUserConnectionString"])
-  name             = each.key
-  value_wo         = "Server=${azurerm_postgresql_flexible_server.psql.fqdn};Username=${azurerm_postgresql_flexible_server.psql.administrator_login};Database=oedauthz;Port=5432;Password=${ephemeral.random_password.psql_admin_password.result};SSLMode=Prefer"
-  value_wo_version = var.secret_rotation_version
-  key_vault_id     = azurerm_key_vault.kv.id
-}
-
-import {
-  to = azurerm_key_vault_secret.psql_connect["Secrets--PostgreSqlAdminConnectionString"]
-  id = "https://oed-kv.vault.azure.net/secrets/Secrets--PostgreSqlAdminConnectionString/a1fc0662aaf14c0a8c5cb4df9e97fad4"
-}
-
-import {
-  to = azurerm_key_vault_secret.psql_connect["Secrets--PostgreSqlUserConnectionString"]
-  id = "https://oed-kv.vault.azure.net/secrets/Secrets--PostgreSqlUserConnectionString/b7262268bee84449af99389439204fac"
-}
-
-
-resource "azurerm_postgresql_flexible_server" "psql" {
-  lifecycle {
-    prevent_destroy = true
-  }
-  administrator_login               = "oed${var.environment}pgadmin"
-  administrator_password_wo         = ephemeral.random_password.psql_admin_password.result
-  administrator_password_wo_version = var.secret_rotation_version
-  auto_grow_enabled                 = false
-  backup_retention_days             = 7
-  location                          = var.alt_location
-  name                              = "oed-${var.environment}-authz-pg"
-  public_network_access_enabled     = true
-  resource_group_name               = azurerm_resource_group.rg.name
-  sku_name                          = "B_Standard_B4ms"
-  version                           = "16"
-  zone                              = "1"
-
-  authentication {
-    active_directory_auth_enabled = true
-    password_auth_enabled         = true
-    tenant_id                     = "cd0026d8-283b-4a55-9bfa-d0ef4a8ba21c"
-  }
-  tags = {
-    "costcenter" = "altinn3"
-    "solution"   = "apps"
-  }
-}
-
-resource "azurerm_postgresql_flexible_server_database" "oedauthz" {
-  lifecycle {
-    prevent_destroy = true
-  }
-  name      = "oedauthz"
-  server_id = azurerm_postgresql_flexible_server.psql.id
-  collation = "en_US.utf8"
-  charset   = "utf8"
-}
-
-resource "azurerm_postgresql_flexible_server_firewall_rule" "authz_whitelist" {
-  depends_on = [local.whitelist_map_pg]
-  for_each   = local.whitelist_map_pg
-
-  name             = each.key
-  server_id        = azurerm_postgresql_flexible_server.psql.id
-  start_ip_address = each.value.start_ip
-  end_ip_address   = each.value.end_ip
-}
+# The tt02 authz database is on oed-test-authz-pg2 (database-authz-pg2.tf). The old oed-test-authz-pg was
+# retired: it could not have a private endpoint.
 
 # Connection logging with downloadable log files (az postgres flexible-server server-logs),
 # used to see which clients connect from which IPs. All three parameters are dynamic (no restart).
 locals {
   pg_servers_with_connection_logging = {
     pg    = azurerm_postgresql_flexible_server.pg.id
-    psql  = azurerm_postgresql_flexible_server.psql.id
     psql2 = azurerm_postgresql_flexible_server.psql2.id
   }
   pg_connection_logging_parameters = {
