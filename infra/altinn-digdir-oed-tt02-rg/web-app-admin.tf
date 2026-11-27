@@ -1,6 +1,6 @@
 resource "azurerm_service_plan" "admin_asp" {
   name                = "asp-altinndigdir-dd-${var.environment}-admin"
-  location            = azurerm_resource_group.rg.location
+  location            = var.alt_location
   resource_group_name = azurerm_resource_group.rg.name
   os_type             = "Linux"
   sku_name            = "B1"
@@ -14,10 +14,13 @@ resource "azurerm_linux_web_app" "admin_app" {
     ]
   }
   name                = "dd-${var.environment}-admin-app"
-  location            = azurerm_resource_group.rg.location
+  location            = var.alt_location
   resource_group_name = azurerm_resource_group.rg.name
   service_plan_id     = azurerm_service_plan.admin_asp.id
   https_only          = true
+
+  # In the VNet, so it reaches Postgres over the private endpoints and the internet through the NAT gateway.
+  virtual_network_subnet_id = azurerm_subnet.app["admin"].id
 
   app_settings = {
     "DOTNET_ENVIRONMENT"                         = "Staging"
@@ -51,7 +54,8 @@ resource "azurerm_linux_web_app" "admin_app" {
     application_stack {
       dotnet_version = "11.0"
     }
-    always_on = true
+    always_on              = true
+    vnet_route_all_enabled = true
   }
 
   identity {

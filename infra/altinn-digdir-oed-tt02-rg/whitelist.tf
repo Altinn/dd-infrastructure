@@ -1,16 +1,11 @@
 locals {
-  admin_ips      = split(",", azurerm_linux_web_app.admin_app.outbound_ip_addresses)
   feedpoller_ips = [azurerm_public_ip.pip.ip_address]
 
   # bygg en liste av objekter med navn og IP
   dynamic_non_authz_whitelist = flatten([
+    # The admin app has no rules of its own: it is in the VNet and connects from the NAT IP, the feedpoller's.
     [for ip in local.feedpoller_ips : {
       name     = "feedpoller-${replace(ip, ".", "-")}"
-      start_ip = ip
-      end_ip   = ip
-    }],
-    [for ip in local.admin_ips : {
-      name     = "admin-${replace(ip, ".", "-")}"
       start_ip = ip
       end_ip   = ip
     }]
