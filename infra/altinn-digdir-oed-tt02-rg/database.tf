@@ -158,8 +158,9 @@ resource "azurerm_postgresql_flexible_server_firewall_rule" "authz_whitelist" {
 # used to see which clients connect from which IPs. All three parameters are dynamic (no restart).
 locals {
   pg_servers_with_connection_logging = {
-    pg   = azurerm_postgresql_flexible_server.pg.id
-    psql = azurerm_postgresql_flexible_server.psql.id
+    pg    = azurerm_postgresql_flexible_server.pg.id
+    psql  = azurerm_postgresql_flexible_server.psql.id
+    psql2 = azurerm_postgresql_flexible_server.psql2.id
   }
   pg_connection_logging_parameters = {
     "log_connections"          = "on"

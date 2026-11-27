@@ -20,23 +20,24 @@ resource "azurerm_private_dns_zone_virtual_network_link" "postgres" {
   tags                = local.private_endpoint_tags
 }
 
+# On oed-test-authz-pg2: the old oed-test-authz-pg cannot have a private endpoint.
 resource "azurerm_private_endpoint" "authz_pg" {
-  name                = "pe-${azurerm_postgresql_flexible_server.psql.name}"
+  name                = "pe-${azurerm_postgresql_flexible_server.psql2.name}"
   location            = azurerm_virtual_network.vnet.location
   resource_group_name = azurerm_resource_group.rg.name
   subnet_id           = azurerm_subnet.private_endpoints.id
   tags                = local.private_endpoint_tags
 
   private_service_connection {
-    name                           = "${azurerm_postgresql_flexible_server.psql.name}-connection"
-    private_connection_resource_id = azurerm_postgresql_flexible_server.psql.id
+    name                           = "${azurerm_postgresql_flexible_server.psql2.name}-connection"
+    private_connection_resource_id = azurerm_postgresql_flexible_server.psql2.id
     subresource_names              = ["postgresqlServer"]
     is_manual_connection           = false
   }
 
   # A fixed address, so it never changes under clients that pin it (e.g. a developer's hosts file).
   ip_configuration {
-    name               = "${azurerm_postgresql_flexible_server.psql.name}-ip"
+    name               = "${azurerm_postgresql_flexible_server.psql2.name}-ip"
     private_ip_address = "10.37.167.100"
     subresource_name   = "postgresqlServer"
     member_name        = "postgresqlServer"
