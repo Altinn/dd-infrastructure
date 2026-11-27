@@ -157,3 +157,33 @@ resource "azurerm_key_vault_secret" "psql_connect" {
   value_wo_version = var.secret_rotation_version
   key_vault_id     = azurerm_key_vault.kv.id
 }
+
+# Connection logging with downloadable log files (az postgres flexible-server server-logs),
+# used to see which clients connect from which IPs. All three parameters are dynamic (no restart).
+# log_connections and logfiles.download_enable were already on, set by hand; this brings them into code.
+locals {
+  pg_servers_with_connection_logging = {
+    pg   = azurerm_postgresql_flexible_server.pg.id
+    psql = azurerm_postgresql_flexible_server.psql.id
+  }
+  pg_connection_logging_parameters = {
+    "log_connections"          = "on"
+    "logfiles.download_enable" = "on"
+    "logfiles.retention_days"  = "7"
+  }
+}
+
+resource "azurerm_postgresql_flexible_server_configuration" "connection_logging" {
+  for_each = {
+    for pair in setproduct(keys(local.pg_servers_with_connection_logging), keys(local.pg_connection_logging_parameters)) :
+    "${pair[0]}/${pair[1]}" => {
+      server_id = local.pg_servers_with_connection_logging[pair[0]]
+      name      = pair[1]
+      value     = local.pg_connection_logging_parameters[pair[1]]
+    }
+  }
+
+  name      = each.value.name
+  server_id = each.value.server_id
+  value     = each.value.value
+}
