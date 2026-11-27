@@ -59,3 +59,43 @@ resource "azurerm_nat_gateway" "nat" {
 #  nat_gateway_id       = azurerm_nat_gateway.nat.id
 #  public_ip_address_id = azurerm_public_ip.pip.id
 #}
+
+# Subnets for private Postgres access: the admin and authz apps join the VNet next to the feedpoller,
+# and the Postgres private endpoints get their own subnet. One subnet per App Service plan.
+locals {
+  app_subnets = {
+    admin = "10.37.167.32/27"
+    authz = "10.37.167.64/27"
+  }
+}
+
+resource "azurerm_subnet" "app" {
+  for_each = local.app_subnets
+
+  address_prefixes     = [each.value]
+  name                 = "snet-${each.key}"
+  resource_group_name  = azurerm_resource_group.rg.name
+  virtual_network_name = azurerm_virtual_network.vnet.name
+  delegation {
+    name = "delegation"
+    service_delegation {
+      actions = ["Microsoft.Network/virtualNetworks/subnets/action"]
+      name    = "Microsoft.Web/serverFarms"
+    }
+  }
+}
+
+# The apps' internet traffic leaves through the feedpoller's NAT gateway, so all three share one outbound IP.
+resource "azurerm_subnet_nat_gateway_association" "app" {
+  for_each = azurerm_subnet.app
+
+  subnet_id      = each.value.id
+  nat_gateway_id = azurerm_nat_gateway.nat.id
+}
+
+resource "azurerm_subnet" "private_endpoints" {
+  address_prefixes     = ["10.37.167.96/27"]
+  name                 = "snet-pe"
+  resource_group_name  = azurerm_resource_group.rg.name
+  virtual_network_name = azurerm_virtual_network.vnet.name
+}
