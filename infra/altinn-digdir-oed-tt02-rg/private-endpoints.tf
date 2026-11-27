@@ -48,3 +48,33 @@ resource "azurerm_private_endpoint" "authz_pg" {
     private_dns_zone_ids = [azurerm_private_dns_zone.postgres.id]
   }
 }
+
+# dd-test-pg is in Norway East and the VNet in West Europe; a private endpoint may sit in another region than its server.
+# The oed Studio app in Altinn's cluster still reaches it publicly: that cluster has no private DNS zone for Postgres
+# (checked with dd-stateless-poc's api/diagnostics/postgres-dns), so the new privatelink name resolves publicly there.
+resource "azurerm_private_endpoint" "dd_pg" {
+  name                = "pe-${azurerm_postgresql_flexible_server.pg.name}"
+  location            = azurerm_virtual_network.vnet.location
+  resource_group_name = azurerm_resource_group.rg.name
+  subnet_id           = azurerm_subnet.private_endpoints.id
+  tags                = local.private_endpoint_tags
+
+  private_service_connection {
+    name                           = "${azurerm_postgresql_flexible_server.pg.name}-connection"
+    private_connection_resource_id = azurerm_postgresql_flexible_server.pg.id
+    subresource_names              = ["postgresqlServer"]
+    is_manual_connection           = false
+  }
+
+  ip_configuration {
+    name               = "${azurerm_postgresql_flexible_server.pg.name}-ip"
+    private_ip_address = "10.37.167.101"
+    subresource_name   = "postgresqlServer"
+    member_name        = "postgresqlServer"
+  }
+
+  private_dns_zone_group {
+    name                 = "postgres"
+    private_dns_zone_ids = [azurerm_private_dns_zone.postgres.id]
+  }
+}
