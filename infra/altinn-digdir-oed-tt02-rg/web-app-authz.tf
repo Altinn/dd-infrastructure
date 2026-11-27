@@ -5,6 +5,10 @@ resource "azurerm_linux_web_app" "authz_linux" {
   service_plan_id       = azurerm_service_plan.authz_linux.id
   depends_on            = [azurerm_service_plan.authz_linux]
   https_only            = true
+
+  # In the VNet, so it reaches Postgres over the private endpoints and the internet through the NAT gateway.
+  virtual_network_subnet_id = azurerm_subnet.app["authz"].id
+
   app_settings = {
     //WEBSITE_DAAS_STORAGE_CONNECTIONSTRING                          = "DefaultEndpointsProtocol=https;AccountName=oedteson39ei;EndpointSuffix=core.windows.net"
     ASPNETCORE_ENVIRONMENT                                         = "Staging"
@@ -51,6 +55,7 @@ resource "azurerm_linux_web_app" "authz_linux" {
     health_check_path                 = "/health"
     http2_enabled                     = true
     ip_restriction_default_action     = "Deny"
+    vnet_route_all_enabled            = true
 
     application_stack {
       dotnet_version = "11.0"
