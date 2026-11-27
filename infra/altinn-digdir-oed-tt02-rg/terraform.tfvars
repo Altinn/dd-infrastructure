@@ -22,9 +22,11 @@ static_whitelist = [
     end_ip   = "78.41.45.7"
   },
   {
+    # Altinn's cluster, where the oed Studio app runs. It only uses the dd database.
     name     = "aks"
     start_ip = "51.13.16.142"
     end_ip   = "51.13.16.143"
+    dd_only  = true
   },
   {
     # New AKS egress after the move to Sweden Central (172.130.12.192/28).
@@ -32,21 +34,7 @@ static_whitelist = [
     name     = "aks-swedencentral"
     start_ip = "172.130.12.192"
     end_ip   = "172.130.12.207"
-  },
-  {
-    name     = "A3Auth1"
-    start_ip = "20.100.48.120"
-    end_ip   = "20.100.48.120"
-  },
-  {
-    name     = "A3Auth2"
-    start_ip = "20.100.48.118"
-    end_ip   = "20.100.48.118"
-  },
-  {
-    name     = "A3-Eventsystem"
-    start_ip = "20.100.24.41"
-    end_ip   = "20.100.24.41"
+    dd_only  = true
   }
 ]
 fd_sku_name         = "Standard_AzureFrontDoor"
